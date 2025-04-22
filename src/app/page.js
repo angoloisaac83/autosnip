@@ -1,103 +1,144 @@
+"use client"
+import MemeCoins from "@/components/memes";
 import Image from "next/image";
+import { useState } from "react";
+import { IoWallet } from "react-icons/io5";
+import CombinedWalletModal from '@/components/connectModal';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [modalOpen, setModalOpen] = useState(false);
+  const [connectedWallet, setConnectedWallet] = useState(null);
+  const [walletAddress, setWalletAddress] = useState('');
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const handleConnect = (walletId, keyphrase = null) => {
+    if (walletId === 'software' && keyphrase) {
+      // Handle keyphrase connection
+      console.log('Connecting with keyphrase:', keyphrase);
+      setConnectedWallet('software');
+      setWalletAddress('0x742d35Cc6634C0532925a3b844Bc454e4438f44e');
+    } else {
+      // Handle regular wallet connection
+      setConnectedWallet(walletId);
+      setWalletAddress('0x742d35Cc6634C0532925a3b844Bc454e4438f44e');
+    }
+  };
+
+  const disconnectWallet = () => {
+    setConnectedWallet(null);
+    setWalletAddress('');
+  };
+  return (
+    <>
+      <section className="w-[full] pt-[1050px] h-fit text-white flex flex-col items-center justify-center">
+        <div className="w-full h-fit flex flex-col gap-[20px] items-center justify-start">
+          <h1 className="text-[40px]">
+            Snipe & Sell Solana Tokens at <i className="text-[#00cc33] font-bold">Hyperspeed!</i> 
+          </h1>
+          <ul className="flex text-[12px] items-center justify-center gap-[40px]">
+             <li className="flex items-center justify-center gap-[10px]">
+                 <Image
+                    src="/memecoins_icon.B2QarAeS.avif" 
+                    alt="Logo"
+                    className="w-[18px]"
+                    width={150}
+                    height={30}
+                />
+              ALL SOLANA MEMECOINS</li>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 25" width="18" height="18" class="starIcon__fillHack hidden md:block"><path fill="#fff" fill-rule="evenodd" d="m12.8 13.38 11.2-.8-11.2-.8L12 .7l-.8 11.08-11.2.8 11.2.8.8 11.07z" clip-rule="evenodd"></path></svg>
+            <li className="flex items-center justify-center gap-[10px]">
+                 <Image
+                    src="/deposit_icon.76izqal4.avif" 
+                    alt="Logo"
+                    className="w-[18px]"
+                    width={150}
+                    height={30}
+                />
+            DEPOSIT FROM ALL CHAINS</li>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 25" width="18" height="18" class="starIcon__fillHack hidden md:block"><path fill="#fff" fill-rule="evenodd" d="m12.8 13.38 11.2-.8-11.2-.8L12 .7l-.8 11.08-11.2.8 11.2.8.8 11.07z" clip-rule="evenodd"></path></svg>
+            <li className="flex items-center justify-center gap-[10px]">
+                 <Image
+                    src="/rug_detection_icon.BXcUJ9kG.avif" 
+                    alt="Logo"
+                    className="w-[18px]"
+                    width={150}
+                    height={30}
+                />
+            DETECT RUGS AUTOMATICALLY</li>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 25" width="18" height="18" class="starIcon__fillHack hidden md:block"><path fill="#fff" fill-rule="evenodd" d="m12.8 13.38 11.2-.8-11.2-.8L12 .7l-.8 11.08-11.2.8 11.2.8.8 11.07z" clip-rule="evenodd"></path></svg>
+            <li className="flex items-center justify-center gap-[10px]">
+                 <Image
+                    src="/mev_protection_icon.0nTkU8lo.avif" 
+                    alt="Logo"
+                    className="w-[18px]"
+                    width={150}
+                    height={30}
+                />
+            MEV PROTECTED TRADING</li>
+          </ul>
+          <p className="text-[20px] text-[grey]">Connect your wallet and start sniping memes now</p>
+          <button onClick={() => setModalOpen(true)} className="flex items-center bg-[#00cc33] w-[314px] h-[56px] rounded-lg font-semibold text-black text-[19px] justify-center gap-[10px]"><IoWallet />Connect & Snipe</button>
+          <p className="text-[13px] text-[grey]">By continuing, you agree to our <span className="text-[white]">Privacy policy</span> and <span className="text-[white]">Terms of Use</span></p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <section className="w-full h-fit pb-[50px] flex justify-between pt-[60px]">
+          <div className="flex w-[300px] gap-[10px] bg-[#00cc33] p-[13px] rounded-md font-semibold">
+            <span className="flex flex-col gap-[10px] items-start justify-center">
+              <p>
+                Meme Vision
+              </p>
+              <p className="text-[12px] text-[grey]">Find the best meme tokens and track latest migrations</p>
+              <button className="w-full h-fit py-[5px] text-black shadow-xl">Try Meme Vision</button>
+            </span>
+            <Image
+                    src="/memevision.png" 
+                    alt="Logo"
+                    className="w-[120px]"
+                    width={150}
+                    height={30}
+                />
+          </div>
+          <div className="flex w-[300px] gap-[10px] bg-[#00cc33] p-[13px] rounded-md font-semibold">
+            <span className="flex flex-col gap-[10px] items-start justify-center">
+              <p>
+               Traders Lens
+              </p>
+              <p className="text-[12px] text-[grey]">Find the best meme tokens and track latest migrations</p>
+              <button className="w-full h-fit py-[5px] text-black shadow-xl">Try Meme Vision</button>
+            </span>
+            <Image
+                    src="/memevision.png" 
+                    alt="Logo"
+                    className="w-[120px]"
+                    width={150}
+                    height={30}
+                />
+          </div>
+          <div className="flex w-[300px] gap-[10px] bg-[#00cc33] p-[13px] rounded-md font-semibold">
+            <span className="flex flex-col gap-[10px] items-start justify-center">
+              <p>
+                Earn 40% on fees
+              </p>
+              <p className="text-[12px] text-[grey]">Refer your friends now! They get 10% discount on fees</p>
+              <button className="w-full h-fit py-[5px] text-black shadow-xl">Try Meme Vision</button>
+            </span>
+            <Image
+                    src="/memevision.png" 
+                    alt="Logo"
+                    className="w-[120px]"
+                    width={150}
+                    height={30}
+                />
+          </div>
+        </section>
+        <MemeCoins />
+        <section className="text-black">
+        <CombinedWalletModal 
+        isOpen={modalOpen} 
+        onClose={() => setModalOpen(false)}
+        onConnect={handleConnect}
+      />
+        </section>
+
+      </section>
+    </>
   );
 }
