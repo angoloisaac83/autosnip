@@ -9,7 +9,7 @@ const Footer = ()=>{
     return(
         <>
             <footer className="w-[80%] h-fit bg-transparent text-white flex flex-col items-center justify-center py-[20px] gap-[30px] border-t-[0.3px] border-[#0c0d0f]">
-                <section className="w-full h-fit flex max-[400px]:flex-col max-[400px]:items-start max-[400px]:gap-[20px] items-center justify-between ">
+                <section className="w-full h-fit flex max-[500px]:flex-col max-[500px]:items-start max-[500px]:gap-[20px] items-center justify-between ">
                     <div className="w-[288px] flex flex-col gap-[15px]">
                         <Link href={"/"}><Image
                             src="https://autosnipe.ai/_app/immutable/assets/logo_withtext_color.IDClpu_A.svg"
@@ -22,8 +22,8 @@ const Footer = ()=>{
                         Autosnipe Solana bot lets you buy and sell tokens at Hyperspeed!
                         </p>
                         <span className="flex gap-[10px] text-[20px]">
-                            <BiLogoTelegram className="max-[400px]:hidden" />
-                            <FaXTwitter className="max-[400px]:hidden" />
+                            <BiLogoTelegram className="max-[500px]:hidden" />
+                            <FaXTwitter className="max-[500px]:hidden" />
                         </span>
                     </div>
                     <ul className="text-[15px] flex flex-col gap-[5px]">

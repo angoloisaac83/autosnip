@@ -52,7 +52,7 @@ const Navbar = () =>{
                     width={30}
                     height={30}
                 /></Link>
-                <span className="flex bg-[#1C1D22] max-[400px]:hidden px-[15px] rounded-md py-[6px] items-center justify-center gap-[10px]">
+                <span className="flex bg-[#1C1D22] max-[500px]:hidden px-[15px] rounded-md py-[6px] items-center justify-center gap-[10px]">
                 <Image
                     src="/sol_icon.De0ynmvl.png" 
                     alt="Logo"
@@ -62,13 +62,13 @@ const Navbar = () =>{
                 />
                 <p>Solana</p>
                 </span>
-                <span className="max-[400px]:hidden"><CiSearch className="fixed font-semibold text-[17px] mt-[10px] ml-[8px]" /><input type="search" className="border-[1px] w-[400px] py-[4px] rounded-[4px] pl-[30px] border-[grey]" placeholder="search token name or address"/></span>
+                <span className="max-[500px]:hidden"><CiSearch className="fixed font-semibold text-[17px] mt-[10px] ml-[8px]" /><input type="search" className="border-[1px] w-[400px] py-[4px] rounded-[4px] pl-[30px] border-[grey]" placeholder="search token name or address"/></span>
                 
             </span>
             <span className="flex w-fit justify-center items-center gap-[20px] text-[20px]">
-                <BiLogoTelegram className="max-[400px]:hidden" />
-                <FaXTwitter className="max-[400px]:hidden" />
-                <button onClick={() => setModalOpen(true)} className="flex items-center bg-[#00cc33] py-[5px] px-[15px] rounded-md font-semibold text-black text-[14px] gap-[10px]">Connect <span className="max-[400px]:hidden">& Snipe</span></button>
+                <BiLogoTelegram className="max-[500px]:hidden" />
+                <FaXTwitter className="max-[500px]:hidden" />
+                <button onClick={() => setModalOpen(true)} className="flex items-center bg-[#00cc33] py-[5px] px-[15px] rounded-md font-semibold text-black text-[14px] gap-[10px]">Connect <span className="max-[500px]:hidden">& Snipe</span></button>
             </span>
             </nav>
             <SideBar open={sideOpen} />

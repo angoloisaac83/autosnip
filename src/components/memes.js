@@ -73,7 +73,7 @@ export default function MemeCoins() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="py-8 w-full max-[400px]:w-[350px] bg-black text-white min-h-screen">
+    <div className="py-8 w-full max-[500px]:w-[350px] bg-black text-white min-h-screen">
       <h1 className="text-3xl font-bold mb-6">🔥 Live Meme Coins</h1>
       
       {/* Filters and Search */}

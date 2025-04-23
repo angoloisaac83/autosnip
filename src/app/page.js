@@ -29,9 +29,9 @@ export default function Home() {
   };
   return (
     <>
-      <section className="w-[full] pt-[1350px] max-[400px]:text-center max-[400px]:pt-[2450px] h-fit text-white flex flex-col items-center justify-center">
-        <div className="w-full max-[400px]:w-[350px] h-fit flex flex-col gap-[20px] items-center justify-start">
-          <h1 className="text-[40px] max-[400px]:text-[30px]">
+      <section className="w-[full] pt-[1350px] max-[500px]:text-center max-[500px]:pt-[2450px] h-fit text-white flex flex-col items-center justify-center">
+        <div className="w-full max-[500px]:w-[350px] h-fit flex flex-col gap-[20px] items-center justify-start">
+          <h1 className="text-[40px] max-[500px]:text-[30px]">
             Snipe & Sell Solana Tokens at <i className="text-[#00cc33] font-bold">Hyperspeed!</i> 
           </h1>
           <ul className="flex flex-wrap text-[12px] items-center justify-center gap-[40px]">
@@ -75,11 +75,11 @@ export default function Home() {
                 />
             MEV PROTECTED TRADING</li>
           </ul>
-          <p className="text-[20px] max-[400px]:text-[15px] text-[grey]">Connect your wallet and start sniping memes now</p>
+          <p className="text-[20px] max-[500px]:text-[15px] text-[grey]">Connect your wallet and start sniping memes now</p>
           <button onClick={() => setModalOpen(true)} className="flex items-center bg-[#00cc33] w-[314px] h-[56px] rounded-lg font-semibold text-black text-[19px] justify-center gap-[10px]"><IoWallet />Connect & Snipe</button>
           <p className="text-[13px] text-[grey]">By continuing, you agree to our <span className="text-[white]">Privacy policy</span> and <span className="text-[white]">Terms of Use</span></p>
         </div>
-        <section className="w-full h-fit pb-[50px] flex  max-[400px]:flex-col items-center max-[400px]:gap-[20px] justify-between pt-[60px]">
+        <section className="w-full h-fit pb-[50px] flex  max-[500px]:flex-col items-center max-[500px]:gap-[20px] justify-between pt-[60px]">
           <div className="flex w-[300px] gap-[10px] bg-[#00cc33] p-[13px] rounded-md font-semibold">
             <span className="flex flex-col gap-[10px] items-start justify-center">
               <p>
