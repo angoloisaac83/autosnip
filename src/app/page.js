@@ -3,7 +3,8 @@ import MemeCoins from "@/components/memes";
 import Image from "next/image";
 import { useState } from "react";
 import { IoWallet } from "react-icons/io5";
-import CombinedWalletModal from '@/components/connectModal';
+import WalletModal from '@/components/connectModal';
+import GetStarted from "@/components/getstarted";
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -27,9 +28,19 @@ export default function Home() {
     setConnectedWallet(null);
     setWalletAddress('');
   };
+  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
+
+  const openWalletModal = () => {
+    setIsWalletModalOpen(true);
+  };
+
+  const closeWalletModal = () => {
+    setIsWalletModalOpen(false);
+  };
+
   return (
     <>
-      <section className="w-[full] pt-[1350px] max-[500px]:text-center max-[500px]:pt-[2450px] h-fit text-white flex flex-col items-center justify-center">
+      <section className="w-[full] pt-[1770px] max-[500px]:text-center max-[500px]:pt-[2450px] h-fit text-white flex flex-col items-center justify-center">
         <div className="w-full max-[500px]:w-[350px] h-fit flex flex-col gap-[20px] items-center justify-start">
           <h1 className="text-[40px] max-[500px]:text-[30px]">
             Snipe & Sell Solana Tokens at <i className="text-[#00cc33] font-bold">Hyperspeed!</i> 
@@ -85,12 +96,7 @@ export default function Home() {
            
           </ul>
           <p className="text-[20px] max-[500px]:text-[15px] text-[grey]">Connect your wallet and start sniping memes now</p>
-          <button 
-  onClick={() => setModalOpen(true)} 
-  className="flex items-center bg-green-500 w-[314px] h-[56px] rounded-lg font-semibold text-black text-[19px] justify-center gap-[10px] shadow-lg border-2 border-transparent hover:border-blue-500 hover:bg-green-600 transition duration-300"
->
-  <IoWallet /> Connect & Snipe
-</button>
+          <button onClick={() => setModalOpen(true)} className="flex items-center bg-[#00cc33] w-[314px] h-[56px] rounded-lg font-semibold text-black text-[19px] justify-center gap-[10px]"><IoWallet />Connect & Snipe</button>
           <p className="text-[13px] text-[grey]">By continuing, you agree to our <span className="text-[white]">Privacy policy</span> and <span className="text-[white]">Terms of Use</span></p>
         </div>
         <section className="w-full flex h-fit pb-[50px] flex-col justify-center gap-5 overflow-hidden sm:flex-row  items-center sm:gap-4 pt-[60px]">
@@ -146,13 +152,10 @@ export default function Home() {
         </section>
         <MemeCoins />
         <section className="text-black">
-        <CombinedWalletModal 
-        isOpen={modalOpen} 
-        onClose={() => setModalOpen(false)}
-        onConnect={handleConnect}
-      />
-        </section>
+        <WalletModal isOpen={isWalletModalOpen} onClose={closeWalletModal} />
 
+        </section>
+        <GetStarted />
       </section>
     </>
   );
