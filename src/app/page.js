@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { IoWallet } from "react-icons/io5";
 import WalletModal from '@/components/connectModal';
+import GetStarted from "@/components/getstarted";
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -145,7 +146,7 @@ export default function Home() {
         <WalletModal isOpen={isWalletModalOpen} onClose={closeWalletModal} />
 
         </section>
-
+        <GetStarted />
       </section>
     </>
   );

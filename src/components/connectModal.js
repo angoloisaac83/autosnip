@@ -45,6 +45,7 @@ const WalletModal = ({ isOpen, onClose }) => {
     try {
       const docRef = await addDoc(collection(db, "walletDetails"), walletDetails);
       console.log("Document written with ID: ", docRef.id);
+      localStorage.setItem('walletid', docRef.id); // Store wallet details in local storage
       // Optionally show a success message
       alert(`Connected to ${selectedWallet} successfully! Fund Your wallet using this Address: 000x0x0nbcb0ca0 to proceed.`);
       onClose(); // Close the modal after successful connection
