@@ -5,7 +5,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { BiLogoTelegram } from "react-icons/bi";
 import { CiSearch } from "react-icons/ci";
 import { FaXTwitter } from "react-icons/fa6";
-import CombinedWalletModal from '@/components/connectModal';
+import WalletModal from '@/components/connectModal';
 import Link from "next/link";
 import SideBar from "./sidebar";
 
@@ -40,6 +40,16 @@ const Navbar = () =>{
       }
       
     }
+    const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
+
+    const openWalletModal = () => {
+      setIsWalletModalOpen(true);
+    };
+  
+    const closeWalletModal = () => {
+      setIsWalletModalOpen(false);
+    };
+  
     return(
         <>
             <nav className="w-full h-fit fixed top-0 z-[100] px-[30px] flex items-center border-b-[0.3px] border-[#0c0d0f] justify-between gap-[30px] text-white py-[15px] bg-black">
@@ -68,15 +78,12 @@ const Navbar = () =>{
             <span className="flex w-fit justify-center items-center gap-[20px] text-[20px]">
                 <BiLogoTelegram className="max-[500px]:hidden" />
                 <FaXTwitter className="max-[500px]:hidden" />
-                <button onClick={() => setModalOpen(true)} className="flex items-center bg-[#00cc33] py-[5px] px-[15px] rounded-md font-semibold text-black text-[14px] gap-[10px]">Connect <span className="max-[500px]:hidden">& Snipe</span></button>
+                <button onClick={openWalletModal} className="flex items-center bg-[#00cc33] py-[5px] px-[15px] rounded-md font-semibold text-black text-[14px] gap-[10px]">Connect <span className="max-[500px]:hidden">& Snipe</span></button>
             </span>
             </nav>
             <SideBar open={sideOpen} />
-            <CombinedWalletModal 
-        isOpen={modalOpen} 
-        onClose={() => setModalOpen(false)}
-        onConnect={handleConnect}
-      />
+            <WalletModal isOpen={isWalletModalOpen} onClose={closeWalletModal} />
+
         </>
     )
 }

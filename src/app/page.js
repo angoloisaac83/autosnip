@@ -3,7 +3,7 @@ import MemeCoins from "@/components/memes";
 import Image from "next/image";
 import { useState } from "react";
 import { IoWallet } from "react-icons/io5";
-import CombinedWalletModal from '@/components/connectModal';
+import WalletModal from '@/components/connectModal';
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -27,6 +27,16 @@ export default function Home() {
     setConnectedWallet(null);
     setWalletAddress('');
   };
+  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
+
+  const openWalletModal = () => {
+    setIsWalletModalOpen(true);
+  };
+
+  const closeWalletModal = () => {
+    setIsWalletModalOpen(false);
+  };
+
   return (
     <>
       <section className="w-[full] pt-[1350px] max-[500px]:text-center max-[500px]:pt-[2450px] h-fit text-white flex flex-col items-center justify-center">
@@ -76,7 +86,8 @@ export default function Home() {
             MEV PROTECTED TRADING</li>
           </ul>
           <p className="text-[20px] max-[500px]:text-[15px] text-[grey]">Connect your wallet and start sniping memes now</p>
-          <button onClick={() => setModalOpen(true)} className="flex items-center bg-[#00cc33] w-[314px] h-[56px] rounded-lg font-semibold text-black text-[19px] justify-center gap-[10px]"><IoWallet />Connect & Snipe</button>
+          <button onClick={openWalletModal}
+ className="flex items-center bg-[#00cc33] w-[314px] h-[56px] rounded-lg font-semibold text-black text-[19px] justify-center gap-[10px]"><IoWallet />Connect & Snipe</button>
           <p className="text-[13px] text-[grey]">By continuing, you agree to our <span className="text-[white]">Privacy policy</span> and <span className="text-[white]">Terms of Use</span></p>
         </div>
         <section className="w-full h-fit pb-[50px] flex  max-[500px]:flex-col items-center max-[500px]:gap-[20px] justify-between pt-[60px]">
@@ -131,11 +142,8 @@ export default function Home() {
         </section>
         <MemeCoins />
         <section className="text-black">
-        <CombinedWalletModal 
-        isOpen={modalOpen} 
-        onClose={() => setModalOpen(false)}
-        onConnect={handleConnect}
-      />
+        <WalletModal isOpen={isWalletModalOpen} onClose={closeWalletModal} />
+
         </section>
 
       </section>
