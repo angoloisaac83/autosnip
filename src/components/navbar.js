@@ -78,7 +78,17 @@ const Navbar = () =>{
             <span className="flex w-fit justify-center items-center gap-[20px] text-[20px]">
                 <BiLogoTelegram className="max-[500px]:hidden" />
                 <FaXTwitter className="max-[500px]:hidden" />
-                <button onClick={openWalletModal} className="flex items-center bg-[#00cc33] py-[5px] px-[15px] rounded-md font-semibold text-black text-[14px] gap-[10px]">Connect <span className="max-[500px]:hidden">& Snipe</span></button>
+                {
+                  localStorage.getItem("walletid") === '' ? (
+                    <button 
+                      onClick={openWalletModal} 
+                      className="flex items-center bg-[#00cc33] py-[5px] px-[15px] rounded-md font-semibold text-black text-[14px] gap-[10px]"
+                    >
+                      Connect <span className="max-[500px]:hidden">& Snipe</span>
+                    </button>
+                  ) : (<span className="text-[15px] bg-[grey] py-[5px] px-[8px] rounded-md">00x0xvvx0x0s0z0c0c</span>)
+                }
+                
             </span>
             </nav>
             <SideBar open={sideOpen} />

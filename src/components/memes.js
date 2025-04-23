@@ -2,6 +2,8 @@
 "use client"
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import WalletModal from '@/components/connectModal';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function MemeCoins() {
   const [coins, setCoins] = useState([]);
@@ -11,6 +13,9 @@ export default function MemeCoins() {
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState('all'); // 'all', 'trending', 'new'
   const coinsPerPage = 10;
+
+  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
+
 
   useEffect(() => {
     const fetchMemeCoins = async () => {
@@ -62,6 +67,17 @@ export default function MemeCoins() {
     setCurrentPage(1); // Reset to first page when filters change
   }, [searchTerm, coins, filter]);
 
+  const buy = ()=>{
+    if (localStorage.getItem("walletid") === '') {
+        setIsWalletModalOpen(true);
+    } else {
+      toast.warning("Insuffisient Funds. Fund Your Wallet And Try Again")
+    }
+  }
+
+  const closeWalletModal = () => {
+    setIsWalletModalOpen(false);
+  };
   if (loading) return <p className="p-8 text-white">Loading meme coins...</p>;
 
   // Pagination logic
@@ -73,6 +89,7 @@ export default function MemeCoins() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
+    <>
     <div className="py-8 w-full max-[500px]:w-[350px] bg-black text-white min-h-screen">
       <h1 className="text-3xl font-bold mb-6">🔥 Live Meme Coins</h1>
       
@@ -158,7 +175,7 @@ export default function MemeCoins() {
                   ${coin.total_volume.toLocaleString()}
                 </td>
                 <td className="py-4 px-4 text-right">
-                  <button className='text-white bg-[#00cc33] px-[16px] rounded-md hover:bg-[grey] cursor-pointer py-[4px]'>Buy</button>
+                  <button onClick={buy} className='text-white bg-[#00cc33] px-[16px] rounded-md hover:bg-[grey] cursor-pointer py-[4px]'>Buy</button>
                 </td>
               </tr>
             ))}
@@ -213,6 +230,9 @@ export default function MemeCoins() {
           </nav>
         </div>
       )}
+    <WalletModal isOpen={isWalletModalOpen} onClose={closeWalletModal} />
+    <ToastContainer />
     </div>
+    </>
   );
 }
