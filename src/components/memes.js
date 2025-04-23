@@ -73,7 +73,7 @@ export default function MemeCoins() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="py-8 w-full bg-black text-white min-h-screen">
+    <div className="py-8 w-full max-[400px]:w-[350px] bg-black text-white min-h-screen">
       <h1 className="text-3xl font-bold mb-6">🔥 Live Meme Coins</h1>
       
       {/* Filters and Search */}
@@ -178,7 +178,7 @@ export default function MemeCoins() {
               Previous
             </button>
             
-            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+            {Array.from({ length: Math.min(4, totalPages) }, (_, i) => {
               let pageNum;
               if (totalPages <= 5) {
                 pageNum = i + 1;

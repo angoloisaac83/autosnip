@@ -1,7 +1,6 @@
 @import "tailwindcss";
-
 .gra{
   width: 100%;
-  /* background: linear-gradient(to right, transparent 15%, #00cc33 80%); */
+  background: linear-gradient(to right, #00cc33 15%,  black 80%);
   background: #000;
 }
