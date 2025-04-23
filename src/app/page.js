@@ -34,53 +34,68 @@ export default function Home() {
           <h1 className="text-[40px] max-[500px]:text-[30px]">
             Snipe & Sell Solana Tokens at <i className="text-[#00cc33] font-bold">Hyperspeed!</i> 
           </h1>
-          <ul className="flex flex-wrap text-[12px] items-center justify-center gap-[40px]">
-             <li className="flex items-center justify-center gap-[10px]">
-                 <Image
+          <ul className="flex flex-wrap text-[12px] items-start justify-center gap-[20px]">
+             <li className="flex items-center justify-center gap-[24px]">
+              <h2 className="w-20 sm:w-full">ALL SOLANA MEMECOINS</h2>
+              <Image
                     src="/memecoins_icon.B2QarAeS.avif" 
                     alt="Logo"
-                    className="w-[18px]"
+                    className="w-[24px]"
                     width={150}
                     height={30}
                 />
-              ALL SOLANA MEMECOINS</li>
+                
+              </li>
+              
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 25" width="18" height="18" class="starIcon__fillHack hidden md:block"><path fill="#fff" fill-rule="evenodd" d="m12.8 13.38 11.2-.8-11.2-.8L12 .7l-.8 11.08-11.2.8 11.2.8.8 11.07z" clip-rule="evenodd"></path></svg>
             <li className="flex items-center justify-center gap-[10px]">
-                 <Image
+                <h2 className="w-24 text-start">DEPOSIT FROM ALL CHAINS</h2>
+                <Image
                     src="/deposit_icon.76izqal4.avif" 
                     alt="Logo"
-                    className="w-[18px]"
+                    className="w-[24px]"
                     width={150}
                     height={30}
                 />
-            DEPOSIT FROM ALL CHAINS</li>
+            </li>
+            
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 25" width="18" height="18" class="starIcon__fillHack hidden md:block"><path fill="#fff" fill-rule="evenodd" d="m12.8 13.38 11.2-.8-11.2-.8L12 .7l-.8 11.08-11.2.8 11.2.8.8 11.07z" clip-rule="evenodd"></path></svg>
             <li className="flex items-center justify-center gap-[10px]">
+                 <h2 className="w-24 sm:w-full">DETECT RUGS AUTOMATICALLY</h2>
                  <Image
                     src="/rug_detection_icon.BXcUJ9kG.avif" 
                     alt="Logo"
-                    className="w-[18px]"
+                    className="w-[24px]"
                     width={150}
                     height={30}
                 />
-            DETECT RUGS AUTOMATICALLY</li>
+            </li>
+            
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 25" width="18" height="18" class="starIcon__fillHack hidden md:block"><path fill="#fff" fill-rule="evenodd" d="m12.8 13.38 11.2-.8-11.2-.8L12 .7l-.8 11.08-11.2.8 11.2.8.8 11.07z" clip-rule="evenodd"></path></svg>
             <li className="flex items-center justify-center gap-[10px]">
+                 <h2 className="w-24 text-start sm:w-full">MEV PROTECTED TRADING</h2>
                  <Image
                     src="/mev_protection_icon.0nTkU8lo.avif" 
                     alt="Logo"
-                    className="w-[18px]"
+                    className="w-[24px]"
                     width={150}
                     height={30}
                 />
-            MEV PROTECTED TRADING</li>
+            </li>
+           
           </ul>
           <p className="text-[20px] max-[500px]:text-[15px] text-[grey]">Connect your wallet and start sniping memes now</p>
-          <button onClick={() => setModalOpen(true)} className="flex items-center bg-[#00cc33] w-[314px] h-[56px] rounded-lg font-semibold text-black text-[19px] justify-center gap-[10px]"><IoWallet />Connect & Snipe</button>
+          <button 
+  onClick={() => setModalOpen(true)} 
+  className="flex items-center bg-green-500 w-[314px] h-[56px] rounded-lg font-semibold text-black text-[19px] justify-center gap-[10px] shadow-lg border-2 border-transparent hover:border-blue-500 hover:bg-green-600 transition duration-300"
+>
+  <IoWallet /> Connect & Snipe
+</button>
           <p className="text-[13px] text-[grey]">By continuing, you agree to our <span className="text-[white]">Privacy policy</span> and <span className="text-[white]">Terms of Use</span></p>
         </div>
-        <section className="w-full h-fit pb-[50px] flex  max-[500px]:flex-col items-center max-[500px]:gap-[20px] justify-between pt-[60px]">
-          <div className="flex w-[300px] gap-[10px] bg-[#00cc33] p-[13px] rounded-md font-semibold">
+        <section className="w-full flex h-fit pb-[50px] flex-col justify-center gap-5 overflow-hidden sm:flex-row  items-center sm:gap-4 pt-[60px]">
+        <div className="flex w-[300px] gap-[10px] bg-[url('/animated-backgro.png')] bg-cover bg-center p-[13px] rounded-md font-semibold">
+
             <span className="flex flex-col gap-[10px] items-start justify-center">
               <p>
                 Meme Vision
@@ -91,12 +106,12 @@ export default function Home() {
             <Image
                     src="/memevision.png" 
                     alt="Logo"
-                    className="w-[120px]"
-                    width={150}
-                    height={30}
+                    className="w-[100px]"
+                    width={40}
+                    height={40}
                 />
           </div>
-          <div className="flex w-[300px] gap-[10px] bg-[#00cc33] p-[13px] rounded-md font-semibold">
+          <div className="flex w-[300px] gap-[10px] bg-[url('/animated-backgro.png')] bg-cover bg-center p-[13px] rounded-md font-semibold">
             <span className="flex flex-col gap-[10px] items-start justify-center">
               <p>
                Traders Lens
@@ -105,14 +120,14 @@ export default function Home() {
               <button className="w-full h-fit py-[5px] text-black shadow-xl">Try Meme Vision</button>
             </span>
             <Image
-                    src="/memevision.png" 
+                    src="/bannerman.png" 
                     alt="Logo"
-                    className="w-[120px]"
-                    width={150}
-                    height={30}
+                    className="w-[100px]"
+                    width={40}
+                    height={40}
                 />
           </div>
-          <div className="flex w-[300px] gap-[10px] bg-[#00cc33] p-[13px] rounded-md font-semibold">
+          <div className="flex w-[300px] gap-[10px] bg-[url('/animated-backgro.png')] bg-cover bg-center p-[13px] rounded-md font-semibold">
             <span className="flex flex-col gap-[10px] items-start justify-center">
               <p>
                 Earn 40% on fees
@@ -121,11 +136,11 @@ export default function Home() {
               <button className="w-full h-fit py-[5px] text-black shadow-xl">Try Meme Vision</button>
             </span>
             <Image
-                    src="/memevision.png" 
+                    src="/trader.png" 
                     alt="Logo"
-                    className="w-[120px]"
-                    width={150}
-                    height={30}
+                    className="w-[100px]"
+                    width={40}
+                    height={40}
                 />
           </div>
         </section>
