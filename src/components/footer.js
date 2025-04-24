@@ -36,19 +36,16 @@ const Footer = ()=>{
                     </ul>
                     <ul className="text-[15px] flex flex-col gap-[5px]">
                         <li className="text-[17px] text-[#808080] pb-[10px]">RESOURCES </li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">Raydium Pairs</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">Trending Pairs</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">Pump.fun Pairs</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">Moonshot Pairs</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">API Trading</li>
+                        <li className="hover:text-[#00cc33] cursor-pointer">FAQs</li>
+                        <li className="hover:text-[#00cc33] cursor-pointer">How Copy Trading Works</li>
+                        <li className="hover:text-[#00cc33] cursor-pointer">How AI Sniper Works</li>
+                        <li className="hover:text-[#00cc33] cursor-pointer">Stats on Dune</li>
                     </ul>
                     <ul className="text-[15px] flex flex-col gap-[5px]">
                         <li className="text-[17px] text-[#808080] pb-[10px]">LEGAL</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">Raydium Pairs</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">Trending Pairs</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">Pump.fun Pairs</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">Moonshot Pairs</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">API Trading</li>
+                        <li className="hover:text-[#00cc33] cursor-pointer">Fees</li>
+                        <li className="hover:text-[#00cc33] cursor-pointer">Privacy Policy</li>
+                        <li className="hover:text-[#00cc33] cursor-pointer">Terms & Conditions</li>
                     </ul>
                 </section>
                     <span className="text-[#808080] w-full flex items-center justify-start h-fit">

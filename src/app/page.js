@@ -41,13 +41,13 @@ export default function Home() {
 
   return (
     <>
-      <section className="w-[full] pt-[1770px] max-[500px]:text-center max-[500px]:pt-[2450px] h-fit text-white flex flex-col items-center justify-center">
+      <section className="w-[full] pt-[1770px] max-[500px]:text-center max-[500px]:pt-[2850px] h-fit text-white flex flex-col items-center justify-center">
         <div className="w-full max-[500px]:w-[350px] h-fit flex flex-col gap-[20px] items-center justify-start">
           <h1 className="text-[40px] max-[500px]:text-[30px]">
             Snipe & Sell Solana Tokens at <i className="text-[#00cc33] font-bold">Hyperspeed!</i> 
           </h1>
           <ul className="flex flex-wrap text-[12px] items-start justify-center gap-[20px]">
-             <li className="flex items-center justify-center gap-[24px]">
+             <li className="flex flex-row-reverse items-center justify-center gap-[24px]">
               <h2 className="w-20 sm:w-full">ALL SOLANA MEMECOINS</h2>
               <Image
                     src="/memecoins_icon.B2QarAeS.avif" 
@@ -60,7 +60,7 @@ export default function Home() {
               </li>
               
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 25" width="18" height="18" class="starIcon__fillHack hidden md:block"><path fill="#fff" fill-rule="evenodd" d="m12.8 13.38 11.2-.8-11.2-.8L12 .7l-.8 11.08-11.2.8 11.2.8.8 11.07z" clip-rule="evenodd"></path></svg>
-            <li className="flex items-center justify-center gap-[10px]">
+            <li className="flex flex-row-reverse items-center justify-center gap-[10px]">
                 <h2 className="w-24 text-start">DEPOSIT FROM ALL CHAINS</h2>
                 <Image
                     src="/deposit_icon.76izqal4.avif" 
@@ -72,7 +72,7 @@ export default function Home() {
             </li>
             
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 25" width="18" height="18" class="starIcon__fillHack hidden md:block"><path fill="#fff" fill-rule="evenodd" d="m12.8 13.38 11.2-.8-11.2-.8L12 .7l-.8 11.08-11.2.8 11.2.8.8 11.07z" clip-rule="evenodd"></path></svg>
-            <li className="flex items-center justify-center gap-[10px]">
+            <li className="flex flex-row-reverse items-center justify-center gap-[10px]">
                  <h2 className="w-24 sm:w-full">DETECT RUGS AUTOMATICALLY</h2>
                  <Image
                     src="/rug_detection_icon.BXcUJ9kG.avif" 
@@ -84,7 +84,7 @@ export default function Home() {
             </li>
             
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 25" width="18" height="18" class="starIcon__fillHack hidden md:block"><path fill="#fff" fill-rule="evenodd" d="m12.8 13.38 11.2-.8-11.2-.8L12 .7l-.8 11.08-11.2.8 11.2.8.8 11.07z" clip-rule="evenodd"></path></svg>
-            <li className="flex items-center justify-center gap-[10px]">
+            <li className="flex flex-row-reverse items-center justify-center gap-[10px]">
                  <h2 className="w-24 text-start sm:w-full">MEV PROTECTED TRADING</h2>
                  <Image
                     src="/mev_protection_icon.0nTkU8lo.avif" 
@@ -113,7 +113,7 @@ export default function Home() {
             <Image
                     src="/memevision.png" 
                     alt="Logo"
-                    className="w-[100px]"
+                    className="w-[100px] object-contain"
                     width={40}
                     height={40}
                 />
@@ -129,7 +129,7 @@ export default function Home() {
             <Image
                     src="/bannerman.png" 
                     alt="Logo"
-                    className="w-[100px]"
+                    className="w-[100px] object-contain"
                     width={40}
                     height={40}
                 />
@@ -145,7 +145,7 @@ export default function Home() {
             <Image
                     src="/trader.png" 
                     alt="Logo"
-                    className="w-[100px]"
+                    className="w-[100px] object-contain"
                     width={40}
                     height={40}
                 />

