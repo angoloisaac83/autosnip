@@ -21,7 +21,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+       <link rel="icon" href="/alogo.jpg" />
       <body
+      
        
         className={`${geistSans.variable} gra ${geistMono.variable} antialiased`}
       >
