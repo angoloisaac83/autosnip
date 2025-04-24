@@ -151,7 +151,7 @@ export default function Home() {
                 />
           </div>
         </section>
-        <TokenList />
+        <MemeCoins />
         <section className="text-black">
         <WalletModal isOpen={isWalletModalOpen} onClose={closeWalletModal} />
 
