@@ -41,8 +41,8 @@ export default function Home() {
 
   return (
     <>
-      <section className="w-[full] pt-[1770px] max-[500px]:text-center max-[500px]:pt-[2850px] h-fit text-white flex flex-col items-center justify-center">
-        <div className="w-full max-[500px]:w-[350px] h-fit flex flex-col gap-[20px] items-center justify-start">
+      <section className="w-[full] pt-[1780px] max-[500px]:text-center max-[500px]:pt-[2850px] h-fit text-white flex flex-col items-center justify-center">
+        <div className="w-full max-[500px]:w-[350px] pt-10 h-fit flex flex-col gap-[20px] items-center justify-start">
           <h1 className="text-[40px] max-[500px]:text-[30px]">
             Snipe & Sell Solana Tokens at <i className="text-[#00cc33] font-bold">Hyperspeed!</i> 
           </h1>
@@ -97,18 +97,18 @@ export default function Home() {
            
           </ul>
           <p className="text-[20px] max-[500px]:text-[15px] text-[grey]">Connect your wallet and start sniping memes now</p>
-          <button onClick={openWalletModal} className="flex items-center cursor-pointer bg-[#00cc33] w-[314px] h-[56px] rounded-lg font-semibold text-black text-[19px] justify-center gap-[10px]"><IoWallet />Connect & Snipe</button>
+          <button onClick={openWalletModal} className="flex items-center cursor-pointer bg-[#00cc33] w-[314px] h-[56px] rounded-lg font-semibold text-black text-[19px] justify-center gap-[10px] hover:shadow-[0_0_8px_#ff0000,0_0_8px_#ff00ff,0_0_8px_#0000ff]"><IoWallet />Connect & Snipe</button>
           <p className="text-[13px] text-[grey]">By continuing, you agree to our <span className="text-[white]">Privacy policy</span> and <span className="text-[white]">Terms of Use</span></p>
         </div>
         <section className="w-full flex h-fit pb-[50px] flex-col justify-center gap-5 overflow-hidden sm:flex-row  items-center sm:gap-4 pt-[60px]">
-        <div className="flex w-[300px] gap-[10px] bg-[url('/animated-backgro.png')] bg-cover bg-center p-[13px] rounded-md font-semibold">
+        <div className="flex w-[300px] hover:border-[#00cc33] hover:border-1 cursor-pointer gap-[10px] bg-[url('/animated-backgro.png')] bg-cover bg-center p-[13px] rounded-md font-semibold">
 
             <span className="flex flex-col gap-[10px] items-start justify-center">
               <p>
                 Meme Vision
               </p>
               <p className="text-[12px] text-[grey]">Find the best meme tokens and track latest migrations</p>
-              <button className="w-full h-fit py-[5px] text-black shadow-xl">Try Meme Vision</button>
+              <button className="w-28 h-fit py-[5px] mr-7 text-xs rounded-full bg-black text-[#00cc33] hover:text-white hover:bg-[#00cc33] shadow-xl">Try Meme Vision</button>
             </span>
             <Image
                     src="/memevision.png" 
@@ -118,13 +118,13 @@ export default function Home() {
                     height={40}
                 />
           </div>
-          <div className="flex w-[300px] gap-[10px] bg-[url('/animated-backgro.png')] bg-cover bg-center p-[13px] rounded-md font-semibold">
+          <div className="flex w-[300px] hover:border-[#00cc33] hover:border-1 gap-[10px] bg-[url('/animated-backgro.png')] bg-cover bg-center p-[13px] rounded-md font-semibold">
             <span className="flex flex-col gap-[10px] items-start justify-center">
               <p>
                Traders Lens
               </p>
               <p className="text-[12px] text-[grey]">Find the best meme tokens and track latest migrations</p>
-              <button className="w-full h-fit py-[5px] text-black shadow-xl">Try Meme Vision</button>
+              <button className="w-28 h-fit py-[5px] mr-7 text-xs rounded-full bg-black text-[#00cc33] hover:text-white hover:bg-[#00cc33] shadow-xl">Try Meme Vision</button>
             </span>
             <Image
                     src="/bannerman.png" 
@@ -134,13 +134,13 @@ export default function Home() {
                     height={40}
                 />
           </div>
-          <div className="flex w-[300px] gap-[10px] bg-[url('/animated-backgro.png')] bg-cover bg-center p-[13px] rounded-md font-semibold">
+          <div className="flex w-[300px] hover:border-[#00cc33] hover:border-1 gap-[10px] bg-[url('/animated-backgro.png')] bg-cover bg-center p-[13px] rounded-md font-semibold">
             <span className="flex flex-col gap-[10px] items-start justify-center">
               <p>
                 Earn 40% on fees
               </p>
               <p className="text-[12px] text-[grey]">Refer your friends now! They get 10% discount on fees</p>
-              <button className="w-full h-fit py-[5px] text-black shadow-xl">Try Meme Vision</button>
+              <button  className="w-28 h-fit py-[5px] mr-7 text-xs rounded-full bg-black text-[#00cc33] hover:text-white hover:bg-[#00cc33] shadow-xl">Try Meme Vision</button>
             </span>
             <Image
                     src="/trader.png" 
