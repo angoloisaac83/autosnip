@@ -5,6 +5,7 @@ import { useState } from "react";
 import { IoWallet } from "react-icons/io5";
 import WalletModal from '@/components/connectModal';
 import GetStarted from "@/components/getstarted";
+import TokenList from "@/components/tokenList";
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -150,7 +151,7 @@ export default function Home() {
                 />
           </div>
         </section>
-        <MemeCoins />
+        <TokenList />
         <section className="text-black">
         <WalletModal isOpen={isWalletModalOpen} onClose={closeWalletModal} />
 
