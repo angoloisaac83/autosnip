@@ -21,9 +21,9 @@ function GetStarted(){
                 </h1>
                 <div className="w-full items-center justify-center max-[500px]:flex-col flex flex-row gap-[20px]">
                     <div class="flex flex-col items-center w-[30%] relative"><img src="https://autosnipe.ai/_app/immutable/assets/step1.udBCdLvM.svg" alt="Step 1" height="32" width="32" class="mb-2 md:h-14 md:w-14" /> <div class="text-xs text-grey1 md:text-xl text-center max-w-40">Connect a Solana Wallet</div></div>
-                    <div class=" flex items-center w-[15%] -translate-x-1/2 justify-between"><div class="h-1 w-1 bg-grey2 rounded-full"></div> <div class="border-t border-grey2 border-dashed h-[1] w-full"></div> <div class="h-1 w-1 bg-grey2 rounded-full"></div></div>                
+                    <div class=" flex ml-[65px] items-center w-[15%] -translate-x-1/2 justify-between"><div class="h-1 w-1 bg-grey2 rounded-full"></div> <div class="border-t border-grey2 border-dashed h-[1] w-full"></div> <div class="h-1 w-1 bg-grey2 rounded-full"></div></div>                
                     <div class="flex flex-col items-center w-[30%] relative"><img src="https://autosnipe.ai/_app/immutable/assets/step2.DfBDx9Ov.svg" alt="Step 2" height="32" width="32" class="mb-2 md:h-14 md:w-14" /> <div class="text-xs text-grey1 md:text-xl text-center max-w-40">Deposit SOL To Autosnipe Wallet</div></div>
-                    <div class=" flex items-center w-[15%] -translate-x-1/2 justify-between"><div class="h-1 w-1 bg-grey2 rounded-full"></div> <div class="border-t border-grey2 border-dashed h-[1] w-full"></div> <div class="h-1 w-1 bg-grey2 rounded-full"></div></div>                
+                    <div class=" flex ml-[65px] items-center w-[15%] -translate-x-1/2 justify-between"><div class="h-1 w-1 bg-grey2 rounded-full"></div> <div class="border-t border-grey2 border-dashed h-[1] w-full"></div> <div class="h-1 w-1 bg-grey2 rounded-full"></div></div>                
                     <div class="flex flex-col items-center w-[30%] relative"><img src="https://autosnipe.ai/_app/immutable/assets/step3.BfhO-vzB.svg" alt="Step 3" height="32" width="32" class="mb-2 md:h-14 md:w-14" /> <div class="text-xs text-grey1 md:text-xl text-center max-w-40">Start Sniping Tokens</div></div>
                 </div>
                           <button onClick={openWalletModal}

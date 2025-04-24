@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { FaRocket } from "react-icons/fa";
 import { BsGearFill } from "react-icons/bs";
+import { IoWallet } from "react-icons/io5";
 import Link from "next/link";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 
@@ -10,7 +11,7 @@ function SideBar({ open }){
 // const [isOpen, setIsOpen] = useState(open);
     return(
         <>
-            <div className={`bg-[#0c0d0f] transition-all ${open ? 'max-[500px]:left-[0px]' : ' max-[500px]:left-[-100%]'} max-[500px]:w-[100%] max-[500px]:items-center max-[500px]:justify-center text-[#cccccc] px-[20px] py-[20px] h-[90.1vh] max-[500px]:h-[90.5vh] z-[100] left-0 bottom-0 fixed w-[7.5%]`}>
+            <div className={`bg-[#080808] transition-all ${open ? 'max-[500px]:left-[0px]' : ' max-[500px]:left-[-100%]'} max-[500px]:w-[100%] max-[500px]:items-center max-[500px]:justify-center text-[#cccccc] px-[20px] py-[20px] h-[90.1vh] max-[500px]:h-[90.5vh] z-[100] left-0 bottom-0 fixed w-[7.5%]`}>
                 <ul className="flex flex-col text-[12px] w-full max-[500px]:items-center max-[500px]:justify-center h-full py-[30px] items-center justify-between gap-[10px]">
                     <Link href="/trending"><li className="w-[60px] max-[500px]:flex-row  max-[500px]:gap-[10px] max-[500px]:w-fit hover:text-[#00cc33] hover:bg-[rgba(0,0,0,0.34)] cursor-pointer h-[60px] font-semibold rounded-md flex flex-col max-[500px]:flex-row  max-[500px]:gap-[10px] items-center justify-center">
                         <FaRocket className="text-[20px]" />
@@ -20,10 +21,10 @@ function SideBar({ open }){
                         <BsGearFill className="text-[20px]" />
                         <p>New Pairs</p>
                     </li></Link>
-                    <li className="w-[80px] max-[500px]:flex-row  max-[500px]:gap-[10px] max-[500px]:w-fit hover:text-[#00cc33] hover:bg-[rgba(0,0,0,0.34)] cursor-pointer h-[60px] font-semibold rounded-md flex flex-col items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="w-5 h-5 group-hover:fill-primary fill-white"><path fill-rule="evenodd" d="M10 1.88c.4 0 .73.32.73.72v1.5a5.95 5.95 0 0 1 5.17 5.17h1.5a.73.73 0 0 1 0 1.46h-1.5a5.95 5.95 0 0 1-5.17 5.17v1.5a.73.73 0 1 1-1.46 0v-1.5a5.95 5.95 0 0 1-5.17-5.17H2.6a.73.73 0 1 1 0-1.46h1.5A5.95 5.95 0 0 1 9.27 4.1V2.6c0-.4.33-.73.73-.73ZM5.5 10a4.5 4.5 0 1 0 9 0 4.5 4.5 0 0 0-9 0m3.05 0a1.45 1.45 0 1 1 2.9 0 1.45 1.45 0 0 1-2.9 0" clip-rule="evenodd"></path></svg>
-                        <p>Meme Vision</p>
-                    </li>
+                    <Link href="/wallet"><li className="w-[80px] max-[500px]:flex-row  max-[500px]:gap-[10px] max-[500px]:w-fit hover:text-[#00cc33] hover:bg-[rgba(0,0,0,0.34)] cursor-pointer h-[60px] font-semibold rounded-md flex flex-col items-center justify-center">
+                    <IoWallet className="text-[20px]" />
+                        <p>Wallet</p>
+                    </li></Link>
                     <li className="w-[70px] max-[500px]:flex-row max-[500px]:w-fit max-[500px]:gap-[10px] hover:text-[#00cc33] hover:bg-[rgba(0,0,0,0.34)] cursor-pointer h-[60px] font-semibold rounded-md flex flex-col items-center justify-center">
                     <MdOutlineRemoveRedEye className="text-[20px]" />
                         <p>Trender Lens</p>

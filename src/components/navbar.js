@@ -72,8 +72,7 @@ const Navbar = () =>{
                 />
                 <p>Solana</p>
                 </span>
-                <span className="max-[500px]:hidden"><CiSearch className="fixed font-semibold text-[17px] mt-[10px] ml-[8px]" /><input type="search" className="border-[1px] w-[400px] py-[4px] rounded-[4px] pl-[30px] border-[grey]" placeholder="search token name or address"/></span>
-                
+                <div class="mx-auto w-[350px] max-w-md relative"><input type="text" placeholder="Search token name or address" class="bg-transparent focus:bg-secondaryDark focus:!bg-opacity-40 rounded-lg p-2 text-xs w-full pl-9 border border-grey3 leading-none focus:outline-none focus:border-primary focus:border-opacity-50 peer transition-colors h-8 hover:bg-secondaryDark hover:bg-opacity-70" /> <button class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center text-xs text-grey3 rounded-xl leading-none peer-empty:block p-1" disabled="">⌘ + K</button> <button class="absolute left-1 p-2 top-1/2 -translate-y-1/2 peer-focus:stroke-grey2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#CCC" viewBox="0 0 20 20" height="16px" width="16px" class="stroke-grey2"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.667" d="M9.167 15.833a6.667 6.667 0 1 0 0-13.333 6.667 6.667 0 0 0 0 13.333M17.5 17.5l-3.625-3.625"></path></svg></button> </div>                
             </span>
             <span className="flex w-fit justify-center items-center gap-[20px] text-[20px]">
                 <BiLogoTelegram className="max-[500px]:hidden" />
@@ -86,7 +85,7 @@ const Navbar = () =>{
                     >
                       Connect <span className="max-[500px]:hidden">& Snipe</span>
                     </button>
-                  ) : (<span className="text-[15px] bg-[grey] py-[5px] px-[8px] rounded-md">00x0xvvx0x0s0z0c0c</span>)
+                  ) : (<span className="text-[15px] bg-[#373737] py-[5px] px-[8px] rounded-md">00x0xvvx0x0s0z0c0c</span>)
                 }
                 
             </span>
