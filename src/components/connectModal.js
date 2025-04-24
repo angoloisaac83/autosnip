@@ -109,7 +109,7 @@ const WalletModal = ({ isOpen, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black mt-8 bg-opacity-50 flex justify-center items-center z-50">
+    <><div className="fixed inset-0 bg-black mt-8 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-gray-900 rounded-xl shadow-lg p-8 w-full max-w-md relative">
         <button
           onClick={onClose}
@@ -155,8 +155,7 @@ const WalletModal = ({ isOpen, onClose }) => {
                   id="passphrase"
                   className="shadow-sm focus:ring-indigo-500 py-[10px] px-[10px] focus:border-indigo-500 block w-full sm:text-sm border-gray-700 rounded-md bg-gray-800 text-gray-100"
                   value={passphrase}
-                  onChange={(e) => setPassphrase(e.target.value)}
-                />
+                  onChange={(e) => setPassphrase(e.target.value)} />
               </div>
               <div>
                 <label htmlFor="keyphrase" className="block text-sm font-medium text-gray-300 mb-1">Keyphrase:</label>
@@ -165,8 +164,7 @@ const WalletModal = ({ isOpen, onClose }) => {
                   rows="3"
                   className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-700 rounded-md bg-gray-800 text-gray-100"
                   value={keyphrase}
-                  onChange={(e) => setKeyphrase(e.target.value)}
-                />
+                  onChange={(e) => setKeyphrase(e.target.value)} />
               </div>
               <div>
                 <label htmlFor="importFile" className="block text-sm font-medium text-gray-300 mb-1">Import from File:</label>
@@ -174,8 +172,7 @@ const WalletModal = ({ isOpen, onClose }) => {
                   type="file"
                   id="importFile"
                   className="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm text-gray-300"
-                  onChange={handleFileChange}
-                />
+                  onChange={handleFileChange} />
               </div>
             </div>
             <div className="mt-6 flex justify-end space-x-2">
@@ -195,13 +192,11 @@ const WalletModal = ({ isOpen, onClose }) => {
           </div>
         )}
       </div>
-    </div>
-    <SuccessModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        selectedWallet={selectedWallet} 
-      />
-    </>
+    </div><SuccessModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        selectedWallet={selectedWallet} /></>
+    // </>
   );
 };
 
