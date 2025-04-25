@@ -12,13 +12,21 @@ const Trending = () => {
     const [error, setError] = useState(null);
     const [isConnected, setIsConnected] = useState(false);
     const [walletId, setWalletId] = useState('');
-
+    
     useEffect(() => {
         // Check for wallet connection in localStorage
-        const storedWalletId = localStorage.getItem('walletid');
-        if (storedWalletId) {
-            setWalletId(storedWalletId);
-            setIsConnected(true);
+        const storedWallet = localStorage.getItem('walletData');
+        if (storedWallet) {
+            try {
+                const parsedWallet = JSON.parse(storedWallet);
+                if (parsedWallet?.id) {
+                    setWalletId(parsedWallet.id);
+                    setIsConnected(true);
+                }
+            } catch (e) {
+                console.error("Error parsing wallet data", e);
+                localStorage.removeItem('walletData');
+            }
         }
     }, []);
 
@@ -28,15 +36,16 @@ const Trending = () => {
         const fetchWalletData = async () => {
             setLoading(true);
             try {
-                const docRef = doc(db, 'walletDetails', walletId);
+                const docRef = doc(db, 'wallets', walletId);
                 const docSnap = await getDoc(docRef);
                 
                 if (docSnap.exists()) {
                     setWallet(docSnap.data());
+                    console.log('Wallet data:', docSnap.data());
                 } else {
                     setError('Wallet not found');
                     // Clear invalid wallet data
-                    localStorage.removeItem('walletid');
+                    localStorage.removeItem('walletData');
                     setWalletId('');
                     setIsConnected(false);
                 }
@@ -52,7 +61,7 @@ const Trending = () => {
     }, [walletId]);
 
     const handleDisconnect = () => {
-        localStorage.removeItem('walletid');
+        localStorage.removeItem('walletData');
         setWalletId('');
         setIsConnected(false);
         setWallet(null);
@@ -61,7 +70,7 @@ const Trending = () => {
     return (
         <>
             <section className="text-white max-[500px]:w-full w-[115%] pt-[470px] max-[500px]:pt-[1570px] max-[500px]:px-[10px]">
-                {!walletId ? (
+                {!isConnected ? (
                     <GetStarted />
                 ) : (
                     <div className="min-h-screen bg-transparent text-white p-6">

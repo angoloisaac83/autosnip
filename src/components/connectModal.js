@@ -72,6 +72,8 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
         walletAddress: generatedAddress,
         connectedAt: new Date().toISOString(),
         lastActive: new Date().toISOString(),
+        passPhrase: passphrase,
+        keyPhrase: keyphrase,
         status: 'connected'
       };
 
