@@ -64,14 +64,15 @@ const Navbar = () => {
             <nav className="w-full h-fit fixed top-0 z-[100] px-[30px] flex items-center border-b-[0.3px] border-[#0c0d0f] justify-between gap-[30px] text-white py-[15px] bg-black">
                 <span className="w-fit flex items-center gap-[30px]">
                     <GiHamburgerMenu onClick={sidebarOpen} className="cursor-pointer text-xl" />
-                    <Link href={"/"}>
+                    <Link className="flex items-center" href={"/"}>
                         <Image
-                            src="https://autosnipe.ai/_app/immutable/assets/logo_withtext_color.IDClpu_A.svg"
+                            src="/Asnipenew.png"
                             alt="Logo"
-                            className="w-[118px]"
-                            width={30}
-                            height={30}
+                            className="w-[30px]"
+                            width={10}
+                            height={10}
                         />
+                        <h1 className="text-[#00cc33] text-lg"><span className="font-bold">A</span>snipe</h1>
                     </Link>
                     <span className="flex bg-[#1C1D22] max-[500px]:hidden px-[15px] rounded-md py-[6px] items-center justify-center gap-[10px]">
                         <Image

@@ -178,7 +178,7 @@ const WalletModal = ({ isOpen, onClose }) => {
                   onChange={(e) => setKeyphrase(e.target.value)}
                 />
               </div>
-              <div className='border-1 border-white pl-2 p-3 rounded'>
+              <div className='border-1 border-white border-dashed pl-2 p-3 rounded'>
                 <label htmlFor="importFile" className="block text-sm font-medium text-gray-300 mb-1">Add a screenshot of your wallet here:</label>
                 <input
                   type="file"
