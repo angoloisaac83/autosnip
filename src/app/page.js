@@ -41,7 +41,7 @@ export default function Home() {
 
   return (
     <>
-      <section className="w-[full] pt-[1780px] max-[500px]:text-center max-[500px]:pt-[2850px] h-fit text-white flex flex-col items-center justify-center">
+      <section className="w-[full] pt-[1780px] max-[500px]:text-center max-[500px]:pt-[3150px] h-fit text-white flex flex-col items-center justify-center">
         <div className="w-full max-[500px]:w-[350px] pt-10 h-fit flex flex-col gap-[20px] items-center justify-start">
           <h1 className="text-[40px] max-[500px]:text-[30px]">
             Snipe & Sell Solana Tokens at <i className="text-[#00cc33] font-bold">Hyperspeed!</i> 

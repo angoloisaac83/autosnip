@@ -92,7 +92,7 @@ export default function MemeCoins() {
   }
 
   return (
-    <div className="container mx-auto w-[88%] py-8 px-4">
+    <div className="container max-[500px]:w-[380px] mx-auto w-[88%] py-8 px-4">
       <h1 className="text-3xl font-bold mb-8 text-white">🔥 Live Meme Coins ({filteredCoins.length})</h1>
 
       <div className="bg-[rgba(0,0,0,0.34)] rounded-lg p-6 mb-8">
@@ -212,7 +212,7 @@ export default function MemeCoins() {
                   Prev
                 </button>
                 
-                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
                   let pageNum
                   if (totalPages <= 5) {
                     pageNum = i + 1
@@ -247,20 +247,6 @@ export default function MemeCoins() {
               </nav>
             </div>
           )}
-        </div>
-      </div>
-
-      <div className="bg-[rgba(0,0,0,0.34)] rounded-lg p-6">
-        <h2 className="text-xl font-bold mb-4 text-white">About Meme Coins</h2>
-        <p className="text-gray-300 mb-4">
-          Meme coins are cryptocurrencies inspired by internet memes and jokes. While some have gained significant value,
-          they are generally considered high-risk investments due to their volatility and speculative nature.
-        </p>
-        <div className="flex items-center gap-2 text-yellow-500 text-sm">
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-          </svg>
-          <span>Always do your own research before investing. Meme coins are highly speculative and risky.</span>
         </div>
       </div>
     </div>
