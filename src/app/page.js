@@ -1,5 +1,5 @@
 "use client"
-import MemeCoins from "@/components/memes";
+import MemeCoins from "@/app/memes";
 import Image from "next/image";
 import { useState } from "react";
 import { IoWallet } from "react-icons/io5";

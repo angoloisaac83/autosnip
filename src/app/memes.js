@@ -15,36 +15,19 @@ export default function MemeCoins() {
   // Fetch all meme coins from CoinMarketCap
   const fetchMemeCoins = async () => {
     try {
-      const response = await fetch('/src/api/meme-coins.js')
- // calling your local proxy
-  
-      if (!response.ok) {
-        throw new Error('Failed to fetch coin list')
-      }
-  
-      const data = await response.json()
-      const allCoins = data.data
-  
-      const memeCoins = allCoins.filter(coin =>
-        coin.name.toLowerCase().includes('pepe') ||
-        coin.name.toLowerCase().includes('doge') ||
-        coin.name.toLowerCase().includes('shib') ||
-        coin.name.toLowerCase().includes('floki') ||
-        coin.name.toLowerCase().includes('bonk') ||
-        coin.name.toLowerCase().includes('wojak') ||
-        coin.name.toLowerCase().includes('elon') ||
-        coin.name.toLowerCase().includes('meme') ||
-        coin.name.toLowerCase().includes('cat') ||
-        coin.name.toLowerCase().includes('frog')
-      )
-  
-      setCoins(memeCoins)
-      setLoading(false)
-    } catch (err) {
-      setError(err.message)
-      setLoading(false)
-    }
-  }
+      const response = await fetch("/api/meme-coins");
+      const data = await response.json();
+
+      // Display all the coins without filtering
+      const memeCoins = data.data; 
+        
+            setCoins(memeCoins)
+            setLoading(false)
+          } catch (err) {
+            setError(err.message)
+            setLoading(false)
+          }
+        }
   
 
   useEffect(() => {
