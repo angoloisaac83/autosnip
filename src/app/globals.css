@@ -4,3 +4,25 @@
   background: linear-gradient(to right, #00cc33 15%,  black 80%);
   background: #000;
 }
+.gradient-text2 {
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(90.58deg, #6000b1 -12.17%, #fc57ff -12.16%, #7f75f7 110.37%);
+}
+.gradient-text {
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(90deg, #ecffee 0%, #aaffb7 50.5%, #e3f6ff 100%);
+}
+.border-secondaryDark {
+  --tw-border-opacity: 1;
+  border-color: rgb(28 29 34 / var(--tw-border-opacity, 1));
+}

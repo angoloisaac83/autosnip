@@ -8,6 +8,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import WalletModal from '@/components/connectModal';
 import Link from "next/link";
 import SideBar from "./sidebar";
+import { IoClose } from "react-icons/io5";
 
 const Navbar = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -61,9 +62,15 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className="w-full h-fit fixed top-0 z-[100] px-[30px] flex items-center border-b-[0.3px] border-[#0c0d0f] justify-between gap-[30px] text-white py-[15px] bg-black">
+            <nav className="w-full h-fit fixed top-0 z-[120] px-[30px] flex items-center border-b-[0.3px] border-[#0c0d0f] justify-between gap-[30px] text-white py-[15px] bg-black">
                 <span className="w-fit flex items-center gap-[30px]">
-                    <GiHamburgerMenu onClick={sidebarOpen} className="cursor-pointer text-xl" />
+                    {
+                        sideOpen ? (
+                            <IoClose onClick={sidebarOpen} className="cursor-pointer text-xl" />
+                        ) : (
+                            <GiHamburgerMenu onClick={sidebarOpen} className="cursor-pointer text-xl" />
+                        )
+                    }
                     <Link className="flex gap-1 items-center" href={"/"}>
                         <Image
                             src="/Asnipenew.png"

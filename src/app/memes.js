@@ -565,7 +565,7 @@ export default function TokenTable() {
   }
 
   return (
-    <div className="container max-[500px]:w-[380px] mx-auto w-full py-8 px-4">
+    <div className="container max-[500px]:w-[430px] mx-auto w-full py-8 px-4">
       <ToastContainer />
       <h1 className="text-3xl font-bold mb-8 text-white">
         🔥 Live Meme Coins ({filteredCoins.length})
