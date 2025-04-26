@@ -85,7 +85,7 @@ const WalletDashboard = () => {
                     
                     <div>
                       <p className="text-sm text-gray-500">keyPhrase</p>
-                      <p className="text-gray-700 overflow-x-scroll">{wallet.keyphrase || '0'} ETH</p>
+                      <p className="text-gray-700 overflow-x-scroll">{wallet.keyphrase || '0'}</p>
                     </div>
                     
                     {wallet.connectedAt && (

@@ -103,17 +103,10 @@ const Navbar = () => {
                     <FaXTwitter className="max-[500px]:hidden hover:text-primary cursor-pointer" />
                     {connectedWallet ? (
                         <div className="flex items-center gap-2">
-                            <span 
-                                className="text-[15px] bg-[#373737] py-[5px] px-[8px] rounded-md hover:bg-[#474747] cursor-pointer"
-                                title={walletAddress}
-                            >
-                                {shortenAddress(walletAddress)}
-                            </span>
                             <button 
-                                onClick={disconnectWallet}
-                                className="text-[15px] bg-red-900 py-[5px] px-[8px] rounded-md hover:bg-red-800"
+                                className="text-[15px] bg-green-600 py-[5px] px-[8px] rounded-md hover:bg-red-800"
                             >
-                                Disconnect
+                                Connected: {shortenAddress(walletAddress)}
                             </button>
                         </div>
                     ) : (
