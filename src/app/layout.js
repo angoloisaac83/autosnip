@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
        <link rel="icon" href="/alogo.jpg" />
       <body
-      
+      suppressHydrationWarning={true} 
        
         className={`${geistSans.variable} gra ${geistMono.variable} antialiased`}
       >
