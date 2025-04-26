@@ -1,15 +1,14 @@
 "use client"
-import MemeCoins from "@/app/memes";
 import Image from "next/image";
 import { useState } from "react";
 import { IoWallet } from "react-icons/io5";
 import WalletModal from '@/components/connectModal';
 import GetStarted from "@/components/getstarted";
 import TokenList from "@/components/tokenList";
+import MemeCoins from "@/app/memes";
 import dynamic from 'next/dynamic';
 
 export default function Home() {
-  const MemeCoins = dynamic(() => import('@/components/memes'), { ssr: false });
   const [modalOpen, setModalOpen] = useState(false);
   const [connectedWallet, setConnectedWallet] = useState(null);
   const [walletAddress, setWalletAddress] = useState('');
