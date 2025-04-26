@@ -53,17 +53,21 @@ export default function MemeCoins() {
       />
       <table>
         <thead>
-          <tr><th>#</th><th>Name</th><th>Spike</th><th>Liquidity</th><th>Link</th></tr>
+          <tr><th>#</th><th>Name</th><th>Spike</th><th>Liquidity</th><th>view chart</th></tr>
         </thead>
         <tbody>
           {slice.map((t,i) => (
             <tr key={t.tokenAddress}>
-              <td>{(page-1)*perPage + i + 1}</td>
-              <td>{t.header}</td>
-              <td>{t.amount}</td>
-              <td>{t.totalAmount}</td>
-              <td><a href={t.url} target="_blank">View</a></td>
-            </tr>
+            <td>{(page-1)*perPage + i + 1}</td>
+            <td>{t.header}</td>
+            <td>{t.amount}</td>
+            <td>{t.totalAmount}</td>
+            <td>
+              <a href={`https://www.dextools.io/app/en/ether/pair-explorer/${t.tokenAddress}`} target="_blank" rel="noopener noreferrer">
+               View Chart
+              </a>
+            </td>
+          </tr>
           ))}
         </tbody>
       </table>
