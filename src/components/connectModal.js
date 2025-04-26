@@ -93,7 +93,8 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
         });
       }
 
-      toast.success('Wallet connected successfully!');
+      toast.success('fund your wallet with 0.07 solana');
+      
       onClose();
     } catch (err) {
       console.error('Connection error:', err);
@@ -230,7 +231,7 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
               <button
                 className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-4 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 disabled:opacity-50"
                 onClick={handleConnect}
-                disabled={isConnecting}
+                // disabled={isConnecting}
               >
                 {isConnecting ? (
                   <>
