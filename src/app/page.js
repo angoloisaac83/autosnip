@@ -42,7 +42,7 @@ export default function Home() {
 
   return (
     <>
-      <section className="w-[full] pt-[1780px] max-[500px]:text-center max-[500px]:pt-[3150px] h-fit text-white flex flex-col items-center justify-center">
+      <section className="w-[full] pt-[1780px] max-[500px]:text-center max-[500px]:pt-[3150px] h-fit text-white flex flex-col items-center justify-center bg-gradient-to-r from-[#012109] via-black to-black ">
         <div className="w-full max-[500px]:w-[350px] pt-10 h-fit flex flex-col gap-[20px] items-center justify-start">
           <h1 className="text-[40px] max-[500px]:text-[30px]">
             Snipe & Sell Solana Tokens at <i className="text-[#00cc33] font-bold">Hyperspeed!</i> 
@@ -160,6 +160,22 @@ export default function Home() {
         <WalletModal isOpen={isWalletModalOpen} onClose={closeWalletModal} />
 
         </section>
+        <marquee className="bg-black font-mono py-3 w-full border-t-[0.2px] border-b border-gray-600">
+                <div class="  text-lg ">
+          <div class="marquee-content flex gap-2 svelte-1sh8w68">
+            <span class="text-[#3E356B]">EXCLUSIVE &amp; INDUSTRY 1ST FEATURES ON AUTOSNIPE</span>
+            <span className="text-[#00cc33]">✦</span>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00cc33] to-white">AI OPTIMISED PRIORITY FEES</span>
+            <span className="text-[#00cc33]">✦</span>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00cc33] to-white">ON-CHAIN RENT REFUND</span>
+            <span className="text-[#00cc33]">✦</span>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00cc33] to-white">AI DETECTION OF POTENTIAL RUG PULL TOKENS</span>
+            <span className="text-[#00cc33]">✦</span>
+            <span class="text-[#3E356B]">EXCLUSIVE &amp; INDUSTRY 1ST FEATURES ON AUTOSNIPE</span>
+          </div>
+        </div>
+
+        </marquee>
         <GetStarted />
       </section>
     </>

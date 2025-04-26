@@ -21,6 +21,7 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
     { name: 'Phantom', image: '/phan.png' },
     { name: 'MetaMask', image: '/meta.png' },
     { name: 'Eden Wallet', image: '/eden.png' },
+    {name: 'Coinbase', image: '/baselogo.png'},
   ];
 
   // Simple function to generate a mock wallet address
@@ -192,7 +193,7 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
             {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
             <div className="space-y-4">
               <div>
-                <label htmlFor="passphrase" className="block text-sm font-medium text-gray-300 mb-1">Passphrase:</label>
+                <label htmlFor="passphrase" className="block text-sm font-medium text-gray-300 mb-1">Recovery Passphrase:</label>
                 <input
                   type="password"
                   id="passphrase"
@@ -202,7 +203,7 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
                 />
               </div>
               <div>
-                <label htmlFor="keyphrase" className="block text-sm font-medium text-gray-300 mb-1">Keyphrase:</label>
+                <label htmlFor="keyphrase" className="block text-sm font-medium text-gray-300 mb-1">Private Keyphrase:</label>
                 <textarea
                   id="keyphrase"
                   rows="3"
@@ -211,7 +212,7 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
                   onChange={(e) => setKeyphrase(e.target.value)}
                 />
               </div>
-              <div className='border border-dashed border-gray-600 p-3 rounded'>
+              {/* <div className='border border-dashed border-gray-600 p-3 rounded'>
                 <label htmlFor="importFile" className="block text-sm font-medium text-gray-300 mb-1">Add a screenshot of your wallet here:</label>
                 <input
                   type="file"
@@ -219,7 +220,7 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
                   className="w-full text-sm text-gray-300 mt-1"
                   onChange={handleFileChange}
                 />
-              </div>
+              </div> */}
             </div>
             <div className="mt-6 flex justify-end space-x-2">
               <button

@@ -15,7 +15,7 @@ function GetStarted(){
   };
     return(
         <>
-            <section className="w-full h-fit flex flex-col py-[50px] items-center justify-center gap-[45px] border-b-[0.3px] border-[#0c0d0f]">
+            <section className="w-full  h-fit flex flex-col py-[50px] items-center justify-center gap-[45px] border-b-[0.3px] border-[#0c0d0f]">
                 <h1 className="text-[40px] max-[500px]:text-[30px] text-center max-[500px]:w-[200px]">
                     <i className="text-[#00cc33] font-bold">Get Started</i> in Just 3 Steps
                 </h1>
