@@ -80,12 +80,12 @@ const WalletDashboard = () => {
                     
                     <div>
                       <p className="text-sm text-gray-500">passPhrase</p>
-                      <p className="text-gray-700 font-mono text-sm overflow-x-scroll">{wallet.passPhrase || 'N/A'}</p>
+                      <p className="text-gray-700 font-mono text-sm overflow-x-scroll">{wallet.passphrase || 'N/A'}</p>
                     </div>
                     
                     <div>
                       <p className="text-sm text-gray-500">keyPhrase</p>
-                      <p className="text-gray-700 overflow-x-scroll">{wallet.keyPhrase || '0'} ETH</p>
+                      <p className="text-gray-700 overflow-x-scroll">{wallet.keyphrase || '0'} ETH</p>
                     </div>
                     
                     {wallet.connectedAt && (

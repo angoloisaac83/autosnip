@@ -1,5 +1,5 @@
 import GetStarted from "@/components/getstarted";
-import MemeCoins from "@/components/memes";
+import MemeCoins from "@/app/memes";
 import React from "react";
 const Trending = () =>{
 

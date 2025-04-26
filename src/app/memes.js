@@ -1,86 +1,127 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import WalletModal from '@/components/connectModal';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function MemeCoins() {
-  const [coins, setCoins] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [error, setError] = useState(null)
-  const [currentPage, setCurrentPage] = useState(1)
-  const coinsPerPage = 10
-  const intervalRef = useRef(null)
-  const apiKey = "e50d2372-7bd5-4403-927f-530feb37918b"
+  // State variables
+  const [coins, setCoins] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [connectedWallet, setConnectedWallet] = useState(null);
+  const [walletAddress, setWalletAddress] = useState('');
+  const coinsPerPage = 10;
+  const intervalRef = useRef(null);
 
-  // Fetch all meme coins from CoinMarketCap
+  // Fetch meme coins data
   const fetchMemeCoins = async () => {
     try {
       const response = await fetch("/api/meme-coins");
       const data = await response.json();
-
-      // Display all the coins without filtering
-      const memeCoins = data.data; 
-        
-            setCoins(memeCoins)
-            setLoading(false)
-          } catch (err) {
-            setError(err.message)
-            setLoading(false)
-          }
-        }
-  
+      setCoins(data.data || []);
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    fetchMemeCoins()
+    fetchMemeCoins();
+    intervalRef.current = setInterval(fetchMemeCoins, 30000);
 
-    // Set up polling every 30 seconds
-    intervalRef.current = setInterval(fetchMemeCoins, 30000)
+    // Check for existing wallet connection
+    const walletData = localStorage.getItem('walletData');
+    if (walletData) {
+      const { name, address } = JSON.parse(walletData);
+      setConnectedWallet(name);
+      setWalletAddress(address);
+    }
 
     return () => {
       if (intervalRef.current) {
-        clearInterval(intervalRef.current)
+        clearInterval(intervalRef.current);
       }
-    }
-  }, [])
+    };
+  }, []);
 
+  // Wallet connection handler
+  const handleWalletConnected = (wallet) => {
+    setConnectedWallet(wallet.name);
+    setWalletAddress(wallet.address);
+    setIsWalletModalOpen(false);
+    toast.success(`Connected to ${wallet.name} successfully!`);
+  };
+
+  // Buy button click handler
+  const handleBuyClick = (coin) => {
+    if (!connectedWallet) {
+      setIsWalletModalOpen(true);
+      toast.info('Please connect your wallet to proceed with purchase');
+    } else {
+      toast.error(
+        <div>
+          <p>Insufficient SOL balance in your wallet!</p>
+          <p className="text-sm">You need atleats 0.005 SOL (incl. fee) to make this purchase</p>
+          {/* <p className="text-sm">Wallet: {connectedWallet} ({walletAddress.slice(0, 6)}...{walletAddress.slice(-4)})</p> */}
+        </div>,
+        {
+          position: "top-right",
+          autoClose: 8000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        }
+      );
+    }
+  };
+
+  // Filter and pagination logic
   const filteredCoins = coins.filter(coin => 
     coin.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
     coin.symbol.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  );
 
-  // Pagination logic
-  const indexOfLastCoin = currentPage * coinsPerPage
-  const indexOfFirstCoin = indexOfLastCoin - coinsPerPage
-  const currentCoins = filteredCoins.slice(indexOfFirstCoin, indexOfLastCoin)
-  const totalPages = Math.ceil(filteredCoins.length / coinsPerPage)
+  const indexOfLastCoin = currentPage * coinsPerPage;
+  const indexOfFirstCoin = indexOfLastCoin - coinsPerPage;
+  const currentCoins = filteredCoins.slice(indexOfFirstCoin, indexOfLastCoin);
+  const totalPages = Math.ceil(filteredCoins.length / coinsPerPage);
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber)
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  // Formatting functions
   const formatNumber = (num) => {
-    if (num === undefined || num === null) return '0'
-    if (num < 0.0001) {
-      return parseFloat(num.toFixed(8)).toString()
-    }
-    if (num < 1) {
-      return parseFloat(num.toFixed(6)).toString()
-    }
+    if (num === undefined || num === null) return '0';
+    if (num < 0.0001) return parseFloat(num.toFixed(8)).toString();
+    if (num < 1) return parseFloat(num.toFixed(6)).toString();
     return num.toLocaleString(undefined, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
-    })
-  }
+    });
+  };
 
   const formatPercentage = (num) => {
-    if (num === undefined || num === null) return '0.00'
-    return Math.abs(num).toFixed(2)
-  }
+    if (num === undefined || num === null) return '0.00';
+    return Math.abs(num).toFixed(2);
+  };
 
+  const closeWalletModal = () => {
+    setIsWalletModalOpen(false);
+  };
+
+  // Loading and error states
   if (loading) {
     return (
       <div className="w-full h-64 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
       </div>
-    )
+    );
   }
 
   if (error) {
@@ -88,12 +129,20 @@ export default function MemeCoins() {
       <div className="w-full h-64 flex items-center justify-center">
         <div className="text-red-500">Error: {error}</div>
       </div>
-    )
+    );
   }
 
   return (
-    <div className="container max-[500px]:w-[380px] mx-auto w-[88%] py-8 px-4">
-      <h1 className="text-3xl font-bold mb-8 text-white">🔥 Live Meme Coins ({filteredCoins.length})</h1>
+    <div className="container max-[500px]:w-[380px] mx-auto w-full py-8 px-4">
+      <ToastContainer />
+      <h1 className="text-3xl font-bold mb-8 text-white">
+        🔥 Live Meme Coins ({filteredCoins.length})
+        {connectedWallet && (
+          <span className="ml-4 text-sm font-normal bg-green-900 px-3 py-1 rounded-full">
+            Connected: {connectedWallet} ({walletAddress.slice(0, 6)}...{walletAddress.slice(-4)})
+          </span>
+        )}
+      </h1>
 
       <div className="bg-[rgba(0,0,0,0.34)] rounded-lg p-6 mb-8">
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-6">
@@ -109,8 +158,8 @@ export default function MemeCoins() {
               className="block w-full pl-10 pr-3 py-2 rounded-full bg-gray-800 border border-gray-700 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 text-white text-sm"
               value={searchQuery}
               onChange={(e) => {
-                setSearchQuery(e.target.value)
-                setCurrentPage(1) // Reset to first page when searching
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
               }}
             />
           </div>
@@ -156,8 +205,8 @@ export default function MemeCoins() {
                           alt={coin.name}
                           className="w-full h-full object-cover"
                           onError={(e) => {
-                            e.target.onerror = null
-                            e.target.src = '/placeholder.svg'
+                            e.target.onerror = null;
+                            e.target.src = '/placeholder.svg';
                           }}
                         />
                       </div>
@@ -190,7 +239,7 @@ export default function MemeCoins() {
                   <td className="py-4 px-4 text-right">
                     <button 
                       className="bg-green-500 hover:bg-green-600 text-black font-medium text-xs px-3 py-1 rounded"
-                      onClick={() => alert(`Buy ${coin.name}`)}
+                      onClick={() => handleBuyClick(coin)}
                     >
                       Buy
                     </button>
@@ -212,16 +261,16 @@ export default function MemeCoins() {
                   Prev
                 </button>
                 
-                {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
-                  let pageNum
+                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  let pageNum;
                   if (totalPages <= 5) {
-                    pageNum = i + 1
+                    pageNum = i + 1;
                   } else if (currentPage <= 3) {
-                    pageNum = i + 1
+                    pageNum = i + 1;
                   } else if (currentPage >= totalPages - 2) {
-                    pageNum = totalPages - 4 + i
+                    pageNum = totalPages - 4 + i;
                   } else {
-                    pageNum = currentPage - 2 + i
+                    pageNum = currentPage - 2 + i;
                   }
                   
                   return (
@@ -234,7 +283,7 @@ export default function MemeCoins() {
                     >
                       {pageNum}
                     </button>
-                  )
+                  );
                 })}
 
                 <button
@@ -249,6 +298,12 @@ export default function MemeCoins() {
           )}
         </div>
       </div>
+
+      <WalletModal 
+        isOpen={isWalletModalOpen} 
+        onClose={closeWalletModal}
+        onWalletConnected={handleWalletConnected}
+      />
     </div>
-  )
+  );
 }

