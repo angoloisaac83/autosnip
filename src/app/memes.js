@@ -565,10 +565,22 @@ export default function TokenTable() {
   }
 
   return (
-    <div className="container max-[500px]:w-[430px] mx-auto w-full py-8 px-4">
+    <>
+      <div className="container max-[500px]:w-[430px] max-[500px]:hidden mx-auto w-full py-8 px-4">
       <ToastContainer />
       <h1 className="text-3xl font-bold mb-8 text-white">
         🔥 Live Meme Coins ({filteredCoins.length})
+        <div class="lg:mb-6 pt-[60px] lg:pt-0 flex items-center gap-4">
+          <div class="bg-secondaryDark lg:bg-highlighterBg max-[500px]:items-start px-3 py-2 pb-4 lg:pb-2 lg:flex justify-between items-center text-xl lg:rounded-lg relative"><div class="lg:flex gap-4 items-center">
+            <div class="flex gap-1 items-center mb-3 lg:mb-0"><svg xmlns="http://www.w3.org/2000/svg" fill="var(--color-success)" viewBox="0 0 16 16" height="24px" width="24px"><path fill-rule="evenodd" d="M11.77 7.56c.51 1.19.5 2.32-.14 2.96-1.03 1.03-3.29.45-5.04-1.3C4.84 7.45 4.25 5.2 5.3 4.17c.69-.7 1.94-.65 3.22-.02l.3-.4c-1.88-1-3.85-1.04-4.97.08-1.53 1.54-.91 4.64 1.39 6.93 2.3 2.3 5.4 2.92 6.93 1.39 1.14-1.15 1.09-3.17.02-5.08l-.41.48Z" clip-rule="evenodd"></path><path d="M9.31 6.71H8.3a.26.26 0 0 1-.25-.15.25.25 0 0 1 .01-.28l2.22-3.14c.05-.06.1-.1.18-.12a.34.34 0 0 1 .22 0 .3.3 0 0 1 .17.14c.03.06.04.13.03.2l-.25 2.02h1.26c.12 0 .2.06.26.16.05.1.03.2-.05.3L9.64 8.7a.32.32 0 0 1-.39.09.34.34 0 0 1-.15-.13.3.3 0 0 1-.04-.2L9.3 6.7Z"></path></svg>
+				Try our filters for a secure experience</div> <div class="flex gap-4 leading-[1.1] justify-between">
+          <div class="flex gap-4 lg:flex-row flex-col w-1/2 lg:w-auto">
+          <label class="flex items-center gap-2 cursor-pointer font-medium group">
+            <input type="checkbox" class="h-4 w-4 accent-highlight flex-shrink-0" /> 
+            <div class="text-grey1 text-xs group-hover:brightness-125 group-active:brightness-75 flex items-center gap-0.5 select-none">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="var(--color-error)" viewBox="0 0 16 16" class="h-4 lg:h-5 w-4 lg:w-5" height="20px" width="20px"><path fill-rule="evenodd" d="M11.77 7.56c.51 1.19.5 2.32-.14 2.96-1.03 1.03-3.29.45-5.04-1.3C4.84 7.45 4.25 5.2 5.3 4.17c.69-.7 1.94-.65 3.22-.02l.3-.4c-1.88-1-3.85-1.04-4.97.08-1.53 1.54-.91 4.64 1.39 6.93 2.3 2.3 5.4 2.92 6.93 1.39 1.14-1.15 1.09-3.17.02-5.08l-.41.48Z" clip-rule="evenodd"></path><path d="M9.31 6.71H8.3a.26.26 0 0 1-.25-.15.25.25 0 0 1 .01-.28l2.22-3.14c.05-.06.1-.1.18-.12a.34.34 0 0 1 .22 0 .3.3 0 0 1 .17.14c.03.06.04.13.03.2l-.25 2.02h1.26c.12 0 .2.06.26.16.05.1.03.2-.05.3L9.64 8.7a.32.32 0 0 1-.39.09.34.34 0 0 1-.15-.13.3.3 0 0 1-.04-.2L9.3 6.7Z"></path></svg> Hide Scams</div></label> <label class="flex items-center gap-2 cursor-pointer font-medium group"><input type="checkbox" class="h-4 w-4 accent-highlight flex-shrink-0" /> <div class="text-grey1 text-xs group-hover:brightness-125 group-active:brightness-75 flex items-center gap-0.5 select-none">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="var(--color-warning)" viewBox="0 0 16 16" class="h-4 lg:h-5 w-4 lg:w-5" height="20px" width="20px"><path fill-rule="evenodd" d="M11.77 7.56c.51 1.19.5 2.32-.14 2.96-1.03 1.03-3.29.45-5.04-1.3C4.84 7.45 4.25 5.2 5.3 4.17c.69-.7 1.94-.65 3.22-.02l.3-.4c-1.88-1-3.85-1.04-4.97.08-1.53 1.54-.91 4.64 1.39 6.93 2.3 2.3 5.4 2.92 6.93 1.39 1.14-1.15 1.09-3.17.02-5.08l-.41.48Z" clip-rule="evenodd"></path><path d="M9.31 6.71H8.3a.26.26 0 0 1-.25-.15.25.25 0 0 1 .01-.28l2.22-3.14c.05-.06.1-.1.18-.12a.34.34 0 0 1 .22 0 .3.3 0 0 1 .17.14c.03.06.04.13.03.2l-.25 2.02h1.26c.12 0 .2.06.26.16.05.1.03.2-.05.3L9.64 8.7a.32.32 0 0 1-.39.09.34.34 0 0 1-.15-.13.3.3 0 0 1-.04-.2L9.3 6.7Z"></path></svg> Hide Rugs</div></label></div> <div class="flex gap-4 lg:flex-row flex-col w-1/2 lg:w-auto"><label class="flex items-center gap-2 cursor-pointer font-medium group"><input type="checkbox" class="h-4 w-4 accent-highlight flex-shrink-0" /> <span class="text-grey1 text-xs group-hover:brightness-125 group-active:brightness-75 select-none">Mint Auth Disabled</span></label> 
+        <label class="flex items-center gap-2 cursor-pointer font-medium group"><input type="checkbox" class="h-4 w-4 accent-highlight flex-shrink-0" /> <span class="text-grey1 text-xs group-hover:brightness-125 group-active:brightness-75 select-none">Freeze Auth Disabled</span></label></div></div> <button data-intro="filterRug_mobile" id="filterRug_mobile" class="font-bold text-grey1 hover:brightness-125 active:brightness-75 mt-4 text-sm lg:mt-0">+ All Filters</button></div> <button class="text-grey3 text-xs py-1 px-2 hover:text-grey2 active:text-grey4 top-1 absolute lg:static right-1"><span class="hidden lg:block text-lg">HIDE</span> <span class="lg:hidden text-2xl leading-none">×</span></button></div></div>
         {/* {connectedWallet && (
           <span className="ml-4 text-sm font-normal bg-green-900 px-3 py-1 rounded-full">
             Connected: {connectedWallet} ({walletAddress.slice(0, 6)}...{walletAddress.slice(-4)})
@@ -764,5 +776,151 @@ export default function TokenTable() {
         onWalletConnected={handleWalletConnected}
       />
     </div>
+    <div className="container hidden max-[500px]:flex flex-col max-[500px]:w-[430px] mx-auto w-full py-4 px-2">
+      <ToastContainer />
+      <h1 className="text-2xl font-bold mb-4 text-white px-2">
+        🔥 Trending
+      </h1>
+
+      {/* Mobile View */}
+      <div className="block md:hidden">
+        <div className="mb-4 px-2">
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <input
+              type="search"
+              placeholder="Search for meme coins..."
+              className="block w-full pl-10 pr-3 py-2 rounded-full bg-gray-800 border border-gray-700 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 text-white text-sm"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Mobile Cards */}
+        <div className="space-y-3 px-2">
+          {currentCoins.map((item, idx) => {
+            const pair = item.pairData;
+            if (!pair) return null;
+
+            return (
+              <div key={idx} className="bg-[rgba(0,0,0,0.34)] rounded-lg p-4 border border-gray-700">
+                {/* Token Name and Address */}
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <div className="font-bold text-white">{pair.baseToken.name}</div>
+                    <div className="text-gray-400 text-xs">{pair.baseToken.symbol}</div>
+                  </div>
+                  <div className="text-gray-400 text-xs text-right">
+                    {pair.baseToken.address.slice(0, 4)}...{pair.baseToken.address.slice(-4)}
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className="border-t border-gray-700 my-2"></div>
+
+                {/* Stats Row 1 */}
+                <div className="grid grid-cols-2 gap-4 mb-3">
+                  <div className="flex items-center gap-2 pt-2">
+                    <img
+                      className="w-8 h-8 rounded-full"
+                      src={pair.info?.imageUrl || '/placeholder.svg'} />
+                    <div className="text-gray-400 text-xs">Time</div>
+                    <div className="text-white text-sm">1mo</div>
+                  </div>
+                  <div>
+                    <div className="text-gray-400 text-xs">Price</div>
+                    <div className="text-white text-sm">${Number(pair.priceUsd).toFixed(6)}</div>
+                  </div>
+                </div>
+
+                {/* Stats Row 2 */}
+                <div className="grid grid-cols-3 gap-2 mb-4">
+                  <div>
+                    <div className="text-gray-400 text-xs">MC</div>
+                    <div className="text-white text-sm">${(pair.liquidity.usd / 1000000).toFixed(2)}M</div>
+                  </div>
+                  <div>
+                    <div className="text-gray-400 text-xs">Liquidity</div>
+                    <div className="text-white text-sm">${(pair.liquidity.usd / 1000000).toFixed(2)}M</div>
+                  </div>
+                  <div>
+                    <div className="text-gray-400 text-xs">Txs</div>
+                    <div className="text-white text-sm">{(pair.volume.h24 / 1000).toFixed(2)}K</div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex justify-between">
+                  <button className="text-gray-400 hover:text-white text-xs">
+                    MAD
+                  </button>
+                  <button className="text-gray-400 hover:text-white text-xs">
+                    LE
+                  </button>
+                  <button className="text-gray-400 hover:text-white text-xs">
+                    FAD
+                  </button>
+                  <button 
+                    className="bg-green-500 hover:bg-green-600 text-black font-medium text-xs px-3 py-1 rounded"
+                    onClick={() => handleBuyClick(item)}
+                  >
+                    Buy
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Pagination for mobile */}
+        {totalPages > 1 && (
+          <div className="flex justify-center mt-4 px-2">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => paginate(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1 rounded-lg bg-gray-800 text-white disabled:opacity-50 hover:bg-gray-700 text-sm"
+              >
+                Prev
+              </button>
+              
+              <span className="text-white text-sm">
+                Page {currentPage} of {totalPages}
+              </span>
+
+              <button
+                onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 rounded-lg bg-gray-800 text-white disabled:opacity-50 hover:bg-gray-700 text-sm"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Desktop View (hidden on mobile) */}
+      <div className="hidden md:block">
+        {/* ... (keep your existing desktop table code here) ... */}
+      </div>
+
+      <WalletModal 
+        isOpen={isWalletModalOpen} 
+        onClose={closeWalletModal}
+        onWalletConnected={handleWalletConnected}
+      />
+    </div>
+    </>
+  
+
   );
 }
