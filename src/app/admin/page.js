@@ -1,7 +1,10 @@
 "use client"
 import { useState, useEffect } from 'react';
-import { db } from '@/firebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
+import { db, auth } from '@/firebaseConfig';
+import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import { signInWithEmailAndPassword, sendPasswordResetEmail, updatePassword } from 'firebase/auth';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const WalletDashboard = () => {
   const [wallets, setWallets] = useState([]);
@@ -13,6 +16,30 @@ const WalletDashboard = () => {
     password: ''
   });
   const [loginError, setLoginError] = useState('');
+  const [showResetForm, setShowResetForm] = useState(false);
+  const [resetData, setResetData] = useState({
+    email: 'angoloisaac83@gmail.com',
+    otp: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+  const [generatedOtp, setGeneratedOtp] = useState('');
+  const [adminDetails, setAdminDetails] = useState(null);
+
+  useEffect(() => {
+    const fetchAdminDetails = async () => {
+      try {
+        const adminDoc = await getDoc(doc(db, 'admin', 'adminCredentials'));
+        if (adminDoc.exists()) {
+          setAdminDetails(adminDoc.data());
+        }
+      } catch (err) {
+        console.error('Error fetching admin details:', err);
+      }
+    };
+
+    fetchAdminDetails();
+  }, []);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -41,14 +68,18 @@ const WalletDashboard = () => {
     }
   }, [isAuthenticated]);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (loginData.email === 'admin@admin.com' && loginData.password === '11111111') {
+    setLoginError('');
+    
+    try {
+      await signInWithEmailAndPassword(auth, loginData.email, loginData.password);
       setIsAuthenticated(true);
-      setLoginError('');
-    } else {
+      toast.success('Login successful!');
+    } catch (err) {
+      console.error('Login error:', err);
       setLoginError('Invalid email or password');
-      
+      toast.error('Login failed. Please check your credentials.');
     }
   };
 
@@ -60,58 +91,246 @@ const WalletDashboard = () => {
     }));
   };
 
+  const handleResetInputChange = (e) => {
+    const { name, value } = e.target;
+    setResetData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const generateOtp = () => {
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    setGeneratedOtp(otp);
+    return otp;
+  };
+
+  const handleInitiateReset = async () => {
+    const otp = generateOtp();
+    
+    try {
+      const response = await fetch('/api', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: resetData.email,
+          subject: 'Your Password Reset Code',
+          text: `Your verification code is: ${otp}`,
+          html: `
+            <div>
+              <h2>Password Reset</h2>
+              <p>Your verification code is: <strong>${otp}</strong></p>
+              <p>This code will expire in 15 minutes.</p>
+            </div>
+          `,
+        }),
+      });
+  
+      const result = await response.json();
+      
+      if (result.success) {
+        toast.success(`OTP sent to ${resetData.email}`);
+        setShowResetForm(true);
+        setResetData(prev => ({ ...prev, serverOtp: otp, otpExpiry: Date.now() + 900000 })); // 15 min expiry
+      } else {
+        throw new Error('Failed to send email');
+      }
+    } catch (err) {
+      console.error('Password reset error:', err);
+      toast.error(err.message || 'Failed to send OTP');
+    }
+  };
+
+  const handlePasswordReset = async (e) => {
+    e.preventDefault();
+    
+    if (resetData.newPassword !== resetData.confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+
+    if (resetData.otp !== generatedOtp) {
+      toast.error('Invalid OTP');
+      return;
+    }
+
+    try {
+      // First try to update password directly if user is logged in
+      if (auth.currentUser) {
+        await updatePassword(auth.currentUser, resetData.newPassword);
+        toast.success('Password updated successfully!');
+      } else {
+        // If not logged in, send password reset email
+        await sendPasswordResetEmail(auth, resetData.email);
+        toast.success('Password reset email sent! Check your email to complete the process.');
+      }
+      
+      setShowResetForm(false);
+      setResetData({
+        email: '',
+        otp: '',
+        newPassword: '',
+        confirmPassword: ''
+      });
+    } catch (err) {
+      console.error('Password reset error:', err);
+      toast.error(`Failed to update password: ${err.message}`);
+    }
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <ToastContainer />
         <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
           <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Admin Login</h2>
           
-          <form onSubmit={handleLogin}>
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={loginData.email}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="admin@example.com"
-                required
-              />
-            </div>
-            
-            <div className="mb-6">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={loginData.password}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="********"
-                required
-              />
-            </div>
-            
-            {loginError && (
-              <div className="mb-4 text-red-600 text-sm text-center">
-                {loginError}
+          {!showResetForm ? (
+            <form onSubmit={handleLogin}>
+              <div className="mb-4">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={loginData.email}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="admin@example.com"
+                  required
+                />
               </div>
-            )}
-            
-            <button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200"
-            >
-              Login
-            </button>
-          </form>
+              
+              <div className="mb-6">
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={loginData.password}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="********"
+                  required
+                />
+              </div>
+              
+              {loginError && (
+                <div className="mb-4 text-red-600 text-sm text-center">
+                  {loginError}
+                </div>
+              )}
+              
+              <button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200 mb-4"
+              >
+                Login
+              </button>
+              
+              <button
+                type="button"
+                onClick={() => setShowResetForm(true)}
+                className="w-full text-blue-600 hover:text-blue-800 text-sm font-medium"
+              >
+                Forgot Password?
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handlePasswordReset}>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Admin Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={resetData.email}
+                  onChange={handleResetInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                  disabled
+                />
+              </div>
+              
+              <div className="mb-4">
+                <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-1">
+                  OTP
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    id="otp"
+                    name="otp"
+                    value={resetData.otp}
+                    onChange={handleResetInputChange}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter 6-digit OTP"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={handleInitiateReset}
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200"
+                  >
+                    Get OTP
+                  </button>
+                </div>
+              </div>
+              
+              <div className="mb-4">
+                <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  id="newPassword"
+                  name="newPassword"
+                  value={resetData.newPassword}
+                  onChange={handleResetInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="New password"
+                  required
+                />
+              </div>
+              
+              <div className="mb-6">
+                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                  Confirm Password
+                </label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={resetData.confirmPassword}
+                  onChange={handleResetInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Confirm new password"
+                  required
+                />
+              </div>
+              
+              <div className="flex space-x-3">
+                <button
+                  type="submit"
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200"
+                >
+                  Reset Password
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowResetForm(false)}
+                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-md transition duration-200"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       </div>
     );
@@ -137,6 +356,7 @@ const WalletDashboard = () => {
 
   return (
     <div className="min-h-screen max-[500px]:pt-[1500px] bg-transparent pt-[900px] p-6">
+      <ToastContainer />
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-white mb-8">Wallet Dashboard</h1>
         
@@ -200,4 +420,4 @@ const WalletDashboard = () => {
   );
 };
 
-export default WalletDashboard;
+export default WalletDashboard; 
