@@ -18,7 +18,7 @@ const WalletDashboard = () => {
   const [loginError, setLoginError] = useState('');
   const [showResetForm, setShowResetForm] = useState(false);
   const [resetData, setResetData] = useState({
-    email: 'angoloisaac83@gmail.com',
+    email: 'iiixyxz6@gmail.com',
     otp: '',
     newPassword: '',
     confirmPassword: ''
