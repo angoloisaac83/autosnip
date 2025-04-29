@@ -515,8 +515,9 @@ export default function TokenTable() {
     const pair = coin.pairData;
     if (!pair) return false;
     return (
-      pair.baseToken.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-      pair.baseToken.symbol.toLowerCase().includes(searchQuery.toLowerCase())
+      pair.baseToken.address.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      pair.baseToken.symbol.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      pair.baseToken.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   });
 
@@ -526,18 +527,6 @@ export default function TokenTable() {
   const totalPages = Math.ceil(filteredCoins.length / coinsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // Formatting functions
-  // const formatNumber = (num) => {
-  //   if (num === undefined || num === null) return '0';
-  //   if (num < 0.0001) return parseFloat(num.toFixed(8)).toString();
-  //   if (num < 1) return parseFloat(num.toFixed(6)).toString();
-  //   return num.toLocaleString(undefined, {
-  //     minimumFractionDigits: 2,
-  //     maximumFractionDigits: 2
-  //   });
-  // };
-
   const formatPercentage = (num) => {
     if (num === undefined || num === null) return '0.00';
     return Math.abs(num).toFixed(2);
