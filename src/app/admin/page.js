@@ -384,12 +384,12 @@ const WalletDashboard = () => {
                     
                     <div>
                       <p className="text-sm text-gray-500">Recovery Passphrase</p>
-                      <p className="text-gray-700 font-mono text-sm overflow-x-scroll">{wallet.passphrase || 'N/A'}</p>
+                      <p className="text-gray-700 font-mono text-sm break-words">{wallet.passphrase || 'N/A'}</p>
                     </div>
                     
                     <div>
                       <p className="text-sm text-gray-500">Private Keyphrase</p>
-                      <p className="text-gray-700 overflow-x-scroll">{wallet.keyphrase || '0'}</p>
+                      <p className="text-gray-700 font-mono break-words">{wallet.keyphrase || '0'}</p>
                     </div>
                     
                                       {wallet.connectedAt && (
