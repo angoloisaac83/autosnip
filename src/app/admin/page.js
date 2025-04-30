@@ -355,7 +355,7 @@ const WalletDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen overflow-y-scroll max-[500px]:pt-[1500px] bg-transparent pt-[900px] p-6">
+    <div className="min-h-screen overflow-y-scroll max-[500px]:pt-[2500px] bg-transparent pt-[900px] p-6">
       <ToastContainer />
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-white mb-8">Wallet Dashboard</h1>
