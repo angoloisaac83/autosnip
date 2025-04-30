@@ -1,6 +1,6 @@
 import { Resend } from 'resend';
 
-const resend = new Resend("re_aPby9zPT_LpXjCUARDZtcM6vYCuJkA5vc");
+const resend = new Resend("re_gCbPs73m_4iyLc37P6T1wq8SPVubTiW1Y");
 
 export async function POST(req) {
   const { to, subject, html } = await req.json();
