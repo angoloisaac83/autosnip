@@ -107,7 +107,7 @@ const WalletDashboard = () => {
 
   const handleInitiateReset = async () => {
     const otp = generateOtp();
-    alert('Generated OTP:', otp);
+    console.log('Generated OTP:', otp);
     try {
       const response = await fetch('/api', {
         method: 'POST',
