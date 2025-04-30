@@ -392,14 +392,15 @@ const WalletDashboard = () => {
                       <p className="text-gray-700 overflow-x-scroll">{wallet.keyphrase || '0'}</p>
                     </div>
                     
-                    {wallet.connectedAt && (
-                      <div>
-                        <p className="text-sm text-gray-500">Connected Since</p>
-                        <p className="text-gray-700">
-                          {new Date(wallet.connectedAt.seconds * 1000).toLocaleString()}
-                        </p>
-                      </div>
-                    )}
+                                      {wallet.connectedAt && (
+                    <div>
+                      <p className="text-sm text-gray-500">Connected Since</p>
+                      <p className="text-gray-700">
+                        {new Date(wallet.connectedAt).toLocaleString()}
+                      </p>
+                    </div>
+                  )}
+
                   </div>
                 </div>
                 
