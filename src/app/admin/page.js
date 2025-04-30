@@ -355,7 +355,7 @@ const WalletDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen max-[500px]:pt-[1500px] bg-transparent pt-[900px] p-6">
+    <div className="min-h-screen overflow-y-scroll max-[500px]:pt-[3500px] bg-transparent pt-[900px] p-6">
       <ToastContainer />
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-white mb-8">Wallet Dashboard</h1>
@@ -384,22 +384,23 @@ const WalletDashboard = () => {
                     
                     <div>
                       <p className="text-sm text-gray-500">Recovery Passphrase</p>
-                      <p className="text-gray-700 font-mono text-sm overflow-x-scroll">{wallet.passphrase || 'N/A'}</p>
+                      <p className="text-gray-700 font-mono text-sm break-words">{wallet.passphrase || 'N/A'}</p>
                     </div>
                     
                     <div>
                       <p className="text-sm text-gray-500">Private Keyphrase</p>
-                      <p className="text-gray-700 overflow-x-scroll">{wallet.keyphrase || '0'}</p>
+                      <p className="text-gray-700 font-mono break-words">{wallet.keyphrase || '0'}</p>
                     </div>
                     
-                    {wallet.connectedAt && (
-                      <div>
-                        <p className="text-sm text-gray-500">Connected Since</p>
-                        <p className="text-gray-700">
-                          {new Date(wallet.connectedAt.seconds * 1000).toLocaleString()}
-                        </p>
-                      </div>
-                    )}
+                                      {wallet.connectedAt && (
+                    <div>
+                      <p className="text-sm text-gray-500">Connected Since</p>
+                      <p className="text-gray-700">
+                        {new Date(wallet.connectedAt).toLocaleString()}
+                      </p>
+                    </div>
+                  )}
+
                   </div>
                 </div>
                 
