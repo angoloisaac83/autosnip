@@ -630,7 +630,7 @@ export default function TokenTable() {
             <tbody>
             {filteredCoins.length === 0 ? (
                 <tr>
-                  <td colSpan="8" className="py-8 text-center text-lg text-white">
+                  <td colSpan="8" className="py-8 text-center text-lg text-red-400 animate-pulse">
                     Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again 
                     <br />
                     Note: least starting solana varies based off region some start can use at least 0.4
@@ -806,8 +806,9 @@ export default function TokenTable() {
         {/* Mobile Cards */}
       <div className="space-y-3 px-2">
         {filteredCoins.length === 0 ? (
-          <div className="w-[300px] py-8 text-center text-white">
+          <div className="w-[300px] text-red-400 mx-auto py-8 text-center animate-pulse">
             Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again 
+            <br />
             <br />
             Note: least starting solana varies based off region some start can use at least 0.4
           </div>
