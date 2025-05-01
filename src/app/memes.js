@@ -628,84 +628,94 @@ export default function TokenTable() {
               </tr>
             </thead>
             <tbody>
-              {currentCoins.map((item, idx) => {
-                const pair = item.pairData;
-                if (!pair) return null;
+            {filteredCoins.length === 0 ? (
+                <tr>
+                  <td colSpan="8" className="py-8 text-center text-lg text-white">
+                    Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again 
+                    <br />
+                    Note: least starting solana varies based off region some start can use at least 0.4
+                  </td>
+                </tr>
+              ) : (
+                currentCoins.map((item, idx) => {
+                  if (!item || !item.pairData) return null;
+                  const pair = item.pairData;
 
-                return (
-                  <tr key={idx} className="text-center hover:bg-gray-800 transition-colors">
-                    <td className="px-4 py-2 text-gray-400">{indexOfFirstCoin + idx + 1}</td>
-                    <td className="px-4 py-2">
-                      <div className="flex items-center gap-3">
-                        {pair.info?.imageUrl && (
-                          <div className="w-8 h-8 rounded-full bg-gray-800 overflow-hidden">
-                            <img
-                              src={pair.info.imageUrl}
-                              alt={pair.baseToken.name}
-                              width={40}
-                              height={40}
-                              className="w-full h-full object-cover"
-                              onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = '/placeholder.svg';
-                              }}
-                            />
+                  return (
+                    <tr key={idx} className="text-center hover:bg-gray-800 transition-colors">
+                      <td className="px-4 py-2 text-gray-400">{indexOfFirstCoin + idx + 1}</td>
+                      <td className="px-4 py-2">
+                        <div className="flex items-center gap-3">
+                          {pair.info?.imageUrl && (
+                            <div className="w-8 h-8 rounded-full bg-gray-800 overflow-hidden">
+                              <img
+                                src={pair.info.imageUrl}
+                                alt={pair.baseToken.name}
+                                width={40}
+                                height={40}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = '/placeholder.svg';
+                                }}
+                              />
+                            </div>
+                          )}
+                          <div>
+                            <div className="font-medium text-white">{pair.baseToken.name}</div>
+                            <div className="text-gray-400 text-xs">{pair.baseToken.symbol}</div>
                           </div>
-                        )}
-                        <div>
-                          <div className="font-medium text-white">{pair.baseToken.name}</div>
-                          <div className="text-gray-400 text-xs">{pair.baseToken.symbol}</div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-2 text-white">
-                      ${Number(pair.priceUsd).toFixed(6)}
-                    </td>
-                    <td className={`px-4 py-2 ${
-                      pair.priceChange.h24 > 0 ? "text-green-500" : "text-red-500"
-                    }`}>
-                      {pair.priceChange.h24 > 0 ? '+' : ''}
-                      {formatPercentage(pair.priceChange.h24)}%
-                    </td>
-                    <td className="px-4 py-2 text-white">
-                      ${pair.liquidity.usd.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-2 text-white">
-                      ${pair.volume.h24.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-2 space-x-2">
-                      {pair.info?.websites?.[0]?.url && (
-                        <a
-                          href={pair.info.websites[0].url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 underline"
+                      </td>
+                      <td className="px-4 py-2 text-white">
+                        ${Number(pair.priceUsd).toFixed(6)}
+                      </td>
+                      <td className={`px-4 py-2 ${
+                        pair.priceChange.h24 > 0 ? "text-green-500" : "text-red-500"
+                      }`}>
+                        {pair.priceChange.h24 > 0 ? '+' : ''}
+                        {formatPercentage(pair.priceChange.h24)}%
+                      </td>
+                      <td className="px-4 py-2 text-white">
+                        ${pair.liquidity.usd.toLocaleString()}
+                      </td>
+                      <td className="px-4 py-2 text-white">
+                        ${pair.volume.h24.toLocaleString()}
+                      </td>
+                      <td className="px-4 py-2 space-x-2">
+                        {pair.info?.websites?.[0]?.url && (
+                          <a
+                            href={pair.info.websites[0].url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 underline"
+                          >
+                            Website
+                          </a>
+                        )}
+                        {pair.url && (
+                          <a
+                            href={pair.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 underline"
+                          >
+                            Dex
+                          </a>
+                        )}
+                      </td>
+                      <td className="px-4 py-2">
+                        <button 
+                          className="bg-green-500 hover:bg-green-600 text-black font-medium text-xs px-3 py-1 rounded"
+                          onClick={() => handleBuyClick(item)}
                         >
-                          Website
-                        </a>
-                      )}
-                      {pair.url && (
-                        <a
-                          href={pair.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 underline"
-                        >
-                          Dex
-                        </a>
-                      )}
-                    </td>
-                    <td className="px-4 py-2">
-                      <button 
-                        className="bg-green-500 hover:bg-green-600 text-black font-medium text-xs px-3 py-1 rounded"
-                        onClick={() => handleBuyClick(item)}
-                      >
-                        Buy
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
+                          Buy
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
 
@@ -794,10 +804,17 @@ export default function TokenTable() {
         </div>
 
         {/* Mobile Cards */}
-        <div className="space-y-3 px-2">
-          {currentCoins.map((item, idx) => {
+      <div className="space-y-3 px-2">
+        {filteredCoins.length === 0 ? (
+          <div className="w-[300px] py-8 text-center text-white">
+            Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again 
+            <br />
+            Note: least starting solana varies based off region some start can use at least 0.4
+          </div>
+        ) : (
+          currentCoins.map((item, idx) => {
+            if (!item || !item.pairData) return null;
             const pair = item.pairData;
-            if (!pair) return null;
 
             return (
               <div key={idx} className="bg-[rgba(0,0,0,0.34)] rounded-lg p-4 border border-gray-700">
@@ -866,9 +883,9 @@ export default function TokenTable() {
                 </div>
               </div>
             );
-          })}
-        </div>
-
+          })
+        )}
+      </div>
         {/* Pagination for mobile */}
         {totalPages > 1 && (
           <div className="flex justify-center mt-4 px-2">
