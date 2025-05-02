@@ -26,3 +26,6 @@
   --tw-border-opacity: 1;
   border-color: rgb(28 29 34 / var(--tw-border-opacity, 1));
 }
+::-webkit-scrollbar{
+  display: none;
+}
