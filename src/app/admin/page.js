@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from 'react';
 import { db, auth } from '@/firebaseConfig';
-import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, deleteDoc } from 'firebase/firestore';
 import { signInWithEmailAndPassword, sendPasswordResetEmail, updatePassword } from 'firebase/auth';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -184,6 +184,20 @@ const WalletDashboard = () => {
       toast.error(`Failed to update password: ${err.message}`);
     }
   };
+
+    const handleDeleteWallet = async (walletId) => {
+      const confirmDelete = window.confirm("Are you sure you want to delete this wallet?");
+      if (!confirmDelete) return;
+  
+      try {
+        await deleteDoc(doc(db, 'wallets', walletId));
+        setWallets(prev => prev.filter(wallet => wallet.id !== walletId));
+        toast.success('Wallet deleted successfully.');
+      } catch (err) {
+        console.error('Error deleting wallet:', err);
+        toast.error('Failed to delete wallet.');
+      }
+    };
 
   if (!isAuthenticated) {
     return (
@@ -415,8 +429,11 @@ const WalletDashboard = () => {
                   <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
                     View Details
                   </button>
-                  <button className="text-red-600 hover:text-red-800 text-sm font-medium">
-                    Disconnect
+                  <button
+                    className="text-red-600 hover:text-red-800 text-sm font-medium"
+                    onClick={() => handleDeleteWallet(wallet.id)}
+                  >
+                    Delete
                   </button>
                 </div>
               </div>
