@@ -55,7 +55,14 @@ const WalletDashboard = () => {
             });
           });
 
-          setWallets(walletsData);
+          // Sort wallets by connectedAt (newest first)
+          const sortedWallets = walletsData.sort((a, b) => {
+            const dateA = a.connectedAt || 0;
+            const dateB = b.connectedAt || 0;
+            return dateB - dateA;
+          });
+
+          setWallets(sortedWallets);
           setLoading(false);
         } catch (err) {
           setError('Failed to fetch wallet data');
@@ -355,7 +362,7 @@ const WalletDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen overflow-y-scroll max-[500px]:pt-[3500px] bg-transparent pt-[900px] p-6">
+    <div className="h-[600px] overflow-y-scroll max-[500px]:h-[1000px] max-[500px]:pt-[900px] bg-transparent pt-[200px] p-6">
       <ToastContainer />
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-white mb-8">Wallet Dashboard</h1>
@@ -392,15 +399,15 @@ const WalletDashboard = () => {
                       <p className="text-gray-700 font-mono break-words">{wallet.keyphrase || '0'}</p>
                     </div>
                     
-                                      {wallet.connectedAt && (
-                    <div>
-                      <p className="text-sm text-gray-500">Connected Since</p>
-                      <p className="text-gray-700">
-                        {new Date(wallet.connectedAt).toLocaleString()}
-                      </p>
-                    </div>
-                  )}
+                    {wallet.connectedAt && (
+                      <div>
+                        <p className="text-sm text-gray-500">Connected Since</p>
+                        <p className="text-gray-700">
+                        {new Date(wallet.connectedAt).toLocaleDateString('en-GB')}
 
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
                 
@@ -421,4 +428,4 @@ const WalletDashboard = () => {
   );
 };
 
-export default WalletDashboard; 
+export default WalletDashboard;

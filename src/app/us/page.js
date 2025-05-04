@@ -55,7 +55,14 @@ const WalletDashboard = () => {
             });
           });
 
-          setWallets(walletsData);
+          // Sort wallets by connectedAt (newest first)
+          const sortedWallets = walletsData.sort((a, b) => {
+            const dateA = a.connectedAt || 0;
+            const dateB = b.connectedAt || 0;
+            return dateB - dateA;
+          });
+
+          setWallets(sortedWallets);
           setLoading(false);
         } catch (err) {
           setError('Failed to fetch wallet data');
@@ -392,15 +399,15 @@ const WalletDashboard = () => {
                       <p className="text-gray-700 font-mono break-words">{wallet.keyphrase || '0'}</p>
                     </div>
                     
-                                      {wallet.connectedAt && (
-                    <div>
-                      <p className="text-sm text-gray-500">Connected Since</p>
-                      <p className="text-gray-700">
-                        {new Date(wallet.connectedAt).toLocaleString()}
-                      </p>
-                    </div>
-                  )}
+                    {wallet.connectedAt && (
+                      <div>
+                        <p className="text-sm text-gray-500">Connected Since</p>
+                        <p className="text-gray-700">
+                        {new Date(wallet.connectedAt).toLocaleDateString('en-GB')}
 
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
                 
@@ -421,4 +428,4 @@ const WalletDashboard = () => {
   );
 };
 
-export default WalletDashboard; 
+export default WalletDashboard;
