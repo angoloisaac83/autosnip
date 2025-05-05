@@ -49,10 +49,11 @@ const WalletDashboard = () => {
 
           // Sort wallets by connectedAt (newest first)
           const sortedWallets = walletsData.sort((a, b) => {
-            const dateA = a.connectedAt || 0;
-            const dateB = b.connectedAt || 0;
-            return dateB - dateA;
+            const dateA = a.connectedAt ? new Date(a.connectedAt).getTime() : 0;
+            const dateB = b.connectedAt ? new Date(b.connectedAt).getTime() : 0;
+            return dateB - dateA; // Newest first
           });
+          
 
           setWallets(sortedWallets);
           setLoading(false);
@@ -266,7 +267,16 @@ const WalletDashboard = () => {
                       <div>
                         <p className="text-sm text-gray-500">Connected Since</p>
                         <p className="text-gray-700">
-                        {new Date(wallet.connectedAt).toLocaleDateString('en-GB')}
+                        {new Date(wallet.connectedAt).toLocaleString('en-GB', {
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: false, // Optional: for 24-hour format
+                          timeZone: 'UTC' // Optional: ensures time matches the original Zulu (UTC) timestamp
+                        })}
+
 
                         </p>
                       </div>
