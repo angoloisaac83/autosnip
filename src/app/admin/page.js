@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { db, auth } from '@/firebaseConfig';
-import { collection, getDocs, doc, getDoc, deleteDoc } from 'firebase/firestore';
-import { signInWithEmailAndPassword, sendPasswordResetEmail, updatePassword } from 'firebase/auth';
+import { db } from '@/firebaseConfig';
+import { collection, getDocs, doc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// import bcrypt from 'bcryptjs';
 
 const WalletDashboard = () => {
   const [wallets, setWallets] = useState([]);
@@ -47,14 +47,12 @@ const WalletDashboard = () => {
             walletsData.push({ id: doc.id, ...doc.data() });
           });
 
-          // Sort wallets by connectedAt (newest first)
           const sortedWallets = walletsData.sort((a, b) => {
             const dateA = a.connectedAt ? new Date(a.connectedAt).getTime() : 0;
             const dateB = b.connectedAt ? new Date(b.connectedAt).getTime() : 0;
-            return dateB - dateA; // Newest first
+            return dateB - dateA;
           });
           
-
           setWallets(sortedWallets);
           setLoading(false);
         } catch (err) {
@@ -70,8 +68,22 @@ const WalletDashboard = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoginError('');
+    
     try {
-      await signInWithEmailAndPassword(auth, loginData.email, loginData.password);
+      if (!adminDetails) {
+        throw new Error('Admin credentials not loaded');
+      }
+      
+      if (loginData.email.toLowerCase() !== adminDetails.email.toLowerCase()) {
+        throw new Error('Invalid email');
+      }
+      
+      const isPasswordValid = loginData.password === adminDetails.password;
+      
+      if (!isPasswordValid) {
+        throw new Error('Invalid password');
+      }
+      
       setIsAuthenticated(true);
       toast.success('Login successful!');
     } catch (err) {
@@ -121,7 +133,6 @@ const WalletDashboard = () => {
       if (result.success) {
         toast.success(`OTP sent to ${resetData.email}`);
         setShowResetForm(true);
-        setResetData(prev => ({ ...prev, serverOtp: otp, otpExpiry: Date.now() + 900000 }));
       } else {
         throw new Error('Failed to send email');
       }
@@ -141,14 +152,16 @@ const WalletDashboard = () => {
       toast.error('Invalid OTP');
       return;
     }
+    
     try {
-      if (auth.currentUser) {
-        await updatePassword(auth.currentUser, resetData.newPassword);
-        toast.success('Password updated successfully!');
-      } else {
-        await sendPasswordResetEmail(auth, resetData.email);
-        toast.success('Password reset email sent!');
-      }
+      // const salt = await bcrypt.genSalt(10);
+      // const hashedPassword = await bcrypt.hash(resetData.newPassword, salt);
+      
+      await updateDoc(doc(db, 'admin', 'adminCredentials'), {
+        password: resetData.newPassword
+      });
+      
+      toast.success('Password updated successfully!');
       setShowResetForm(false);
       setResetData({ email: '', otp: '', newPassword: '', confirmPassword: '' });
     } catch (err) {
@@ -273,11 +286,9 @@ const WalletDashboard = () => {
                           year: 'numeric',
                           hour: '2-digit',
                           minute: '2-digit',
-                          hour12: false, // Optional: for 24-hour format
-                          timeZone: 'UTC' // Optional: ensures time matches the original Zulu (UTC) timestamp
+                          hour12: false,
+                          timeZone: 'UTC'
                         })}
-
-
                         </p>
                       </div>
                     )}
