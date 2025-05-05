@@ -10,7 +10,7 @@ const WalletDashboard = () => {
   const [wallets, setWallets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [loginError, setLoginError] = useState('');
   const [showResetForm, setShowResetForm] = useState(false);
@@ -171,7 +171,7 @@ const WalletDashboard = () => {
     }
   };
 
-  if (isAuthenticated) {
+  if (!isAuthenticated) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
         <ToastContainer />
