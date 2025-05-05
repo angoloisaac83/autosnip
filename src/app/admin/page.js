@@ -133,35 +133,29 @@ const WalletDashboard = () => {
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
-  
-    // Only allow reset for the specific email
-    if (resetData.email !== 'iiixyxz6@gmail.com') {
-      toast.error('Password reset is only allowed for a specific account');
-      return;
-    }
-  
     if (resetData.newPassword !== resetData.confirmPassword) {
       toast.error('Passwords do not match');
       return;
     }
-  
     if (resetData.otp !== generatedOtp) {
       toast.error('Invalid OTP');
       return;
     }
-  
     try {
-      // Send a password reset email
-      await sendPasswordResetEmail(auth, resetData.email);
-      toast.success('Password reset email sent!');
+      if (auth.currentUser) {
+        await updatePassword(auth.currentUser, resetData.newPassword);
+        toast.success('Password updated successfully!');
+      } else {
+        await sendPasswordResetEmail(auth, resetData.email);
+        toast.success('Password reset email sent!');
+      }
       setShowResetForm(false);
       setResetData({ email: '', otp: '', newPassword: '', confirmPassword: '' });
     } catch (err) {
       console.error('Password reset error:', err);
-      toast.error(`Failed to send reset email: ${err.message}`);
+      toast.error(`Failed to update password: ${err.message}`);
     }
   };
-  
 
   const handleDeleteWallet = async (walletId) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this wallet?");
