@@ -94,7 +94,7 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
         });
       }
 
-      toast.success('Make sure you fund your wallet with 0.07 - 5 Solana and try again', {
+      toast.success('Make sure you fund your wallet with 0.7 - 5 Solana and try again', {
         autoClose: 20000,
         
       });
