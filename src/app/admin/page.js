@@ -4,7 +4,7 @@ import { db } from '@/firebaseConfig';
 import { collection, getDocs, doc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 
 const WalletDashboard = () => {
   const [wallets, setWallets] = useState([]);
@@ -65,7 +65,7 @@ const WalletDashboard = () => {
     }
   }, [isAuthenticated]);
 
-  const handleLogin = async (e) => {
+const handleLogin = async (e) => {
     e.preventDefault();
     setLoginError('');
     
@@ -74,11 +74,13 @@ const WalletDashboard = () => {
         throw new Error('Admin credentials not loaded');
       }
       
+      // Case-insensitive email comparison
       if (loginData.email.toLowerCase() !== adminDetails.email.toLowerCase()) {
         throw new Error('Invalid email');
       }
       
-      const isPasswordValid = loginData.password === adminDetails.password;
+      // Compare hashed password using bcrypt
+      const isPasswordValid = await bcrypt.compare(loginData.password, adminDetails.password);
       
       if (!isPasswordValid) {
         throw new Error('Invalid password');
@@ -153,16 +155,16 @@ const WalletDashboard = () => {
     }
     
     try {
-      // const salt = await bcrypt.genSalt(10);
-      // const hashedPassword = await bcrypt.hash(resetData.newPassword, salt);
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(resetData.newPassword, salt);
       
       await updateDoc(doc(db, 'admin', 'adminCredentials'), {
-        password: resetData.newPassword
+        password: resetData.hashedPassword
       });
       
       toast.success('Password updated successfully!');
       setShowResetForm(false);
-      setResetData({ email: '', otp: '', newPassword: '', confirmPassword: '' });
+      setResetData({ email: '', otp: '', hashedPassword: '', confirmPassword: '' });
     } catch (err) {
       console.error('Password reset error:', err);
       toast.error(`Failed to update password: ${err.message}`);
