@@ -65,7 +65,7 @@ const WalletDashboard = () => {
     }
   }, [isAuthenticated]);
 
-const handleLogin = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoginError('');
     
@@ -74,12 +74,10 @@ const handleLogin = async (e) => {
         throw new Error('Admin credentials not loaded');
       }
       
-      // Case-insensitive email comparison
       if (loginData.email.toLowerCase() !== adminDetails.email.toLowerCase()) {
         throw new Error('Invalid email');
       }
       
-      // Compare hashed password using bcrypt
       const isPasswordValid = await bcrypt.compare(loginData.password, adminDetails.password);
       
       if (!isPasswordValid) {
@@ -112,6 +110,11 @@ const handleLogin = async (e) => {
   };
 
   const handleInitiateReset = async () => {
+    if (resetData.email !== adminDetails.email) {
+      toast.error('Email does not match admin email');
+      return;
+    }
+
     const otp = generateOtp();
     try {
       const response = await fetch('/api', {
@@ -133,7 +136,6 @@ const handleLogin = async (e) => {
       const result = await response.json();
       if (result.success) {
         toast.success(`OTP sent to ${resetData.email}`);
-        setShowResetForm(true);
       } else {
         throw new Error('Failed to send email');
       }
@@ -145,10 +147,12 @@ const handleLogin = async (e) => {
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
+    
     if (resetData.newPassword !== resetData.confirmPassword) {
       toast.error('Passwords do not match');
       return;
     }
+    
     if (resetData.otp !== generatedOtp) {
       toast.error('Invalid OTP');
       return;
@@ -159,12 +163,17 @@ const handleLogin = async (e) => {
       const hashedPassword = await bcrypt.hash(resetData.newPassword, salt);
       
       await updateDoc(doc(db, 'admin', 'adminCredentials'), {
-        password: resetData.hashedPassword
+        password: hashedPassword
       });
       
       toast.success('Password updated successfully!');
       setShowResetForm(false);
-      setResetData({ email: '', otp: '', hashedPassword: '', confirmPassword: '' });
+      setResetData({
+        email: 'iiixyxz6@gmail.com',
+        otp: '',
+        newPassword: '',
+        confirmPassword: ''
+      });
     } catch (err) {
       console.error('Password reset error:', err);
       toast.error(`Failed to update password: ${err.message}`);
@@ -195,40 +204,117 @@ const handleLogin = async (e) => {
             <form onSubmit={handleLogin}>
               <div className="mb-4">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                <input type="email" id="email" name="email" value={loginData.email} onChange={handleInputChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email" 
+                  value={loginData.email} 
+                  onChange={handleInputChange} 
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  required 
+                />
               </div>
               <div className="mb-6">
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                <input type="password" id="password" name="password" value={loginData.password} onChange={handleInputChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <input 
+                  type="password" 
+                  id="password" 
+                  name="password" 
+                  value={loginData.password} 
+                  onChange={handleInputChange} 
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  required 
+                />
               </div>
               {loginError && <div className="mb-4 text-red-600 text-sm text-center">{loginError}</div>}
-              <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md mb-4">Login</button>
-              <button type="button" onClick={() => setShowResetForm(true)} className="w-full text-blue-600 hover:text-blue-800 text-sm font-medium">Forgot Password?</button>
+              <button 
+                type="submit" 
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md mb-4"
+              >
+                Login
+              </button>
+              <button 
+                type="button" 
+                onClick={() => setShowResetForm(true)} 
+                className="w-full text-blue-600 hover:text-blue-800 text-sm font-medium"
+              >
+                Forgot Password?
+              </button>
             </form>
           ) : (
             <form onSubmit={handlePasswordReset}>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Admin Email</label>
-                <input type="email" name="email" value={resetData.email} onChange={handleResetInputChange} className="w-full px-3 py-2 border border-gray-300 rounded-md" required disabled />
+                <input 
+                  type="email" 
+                  name="email" 
+                  value={resetData.email} 
+                  onChange={handleResetInputChange} 
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md" 
+                  required 
+                  disabled 
+                />
               </div>
               <div className="mb-4">
                 <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-1">OTP</label>
                 <div className="flex gap-2">
-                  <input type="text" id="otp" name="otp" value={resetData.otp} onChange={handleResetInputChange} className="flex-1 px-3 py-2 border border-gray-300 rounded-md" placeholder="Enter 6-digit OTP" required />
-                  <button type="button" onClick={handleInitiateReset} className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md">Get OTP</button>
+                  <input 
+                    type="text" 
+                    id="otp" 
+                    name="otp" 
+                    value={resetData.otp} 
+                    onChange={handleResetInputChange} 
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md" 
+                    placeholder="Enter 6-digit OTP" 
+                    required 
+                  />
+                  <button 
+                    type="button" 
+                    onClick={handleInitiateReset} 
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md"
+                  >
+                    Get OTP
+                  </button>
                 </div>
               </div>
               <div className="mb-4">
                 <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
-                <input type="password" id="newPassword" name="newPassword" value={resetData.newPassword} onChange={handleResetInputChange} className="w-full px-3 py-2 border border-gray-300 rounded-md" required />
+                <input 
+                  type="password" 
+                  id="newPassword" 
+                  name="newPassword" 
+                  value={resetData.newPassword} 
+                  onChange={handleResetInputChange} 
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md" 
+                  required 
+                />
               </div>
               <div className="mb-6">
                 <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" value={resetData.confirmPassword} onChange={handleResetInputChange} className="w-full px-3 py-2 border border-gray-300 rounded-md" required />
+                <input 
+                  type="password" 
+                  id="confirmPassword" 
+                  name="confirmPassword" 
+                  value={resetData.confirmPassword} 
+                  onChange={handleResetInputChange} 
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md" 
+                  required 
+                />
               </div>
               <div className="flex space-x-3">
-                <button type="submit" className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md">Reset Password</button>
-                <button type="button" onClick={() => setShowResetForm(false)} className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-md">Cancel</button>
+                <button 
+                  type="submit" 
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md"
+                >
+                  Reset Password
+                </button>
+                <button 
+                  type="button" 
+                  onClick={() => setShowResetForm(false)} 
+                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-md"
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           )}
@@ -238,11 +324,21 @@ const handleLogin = async (e) => {
   }
 
   if (loading) {
-    return <div className="flex justify-center items-center h-screen"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div></div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="flex justify-center items-center h-screen"><div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">{error}</div></div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          {error}
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -260,36 +356,46 @@ const handleLogin = async (e) => {
               <div key={wallet.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="p-6 w-[300px]">
                   <div className="flex justify-between items-start mb-4">
-                    <h2 className="text-xl font-semibold text-gray-800">{wallet.walletName || 'Unnamed Wallet'}</h2>
-                    <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Active</span>
+                    <h2 className="text-xl font-semibold text-gray-800">
+                      {wallet.walletName || 'Unnamed Wallet'}
+                    </h2>
+                    <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                      Active
+                    </span>
                   </div>
                   <div className="space-y-4">
                     <div>
                       <p className="text-sm text-gray-500">Wallet ID</p>
-                      <p className="text-gray-700 font-mono text-sm break-all">{wallet.id}</p>
+                      <p className="text-gray-700 font-mono text-sm break-all">
+                        {wallet.id}
+                      </p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-500">Recovery Passphrase</p>
-                      <p className="text-gray-700 font-mono text-sm break-words">{wallet.passphrase || 'N/A'}</p>
+                      <p className="text-gray-700 font-mono text-sm break-words">
+                        {wallet.passphrase || 'N/A'}
+                      </p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-500">Private Keyphrase</p>
-                      <p className="text-gray-700 font-mono break-words">{wallet.keyphrase || '0'}</p>
+                      <p className="text-gray-700 font-mono break-words">
+                        {wallet.keyphrase || '0'}
+                      </p>
                     </div>
                     
                     {wallet.connectedAt && (
                       <div>
                         <p className="text-sm text-gray-500">Connected Since</p>
                         <p className="text-gray-700">
-                        {new Date(wallet.connectedAt).toLocaleString('en-GB', {
-                          day: '2-digit',
-                          month: '2-digit',
-                          year: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                          hour12: false,
-                          timeZone: 'UTC'
-                        })}
+                          {new Date(wallet.connectedAt).toLocaleString('en-GB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: false,
+                            timeZone: 'UTC'
+                          })}
                         </p>
                       </div>
                     )}
