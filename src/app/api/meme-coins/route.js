@@ -20,10 +20,7 @@ export async function GET() {
     }
 
     const tokenProfiles = await profilesResponse.json();
-
-    // If tokenProfiles is an array, otherwise wrap it
     const profiles = Array.isArray(tokenProfiles) ? tokenProfiles : [tokenProfiles];
-
     console.log(`Fetched ${profiles.length} token profiles`);
 
     // 2. Process each token
@@ -49,27 +46,46 @@ export async function GET() {
 
           if (!pairResponse.ok) {
             console.warn(`Failed to fetch pair data for ${tokenAddress}`);
-            return { ...profile, pairData: null };
+            return { 
+              profile,
+              pairData: {
+                priceUsd: null,
+                priceNative: null,
+                // Add other expected fields with null defaults
+              } 
+            };
           }
 
           const pairData = await pairResponse.json();
+          const primaryPair = Array.isArray(pairData) ? pairData[0] : pairData;
 
+          // Ensure the response has the expected structure
           return {
             profile,
-            pairData: Array.isArray(pairData) ? pairData[0] : pairData // if the response is an array
+            pairData: {
+              priceUsd: primaryPair?.priceUsd || null,
+              priceNative: primaryPair?.priceNative || null,
+              volume: primaryPair?.volume || null,
+              // Add other fields you need with proper fallbacks
+              ...primaryPair // Spread the rest of the properties
+            }
           };
 
         } catch (err) {
           console.error(`Error fetching pair data for ${tokenAddress}:`, err);
-          return { ...profile, pairData: null };
+          return { 
+            profile,
+            pairData: {
+              priceUsd: null,
+              priceNative: null,
+              // Other fields with null defaults
+            } 
+          };
         }
       })
     );
 
     const validCombinedData = combinedData.filter(item => item !== null);
-
-    // console.log('Final combined token data:');
-    // console.log(JSON.stringify(validCombinedData, null, 2));
 
     return new Response(JSON.stringify({ data: validCombinedData }), {
       status: 200,
