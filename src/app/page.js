@@ -51,7 +51,7 @@ export default function Home() {
              <li className="flex flex-row-reverse items-center justify-center gap-[24px]">
               <h2 className="w-20 sm:w-full">ALL SOLANA MEMECOINS</h2>
               <Image
-                    src="//memecoins_icon.B2QarAeS.avif" 
+                    src="/memecoins_icon.B2QarAeS.avif" 
                     alt="Logo"
                     className="w-[24px]"
                     width={150}
