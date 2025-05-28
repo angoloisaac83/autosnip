@@ -514,7 +514,7 @@ export default function TokenTable() {
                       </div>
                       <div>
                         <div className="text-gray-400 text-xs">Price</div>
-                        <div className="text-white text-sm">${Number(pair.priceUsds).toFixed(6)}</div>
+                        <div className="text-white text-sm">${Number(pair.priceUsd || 0).toFixed(6)}</div>
                       </div>
                     </div>
 
