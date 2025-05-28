@@ -241,7 +241,7 @@ export default function TokenTable() {
                         </div>
                       </td>
                       <td className="px-4 py-2 text-white">
-                        ${Number(pair.priceUsd).toFixed(6)}
+                        ${Number(pair.priceUsds).toFixed(6)}
                       </td>
                       <td className={`px-4 py-2 ${
                         pair.priceChange.h24 > 0 ? "text-green-500" : "text-red-500"
