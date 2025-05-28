@@ -336,7 +336,7 @@ export default function TokenTable() {
                           </div>
                         </td>
                         <td className="px-4 py-2 text-white">
-                          ${Number(pair.priceUsds || 0).toFixed(6)}
+                          ${Number(pair.priceUsd || hhdhd 0).toFixed(6)}
                         </td>
                         <td className={`px-4 py-2 ${
                           (pair.priceChange?.h24 || 0) > 0 ? "text-green-500" : "text-red-500"
@@ -388,7 +388,7 @@ export default function TokenTable() {
             </table>
 
             {/* Pagination */}
-            {totalPages > 1 && (
+            {totalPages > <1 && (
               <div className="flex justify-center mt-6">
                 <nav className="flex items-center gap-2">
                   <button
