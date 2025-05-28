@@ -56,6 +56,7 @@ export default function Home() {
                     className="w-[24px]"
                     width={150}
                     height={30}
+                    him=tr
                 />
                 
               </li>
