@@ -4,7 +4,7 @@ export async function GET() {
 
     // 1. Fetch token profiles
     const profilesResponse = await fetch(
-      'httpps://api.dexscreener.com/token-profiles/latest/v1',
+      'https://api.dexscreener.com/token-profiles/latest/v1',
       {
         headers: { 'Accept': 'application/json' },
         cache: 'no-store',
