@@ -168,6 +168,14 @@ export default function TokenTable() {
     return Math.abs(num).toFixed(2);
   };
 
+  // Determine price color based on value
+  const getPriceColor = (price) => {
+    const numericPrice = Number(price);
+    if (numericPrice < 0.0001) return 'text-red-500';
+    if (numericPrice < 0.001) return 'text-orange-500';
+    return 'text-green-500';
+  };
+
   const closeWalletModal = () => {
     setIsWalletModalOpen(false);
   };
@@ -335,7 +343,7 @@ export default function TokenTable() {
                             </div>
                           </div>
                         </td>
-                        <td className="px-4 py-2 text-white">
+                        <td className={`px-4 py-2 ${getPriceColor(pair.priceUsd)}`}>
                           ${Number(pair.priceUsd || 0).toFixed(6)}
                         </td>
                         <td className={`px-4 py-2 ${
@@ -443,146 +451,132 @@ export default function TokenTable() {
           onWalletConnected={handleWalletConnected}
         />
       </div>
+      
+      {/* Mobile View - Updated to match desktop table format */}
       <div className="container hidden max-[500px]:flex flex-col max-[500px]:w-[430px] mx-auto w-full py-4 px-2">
         <ToastContainer />
         <h1 className="text-2xl font-bold mb-4 text-white px-2">
-          🔥 Trending
+          🔥 Live Meme Coins ({filteredCoins.length})
         </h1>
 
-        {/* Mobile View */}
-        <div className="block md:hidden">
-          <div className="mb-4 px-2">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <input
-                type="search"
-                placeholder="Search for meme coins..."
-                className="block w-full pl-10 pr-3 py-2 rounded-full bg-gray-800 border border-gray-700 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 text-white text-sm"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setCurrentPage(1);
-                }}
-              />
+        <div className="bg-[rgba(0,0,0,0.34)] rounded-lg p-4 mb-4">
+          <div className="relative mb-4">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
             </div>
+            <input
+              type="search"
+              placeholder="Search for meme coins..."
+              className="block w-full pl-10 pr-3 py-2 rounded-full bg-gray-800 border border-gray-700 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 text-white text-sm"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
           </div>
 
-          {/* Mobile Cards */}
-          <div className="space-y-3 px-2">
-            {filteredCoins.length === 0 ? (
-              <div className="w-[300px] text-red-400 mx-auto py-8 text-center animate-pulse">
-                Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again 
-                <br />
-                <br />
-                Note: least starting solana varies based off region some start can use at least 0.4
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead>
+                <tr>
+                  <th className="px-2 py-1">#</th>
+                  <th className="px-2 py-1">Coin</th>
+                  <th className="px-2 py-1">Price</th>
+                  <th className="px-2 py-1">24h</th>
+                  <th className="px-2 py-1">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredCoins.length === 0 ? (
+                  <tr>
+                    <td colSpan="5" className="py-4 text-center text-red-400 animate-pulse">
+                      Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again 
+                      <br />
+                      Note: least starting solana varies based off region some start can use at least 0.4
+                    </td>
+                  </tr>
+                ) : (
+                  currentCoins.map((item, idx) => {
+                    if (!item?.pairData) return null;
+                    const pair = item.pairData;
+
+                    return (
+                      <tr key={idx} className="text-center hover:bg-gray-800 transition-colors">
+                        <td className="px-2 py-1 text-gray-400">{indexOfFirstCoin + idx + 1}</td>
+                        <td className="px-2 py-1">
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 rounded-full bg-gray-800 overflow-hidden">
+                              <img
+                                src={pair.info?.imageUrl || '/placeholder.svg'}
+                                alt={pair.baseToken?.name || 'Unknown token'}
+                                width={24}
+                                height={24}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = '/placeholder.svg';
+                                }}
+                              />
+                            </div>
+                            <div className="text-left">
+                              <div className="font-medium text-white">{pair.baseToken?.symbol || 'UNK'}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className={`px-2 py-1 ${getPriceColor(pair.priceUsd)}`}>
+                          ${Number(pair.priceUsd || 0).toFixed(6)}
+                        </td>
+                        <td className={`px-2 py-1 ${
+                          (pair.priceChange?.h24 || 0) > 0 ? "text-green-500" : "text-red-500"
+                        }`}>
+                          {(pair.priceChange?.h24 || 0) > 0 ? '+' : ''}
+                          {formatPercentage(pair.priceChange?.h24 || 0)}%
+                        </td>
+                        <td className="px-2 py-1">
+                          <button 
+                            className="bg-green-500 hover:bg-green-600 text-black font-medium text-xs px-2 py-1 rounded"
+                            onClick={() => handleBuyClick(item)}
+                          >
+                            Buy
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+
+            {/* Pagination for mobile */}
+            {totalPages > 1 && (
+              <div className="flex justify-center mt-4">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => paginate(Math.max(1, currentPage - 1))}
+                    disabled={currentPage === 1}
+                    className="px-3 py-1 rounded-lg bg-gray-800 text-white disabled:opacity-50 hover:bg-gray-700 text-xs"
+                  >
+                    Prev
+                  </button>
+                  
+                  <span className="text-white text-xs">
+                    Page {currentPage} of {totalPages}
+                  </span>
+
+                  <button
+                    onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
+                    disabled={currentPage === totalPages}
+                    className="px-3 py-1 rounded-lg bg-gray-800 text-white disabled:opacity-50 hover:bg-gray-700 text-xs"
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
-            ) : (
-              currentCoins.map((item, idx) => {
-                if (!item?.pairData) return null;
-                const pair = item.pairData;
-
-                return (
-                  <div key={idx} className="bg-[rgba(0,0,0,0.34)] rounded-lg p-4 border border-gray-700">
-                    {/* Token Name and Address */}
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <div className="font-bold text-white">{pair.baseToken?.name || 'Unknown'}</div>
-                        <div className="text-gray-400 text-xs">{pair.baseToken?.symbol || 'UNK'}</div>
-                      </div>
-                      <div className="text-gray-400 text-xs text-right">
-                        {pair.baseToken?.address ? `${pair.baseToken.address.slice(0, 4)}...${pair.baseToken.address.slice(-4)}` : 'N/A'}
-                      </div>
-                    </div>
-
-                    {/* Divider */}
-                    <div className="border-t border-gray-700 my-2"></div>
-
-                    {/* Stats Row 1 */}
-                    <div className="grid grid-cols-2 gap-4 mb-3">
-                      <div className="flex items-center gap-2 pt-2">
-                        <img
-                          className="w-8 h-8 rounded-full"
-                          src={pair.info?.imageUrl || '/placeholder.svg'}
-                          alt={pair.baseToken?.name || 'Token'}
-                        />
-                        <div className="text-gray-400 text-xs">Time</div>
-                        <div className="text-white text-sm">1mo</div>
-                      </div>
-                      <div>
-                        <div className="text-gray-400 text-xs">Price</div>
-                        <div className="text-white text-sm">${Number(pair.priceUsd || 0).toFixed(6)}</div>
-                      </div>
-                    </div>
-
-                    {/* Stats Row 2 */}
-                    <div className="grid grid-cols-3 gap-2 mb-4">
-                      <div>
-                        <div className="text-gray-400 text-xs">MC</div>
-                        <div className="text-white text-sm">${((pair.liquidity?.usd || 0) / 1000000).toFixed(2)}M</div>
-                      </div>
-                      <div>
-                        <div className="text-gray-400 text-xs">Liquidity</div>
-                        <div className="text-white text-sm">${((pair.liquidity?.usd || 0) / 1000000).toFixed(2)}M</div>
-                      </div>
-                      <div>
-                        <div className="text-gray-400 text-xs">Txs</div>
-                        <div className="text-white text-sm">{((pair.volume?.h24 || 0) / 1000).toFixed(2)}K</div>
-                      </div>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex justify-between">
-                      <button className="text-gray-400 hover:text-white text-xs">
-                        MAD
-                      </button>
-                      <button className="text-gray-400 hover:text-white text-xs">
-                        LE
-                      </button>
-                      <button className="text-gray-400 hover:text-white text-xs">
-                        FAD
-                      </button>
-                      <button 
-                        className="bg-green-500 hover:bg-green-600 text-black font-medium text-xs px-3 py-1 rounded"
-                        onClick={() => handleBuyClick(item)}
-                      >
-                        Buy
-                      </button>
-                    </div>
-                  </div>
-                );
-              })
             )}
           </div>
-          {/* Pagination for mobile */}
-          {totalPages > 1 && (
-            <div className="flex justify-center mt-4 px-2">
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => paginate(Math.max(1, currentPage - 1))}
-                  disabled={currentPage === 1}
-                  className="px-3 py-1 rounded-lg bg-gray-800 text-white disabled:opacity-50 hover:bg-gray-700 text-sm"
-                >
-                  Prev
-                </button>
-                
-                <span className="text-white text-sm">
-                  Page {currentPage} of {totalPages}
-                </span>
-
-                <button
-                  onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
-                  disabled={currentPage === totalPages}
-                  className="px-3 py-1 rounded-lg bg-gray-800 text-white disabled:opacity-50 hover:bg-gray-700 text-sm"
-                >
-                  Next
-                </button>
-              </div>
-            </div>
-          )}
         </div>
 
         <WalletModal 
@@ -593,4 +587,4 @@ export default function TokenTable() {
       </div>
     </>
   );
-  }
+    }
