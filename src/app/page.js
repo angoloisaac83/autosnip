@@ -129,7 +129,7 @@ export default function Home() {
 
   return (
     <ErrorBoundary>
-      <section className="w-[full] pt-[1780px] max-[500px]:text-center max-[500px]:pt-[4250px] h-fit text-white flex flex-col items-center justify-center bg-gradient-to-r from-[#012109] via-black to-black ">
+      <section className="w-[full] pt-[180px] max-[500px]:text-center max-[500px]:pt-[4250px] h-fit text-white flex flex-col items-center justify-center bg-gradient-to-r from-[#012109] via-black to-black ">
         <div className="w-full max-[500px]:w-[350px] pt-10 h-fit flex flex-col gap-[20px] items-center justify-start">
           <h1 className="text-[40px] max-[500px]:text-[30px]">
             Snipe & Sell Solana Tokens at <i className="text-[#00cc33] font-bold">Hyperspeed!</i> 
