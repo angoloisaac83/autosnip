@@ -15,7 +15,7 @@ function CopyTrade(){
   };
     return(
         <>
-            <section className="w-full max-[500px]:w-[400px] h-fit text-white flex flex-col max-[500px]:pt-[700px] pt-[300px] py-[50px] items-center justify-center gap-[20px] border-b-[0.3px] border-[#0c0d0f]">
+            <section className="w-full max-[500px]:w-[400px] h-fit text-white flex flex-col py-[50px] items-center justify-center gap-[20px] border-b-[0.3px] border-[#0c0d0f]">
                 <h1 className="text-[40px] max-[500px]:text-[30px] text-center max-[500px]:w-[200px]">
                     Copy Traders at <i className="text-[#00cc33] font-bold">Hyperspeed!</i> 
                 </h1>
