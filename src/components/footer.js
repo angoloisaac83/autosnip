@@ -4,60 +4,59 @@ import Link from "next/link";
 import { BiLogoTelegram } from "react-icons/bi";
 import { FaXTwitter } from "react-icons/fa6";
 
-const Footer = ()=>{
-
-    return(
-        <>
-            <footer className="w-[80%] h-fit bg-transparent text-white flex flex-col items-center justify-center py-[20px] gap-[30px] border-t-[0.3px] border-[#0c0d0f]">
-                <section className="w-full h-fit flex max-[500px]:flex-col max-[500px]:items-start max-[500px]:gap-[20px] items-center justify-between ">
-                    <div className="w-[288px] flex flex-col gap-[15px]">
-                    <Link className="flex gap-1 items-center" href={"/"}>
-                        <Image
-                            src="/Asnipenew.png"
-                            alt="Logo"
-                            className="w-[40px]"
-                            width={10}
-                            height={10}
-                        />
-                        <h1 className="text-[#00cc33] text-lg"><span className="font-bold">A</span>snipe</h1>
-                    </Link>
-                        <p className="text-[16px] text-[#808080]">
-                        Autosnipe Solana bot lets you buy and sell tokens at Hyperspeed!
-                        </p>
-                        <span className="flex gap-[10px] text-[20px]">
-                            <BiLogoTelegram className="max-[500px]:hidden" />
-                            <FaXTwitter className="max-[500px]:hidden" />
-                        </span>
-                    </div>
-                    <ul className="text-[15px] flex flex-col gap-[5px]">
-                        <li className="text-[17px] text-[#808080] pb-[10px]">TRADE</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">Raydium Pairs</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">Trending Pairs</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">Pump.fun Pairs</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">Moonshot Pairs</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">API Trading</li>
-                    </ul>
-                    <ul className="text-[15px] flex flex-col gap-[5px]">
-                        <li className="text-[17px] text-[#808080] pb-[10px]">RESOURCES </li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">FAQs</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">How Copy Trading Works</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">How AI Sniper Works</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">Stats on Dune</li>
-                    </ul>
-                    <ul className="text-[15px] flex flex-col gap-[5px]">
-                        <li className="text-[17px] text-[#808080] pb-[10px]">LEGAL</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">Fees</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">Privacy Policy</li>
-                        <li className="hover:text-[#00cc33] cursor-pointer">Terms & Conditions</li>
-                    </ul>
-                </section>
-                    <span className="text-[#808080] w-full flex items-center justify-start h-fit">
-                        ©2025 Autosnipe . All rights Reserved <br></br>
-                        Our charts are powered by TradingView
-                    </span>
-            </footer>
-        </>
-    )
-}
+const Footer = () => {
+  return (
+    <footer className="w-full max-w-6xl mx-auto bg-transparent text-white flex flex-col items-center justify-center py-8 sm:py-12 gap-8 border-t border-[#0c0d0f]">
+      <section className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
+        <div className="flex flex-col gap-4">
+          <Link className="flex items-center gap-2" href="/">
+            <Image
+              src="/Asnipenew.png"
+              alt="Autosnipe Logo"
+              className="w-10 h-10"
+              width={40}
+              height={40}
+            />
+            <h1 className="text-[#00cc33] text-xl font-semibold">
+              <span className="font-bold">A</span>snipe
+            </h1>
+          </Link>
+          <p className="text-sm text-gray-400 max-w-xs">
+            Autosnipe Solana bot lets you buy and sell tokens at Hyperspeed!
+          </p>
+          <span className="flex gap-4 text-xl">
+            <BiLogoTelegram className="hover:text-[#00cc33] transition-colors" />
+            <FaXTwitter className="hover:text-[#00cc33] transition-colors" />
+          </span>
+        </div>
+        <ul className="flex flex-col gap-2 text-sm">
+          <li className="text-base text-gray-400 font-semibold pb-2">TRADE</li>
+          <li className="hover:text-[#00cc33] cursor-pointer transition-colors">Raydium Pairs</li>
+          <li className="hover:text-[#00cc33] cursor-pointer transition-colors">Trending Pairs</li>
+          <li className="hover:text-[#00cc33] cursor-pointer transition-colors">Pump.fun Pairs</li>
+          <li className="hover:text-[#00cc33] cursor-pointer transition-colors">Moonshot Pairs</li>
+          <li className="hover:text-[#00cc33] cursor-pointer transition-colors">API Trading</li>
+        </ul>
+        <ul className="flex flex-col gap-2 text-sm">
+          <li className="text-base text-gray-400 font-semibold pb-2">RESOURCES</li>
+          <li className="hover:text-[#00cc33] cursor-pointer transition-colors">FAQs</li>
+          <li className="hover:text-[#00cc33] cursor-pointer transition-colors">How Copy Trading Works</li>
+          <li className="hover:text-[#00cc33] cursor-pointer transition-colors">How AI Sniper Works</li>
+          <li className="hover:text-[#00cc33] cursor-pointer transition-colors">Stats on Dune</li>
+        </ul>
+        <ul className="flex flex-col gap-2 text-sm">
+          <li className="text-base text-gray-400 font-semibold pb-2">LEGAL</li>
+          <li className="hover:text-[#00cc33] cursor-pointer transition-colors">Fees</li>
+          <li className="hover:text-[#00cc33] cursor-pointer transition-colors">Privacy Policy</li>
+          <li className="hover:text-[#00cc33] cursor-pointer transition-colors">Terms & Conditions</li>
+        </ul>
+      </section>
+      <span className="text-sm text-gray-400 text-center">
+        ©2025 Autosnipe. All rights reserved. <br />
+        Our charts are powered by TradingView
+      </span>
+    </footer>
+  );
+};
 
 export default Footer;

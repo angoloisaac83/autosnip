@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import SideBar from "@/components/sidebar";
 import Footer from "@/components/footer";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -21,19 +22,20 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-       <link rel="icon" href="/alogo.jpg" />
+      <head>
+        <link rel="icon" href="/alogo.jpg" />
+      </head>
       <body
-      suppressHydrationWarning={true} 
-       
-        className={`${geistSans.variable} gra ${geistMono.variable} antialiased`}
+        suppressHydrationWarning={true}
+        className={`${geistSans.variable} ${geistMono.variable}  bg-gradient-to-r from-[#012109] via-black to-black antialiased min-h-screen items-center justify-center flex flex-col`}
       >
         <Navbar />
-        <section className="w-full flex flex-col items-center justify-center pt-[200px] h-screen left-0">
-          <div className="">
-           {children}
-           </div>
+        <main className="flex-1 flex flex-col items-center justify-center w-[90%] px-4 sm:px-6 lg:px-8 pt-16 lg:pt-24">
+          <div className="w-full max-w-7xl">
+            {children}
+          </div>
+        </main>
         <Footer />
-        </section>
       </body>
     </html>
   );

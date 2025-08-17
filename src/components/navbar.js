@@ -1,139 +1,134 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BiLogoTelegram } from "react-icons/bi";
 import { CiSearch } from "react-icons/ci";
 import { FaXTwitter } from "react-icons/fa6";
-import WalletModal from '@/components/connectModal';
+import { IoClose } from "react-icons/io5";
+import WalletModal from "@/components/connectModal";
 import Link from "next/link";
 import SideBar from "./sidebar";
-import { IoClose } from "react-icons/io5";
 
 const Navbar = () => {
-    const [modalOpen, setModalOpen] = useState(false);
-    const [sideOpen, setSideOpen] = useState(false);
-    const [connectedWallet, setConnectedWallet] = useState(null);
-    const [walletAddress, setWalletAddress] = useState('');
-    const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
-    const [walletData, setWalletData] = useState(null);
+  const [sideOpen, setSideOpen] = useState(false);
+  const [connectedWallet, setConnectedWallet] = useState(null);
+  const [walletAddress, setWalletAddress] = useState("");
+  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
+  const [walletData, setWalletData] = useState(null);
 
-    // Check for existing wallet connection on component mount
-    useEffect(() => {
-        const storedWallet = localStorage.getItem('walletData');
-        if (storedWallet) {
-            const parsedWallet = JSON.parse(storedWallet);
-            setWalletData(parsedWallet);
-            setConnectedWallet(parsedWallet.name);
-            setWalletAddress(parsedWallet.address);
-        }
-    }, []);
+  // Check for existing wallet connection on component mount
+  useEffect(() => {
+    const storedWallet = localStorage.getItem("walletData");
+    if (storedWallet) {
+      const parsedWallet = JSON.parse(storedWallet);
+      setWalletData(parsedWallet);
+      setConnectedWallet(parsedWallet.name);
+      setWalletAddress(parsedWallet.address);
+    }
+  }, []);
 
-    const handleWalletConnected = (wallet) => {
-        setWalletData(wallet);
-        setConnectedWallet(wallet.name);
-        setWalletAddress(wallet.address);
-        setIsWalletModalOpen(false);
-    };
+  const handleWalletConnected = (wallet) => {
+    setWalletData(wallet);
+    setConnectedWallet(wallet.name);
+    setWalletAddress(wallet.address);
+    setIsWalletModalOpen(false);
+  };
 
-    const disconnectWallet = () => {
-        localStorage.removeItem('walletData');
-        setWalletData(null);
-        setConnectedWallet(null);
-        setWalletAddress('');
-    };
+  const disconnectWallet = () => {
+    localStorage.removeItem("walletData");
+    setWalletData(null);
+    setConnectedWallet(null);
+    setWalletAddress("");
+  };
 
-    const sidebarOpen = () => {
-        setSideOpen(!sideOpen);
-    };
+  const sidebarOpen = () => {
+    setSideOpen(!sideOpen);
+  };
 
-    const openWalletModal = () => {
-        setIsWalletModalOpen(true);
-    };
+  const openWalletModal = () => {
+    setIsWalletModalOpen(true);
+  };
 
-    const closeWalletModal = () => {
-        setIsWalletModalOpen(false);
-    };
+  const closeWalletModal = () => {
+    setIsWalletModalOpen(false);
+  };
 
-    const shortenAddress = (address) => {
-        if (!address) return '';
-        return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
-    };
+  const shortenAddress = (address) => {
+    if (!address) return "";
+    return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+  };
 
-    return (
-        <>
-            <nav className="w-full h-fit fixed top-0 z-[120] px-[30px] flex items-center border-b-[0.3px] border-[#0c0d0f] justify-between gap-[30px] text-white py-[15px] bg-black">
-                <span className="w-fit flex items-center gap-[30px]">
-                    {
-                        sideOpen ? (
-                            <IoClose onClick={sidebarOpen} className="cursor-pointer text-xl" />
-                        ) : (
-                            <GiHamburgerMenu onClick={sidebarOpen} className="cursor-pointer text-xl" />
-                        )
-                    }
-                    <Link className="flex gap-1 items-center" href={"/"}>
-                        <Image
-                            src="/Asnipenew.png"
-                            alt="Logo"
-                            className="w-[30px]"
-                            width={10}
-                            height={10}
-                        />
-                        <h1 className="text-[#00cc33] text-lg"><span className="font-bold">A</span>snipe</h1>
-                    </Link>
-                    <span className="flex bg-[#1C1D22] max-[500px]:hidden px-[15px] rounded-md py-[6px] items-center justify-center gap-[10px]">
-                        <Image
-                            src="/sol_icon.De0ynmvl.png" 
-                            alt="Solana"
-                            className="w-[18px]"
-                            width={150}
-                            height={30}
-                        />
-                        <p>Solana</p>
-                    </span>
-                    <div className="mx-auto w-[350px] max-w-md relative max-[768px]:hidden">
-                        <input 
-                            type="text" 
-                            placeholder="Search token name or address" 
-                            className="bg-transparent focus:bg-secondaryDark focus:!bg-opacity-40 rounded-lg p-2 text-xs w-full pl-9 border border-grey3 leading-none focus:outline-none focus:border-primary focus:border-opacity-50 peer transition-colors h-8 hover:bg-secondaryDark hover:bg-opacity-70" 
-                        /> 
-                        <button className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center text-xs text-grey3 rounded-xl leading-none peer-empty:block p-1" disabled>
-                            ⌘ + K
-                        </button> 
-                        <button className="absolute left-1 p-2 top-1/2 -translate-y-1/2 peer-focus:stroke-grey2">
-                            <CiSearch className="text-gray-400" />
-                        </button> 
-                    </div>                
-                </span>
-                <span className="flex w-fit justify-center items-center gap-[20px] text-[20px]">
-                    <BiLogoTelegram className="max-[500px]:hidden hover:text-primary cursor-pointer" />
-                    <FaXTwitter className="max-[500px]:hidden hover:text-primary cursor-pointer" />
-                    {connectedWallet ? (
-                        <div className="flex items-center gap-2">
-                            <button 
-                                className="text-[15px] bg-green-600 py-[5px] px-[8px] rounded-md hover:bg-red-800"
-                            >
-                                Connected: {shortenAddress(walletAddress)}
-                            </button>
-                        </div>
-                    ) : (
-                        <button 
-                            onClick={openWalletModal} 
-                            className="flex items-center bg-[#00cc33] py-[5px] px-[15px] rounded-md font-semibold text-black text-[14px] gap-[10px] hover:bg-[#00bb33] transition-colors"
-                        >
-                            Connect <span className="max-[500px]:hidden">& Snipe</span>
-                        </button>
-                    )}
-                </span>
-            </nav>
-            <SideBar open={sideOpen} />
-            <WalletModal 
-                isOpen={isWalletModalOpen} 
-                onClose={closeWalletModal}
-                onWalletConnected={handleWalletConnected}
-            />
-        </>
-    )
-}
+  return (
+    <nav className="w-full fixed top-0 z-50 flex items-center justify-between px-4 sm:px-6 lg:px-8 py-4 bg-black border-b border-[#0c0d0f] text-white">
+      <div className="flex items-center gap-4 sm:gap-6">
+        <button onClick={sidebarOpen} className="text-xl sm:text-2xl">
+          {sideOpen ? <IoClose /> : <GiHamburgerMenu />}
+        </button>
+        <Link className="flex items-center gap-2" href="/">
+          <Image
+            src="/Asnipenew.png"
+            alt="Autosnipe Logo"
+            className="w-8 h-8"
+            width={32}
+            height={32}
+          />
+          <h1 className="text-[#00cc33] text-lg sm:text-xl font-semibold">
+            <span className="font-bold">A</span>snipe
+          </h1>
+        </Link>
+        <span className="hidden sm:flex items-center gap-2 bg-[#1C1D22] px-3 py-1.5 rounded-md">
+          <Image
+            src="/sol_icon.De0ynmvl.png"
+            alt="Solana"
+            className="w-5 h-5"
+            width={20}
+            height={20}
+          />
+          <p className="text-sm">Solana</p>
+        </span>
+      </div>
+      <div className="hidden md:flex flex-1 max-w-md mx-4 relative">
+        <input
+          type="text"
+          placeholder="Search token name or address"
+          className="w-full h-9 bg-transparent border border-gray-600 rounded-lg pl-9 pr-12 py-2 text-sm focus:outline-none focus:border-[#00cc33] focus:bg-[#1C1D22] hover:bg-[#1C1D22] transition-colors"
+        />
+        <CiSearch className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
+        <button
+          className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-400"
+          disabled
+        >
+          ⌘ + K
+        </button>
+      </div>
+      <div className="flex items-center gap-4 sm:gap-6">
+        <BiLogoTelegram className="hidden sm:block text-xl hover:text-[#00cc33] cursor-pointer transition-colors" />
+        <FaXTwitter className="hidden sm:block text-xl hover:text-[#00cc33] cursor-pointer transition-colors" />
+        {connectedWallet ? (
+          <button
+            onClick={disconnectWallet}
+            className="bg-green-600 hover:bg-red-800 text-sm px-3 py-1.5 rounded-md transition-colors"
+          >
+            Connected: {shortenAddress(walletAddress)}
+          </button>
+        ) : (
+          <button
+            onClick={openWalletModal}
+            className="flex items-center gap-2 bg-[#00cc33] hover:bg-[#00bb33] text-black text-sm sm:text-base font-semibold px-4 py-2 rounded-md transition-colors"
+          >
+            Connect <span className="hidden sm:inline">& Snipe</span>
+          </button>
+        )}
+      </div>
+      <SideBar open={sideOpen} />
+      <WalletModal
+        isOpen={isWalletModalOpen}
+        onClose={closeWalletModal}
+        onWalletConnected={handleWalletConnected}
+      />
+    </nav>
+  );
+};
 
 export default Navbar;
