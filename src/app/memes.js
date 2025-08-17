@@ -212,7 +212,67 @@ export default function TokenTable() {
         <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-8 text-white">
           🔥 Live Meme Coins ({filteredCoins.length})
         </h1>
-
+        <div className="pt-4 flex w-full items-center justify-center">
+          <div className="bg-gray-900 lg:bg-gray-800 text-white rounded-lg p-4 sm:p-6 w-full max-w-4xl grid gap-4 lg:grid-cols-[auto_1fr] items-center relative">
+            <div className="flex items-center gap-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="var(--color-success, #00cc33)"
+                viewBox="0 0 16 16"
+                height="24px"
+                width="24px"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M11.77 7.56c.51 1.19.5 2.32-.14 2.96-1.03 1.03-3.29.45-5.04-1.3C4.84 7.45 4.25 5.2 5.3 4.17c.69-.7 1.94-.65 3.22-.02l.3-.4c-1.88-1-3.85-1.04-4.97.08-1.53 1.54-.91 4.64 1.39 6.93 2.3 2.3 5.4 2.92 6.93 1.39 1.14-1.15 1.09-3.17.02-5.08l-.41.48Z"
+                  clipRule="evenodd"
+                />
+                <path d="M9.31 6.71H8.3a.26.26 0 0 1-.25-.15.25.25 0 0 1 .01-.28l2.22-3.14c.05-.06.1-.1.18-.12a.34.34 0 0 1 .22 0 .3.3 0 0 1 .17.14c.03.06.04.13.03.2l-.25 2.02h1.26c.12 0 .2.06.26.16.05.1.03.2-.05.3L9.64 8.7a.32.32 0 0 1-.39.09.34.34 0 0 1-.15-.13.3.3 0 0 1-.04-.2L9.3 6.7Z" />
+              </svg>
+              <span className="text-sm sm:text-base font-medium">
+                Try our filters for a secure experience
+              </span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-2 lg:mt-0">
+              <label className="flex items-center gap-2 cursor-pointer font-medium group">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 accent-green-500 focus:ring-green-500"
+                />
+                <span className="text-gray-400 group-hover:text-white group-active:text-gray-300 select-none text-sm">
+                  Hide Scams
+                </span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer font-medium group">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 accent-green-500 focus:ring-green-500"
+                />
+                <span className="text-gray-400 group-hover:text-white group-active:text-gray-300 select-none text-sm">
+                  Hide Rugs
+                </span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer font-medium group">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 accent-green-500 focus:ring-green-500"
+                />
+                <span className="text-gray-400 group-hover:text-white group-active:text-gray-300 select-none text-sm">
+                  Mint Auth Disabled
+                </span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer font-medium group">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 accent-green-500 focus:ring-green-500"
+                />
+                <span className="text-gray-400 group-hover:text-white group-active:text-gray-300 select-none text-sm">
+                  Freeze Auth Disabled
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
         <div className="bg-[rgba(0,0,0,0.34)] rounded-lg p-4 md:p-6 mb-4 md:mb-8">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-4 md:mb-6">
             <div className="relative w-full max-w-md">
@@ -251,72 +311,88 @@ export default function TokenTable() {
 
           <div className="overflow-x-auto">
             {/* Desktop Table */}
-            <table className="w-full text-sm hidden md:table">
-              <thead>
-                <tr>
-                  <th className="px-4 py-2">#</th>
-                  <th className="px-4 py-2">Coin</th>
-                  <th className="px-4 py-2">Price (USD)</th>
-                  <th className="px-4 py-2">24h Change</th>
-                  <th className="px-4 py-2">Liquidity (USD)</th>
-                  <th className="px-4 py-2">Volume (24h)</th>
-                  <th className="px-4 py-2">Links</th>
-                  <th className="px-4 py-2">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredCoins.length === 0 ? (
-                  <tr>
-                    <td colSpan="8" className="py-8 text-center text-lg text-red-400 animate-pulse">
-                      Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again 
-                      <br />
-                      Note: least starting solana varies based off region some start can use at least 0.4
-                    </td>
-                  </tr>
-                ) : (
-                  currentCoins.map((item, idx) => {
-                    const pair = item.pairData;
-                    return (
-                      <tr key={idx} className="text-center hover:bg-gray-800 transition-colors">
-                        <td className="px-4 py-2 text-gray-400">{indexOfFirstCoin + idx + 1}</td>
-                        <td className="px-4 py-2"><TokenCell pair={pair} /></td>
-                        <td className={`px-4 py-2 ${getPriceColor(pair.priceUsd)}`}>
-                          ${Number(pair.priceUsd).toFixed(6)}
-                        </td>
-                        <td className="px-4 py-2"><PriceChangeCell value={pair.priceChange?.h24} /></td>
-                        <td className="px-4 py-2 text-white">
-                          ${pair.liquidity?.usd.toLocaleString()}
-                        </td>
-                        <td className="px-4 py-2 text-white">
-                          ${pair.volume?.h24.toLocaleString()}
-                        </td>
-                        <td className="px-4 py-2 space-x-2">
-                          {pair.info?.websites?.[0]?.url && (
-                            <a href={pair.info.websites[0].url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
-                              Website
-                            </a>
-                          )}
-                          {pair.url && (
-                            <a href={pair.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
-                              Dex
-                            </a>
-                          )}
-                        </td>
-                        <td className="px-4 py-2">
-                          <button 
-                            className="bg-green-500 hover:bg-green-600 text-black font-medium text-xs px-3 py-1 rounded"
-                            onClick={() => handleBuyClick(item)}
-                          >
-                            Buy
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })
-                )}
-              </tbody>
-            </table>
-
+<table className="w-full text-base hidden md:table border-collapse">
+  <thead>
+    <tr className="bg-gray-900 text-gray-400 uppercase text-sm font-semibold">
+      <th className="px-6 py-4 text-left border-b border-gray-700">#</th>
+      <th className="px-6 py-4 text-left border-b border-gray-700">Coin</th>
+      <th className="px-6 py-4 text-left border-b border-gray-700">Price (USD)</th>
+      <th className="px-6 py-4 text-left border-b border-gray-700">24h Change</th>
+      <th className="px-6 py-4 text-left border-b border-gray-700">Liquidity (USD)</th>
+      <th className="px-6 py-4 text-left border-b border-gray-700">Volume (24h)</th>
+      <th className="px-6 py-4 text-left border-b border-gray-700">Links</th>
+      <th className="px-6 py-4 text-left border-b border-gray-700">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {filteredCoins.length === 0 ? (
+      <tr>
+        <td colSpan="8" className="py-10 text-center text-lg text-red-400 animate-pulse bg-gray-800">
+          Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again
+          <br />
+          Note: least starting solana varies based off region some start can use at least 0.4
+        </td>
+      </tr>
+    ) : (
+      currentCoins.map((item, idx) => {
+        const pair = item.pairData;
+        return (
+          <tr
+            key={idx}
+            className="hover:bg-gray-800 transition-colors border-b border-gray-600"
+          >
+            <td className="px-6 py-4 text-gray-400">{indexOfFirstCoin + idx + 1}</td>
+            <td className="px-6 py-4">
+              <TokenCell pair={pair} />
+            </td>
+            <td className={`px-6 py-4 text-sm ${getPriceColor(pair.priceUsd)}`}>
+              ${Number(pair.priceUsd).toFixed(6)}
+            </td>
+            <td className="px-6 py-4 text-sm">
+              <PriceChangeCell value={pair.priceChange?.h24} />
+            </td>
+            <td className="px-6 py-4 text-white text-sm">
+              ${pair.liquidity?.usd.toLocaleString() || "0"}
+            </td>
+            <td className="px-6 py-4 text-white text-sm">
+              ${pair.volume?.h24.toLocaleString() || "0"}
+            </td>
+            <td className="px-6 py-4 text-sm space-x-3">
+              {pair.info?.websites?.[0]?.url && (
+                <a
+                  href={pair.info.websites[0].url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:text-blue-400 underline"
+                >
+                  Website
+                </a>
+              )}
+              {pair.url && (
+                <a
+                  href={pair.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:text-blue-400 underline"
+                >
+                  Dex
+                </a>
+              )}
+            </td>
+            <td className="px-6 py-4">
+              <button
+                className="bg-green-500 hover:bg-green-600 text-black font-medium text-sm px-3 py-2 rounded-lg transition-colors"
+                onClick={() => handleBuyClick(item)}
+              >
+                Buy
+              </button>
+            </td>
+          </tr>
+        );
+      })
+    )}
+  </tbody>
+</table>
             {/* Mobile Table */}
             <table className="w-full text-xs md:hidden">
               <thead>
