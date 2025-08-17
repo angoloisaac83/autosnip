@@ -234,7 +234,7 @@ export default function TokenTable() {
         Try our filters for a secure experience
       </span>
     </div>
-    <div className="flex overflow-x-auto gap-6 mt-4 lg:mt-0">
+    <div className="flex overflow-x-scroll w-full gap-6 mt-4 lg:mt-0">
       <label className="flex items-center gap-3 cursor-pointer font-medium group min-w-[180px]">
         <input
           type="checkbox"
