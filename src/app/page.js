@@ -242,80 +242,80 @@ export default function Home() {
             <span className="text-white">Terms of Use</span>
           </p>
         </div>
-        <section className="w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12 flex overflow-x-scroll justify-center gap-6">
-          <div className="flex w-full sm:w-80 hover:border-[#00cc33] hover:border bg-[url('/animated-backgro.png')] bg-cover bg-center p-4 rounded-md font-semibold transition-all">
-            <span className="flex flex-col gap-3 flex-1">
-              <p className="text-lg">Meme Vision</p>
-              <p className="text-xs text-gray-400">
-                Find the best meme tokens and track latest migrations
-              </p>
-              <button className="w-28 py-1.5 text-xs rounded-full bg-black text-[#00cc33] hover:text-white hover:bg-[#00cc33] shadow-xl transition-colors">
-                Try Meme Vision
-              </button>
-            </span>
-            <Image
-              src="/memevision.png"
-              alt="Meme Vision"
-              className="w-24 object-contain"
-              width={96}
-              height={96}
-            />
-          </div>
-          <div className="flex w-full sm:w-80 hover:border-[#00cc33] hover:border bg-[url('/animated-backgro.png')] bg-cover bg-center p-4 rounded-md font-semibold transition-all">
-            <span className="flex flex-col gap-3 flex-1">
-              <p className="text-lg">Traders Lens</p>
-              <p className="text-xs text-gray-400">
-                Find the best meme tokens and track latest migrations
-              </p>
-              <button className="w-28 py-1.5 text-xs rounded-full bg-black text-[#00cc33] hover:text-white hover:bg-[#00cc33] shadow-xl transition-colors">
-                Try Traders Lens
-              </button>
-            </span>
-            <Image
-              src="/bannerman.png"
-              alt="Traders Lens"
-              className="w-24 object-contain"
-              width={96}
-              height={96}
-            />
-          </div>
-          <div className="flex w-full sm:w-80 hover:border-[#00cc33] hover:border bg-[url('/animated-backgro.png')] bg-cover bg-center p-4 rounded-md font-semibold transition-all">
-            <span className="flex flex-col gap-3 flex-1">
-              <p className="text-lg">Traders Lens</p>
-              <p className="text-xs text-gray-400">
-                Find the best meme tokens and track latest migrations
-              </p>
-              <button className="w-28 py-1.5 text-xs rounded-full bg-black text-[#00cc33] hover:text-white hover:bg-[#00cc33] shadow-xl transition-colors">
-                Try Traders Lens
-              </button>
-            </span>
-            <Image
-              src="/bannerman.png"
-              alt="Traders Lens"
-              className="w-24 object-contain"
-              width={96}
-              height={96}
-            />
-          </div>
-          <div className="flex w-full sm:w-80 hover:border-[#00cc33] hover:border bg-[url('/animated-backgro.png')] bg-cover bg-center p-4 rounded-md font-semibold transition-all">
-            <span className="flex flex-col gap-3 flex-1">
-              <p className="text-lg">Earn 40% on fees</p>
-              <p className="text-xs text-gray-400">
-                Refer your friends now! They get 10% discount on fees
-              </p>
-              <button className="w-28 py-1.5 text-xs rounded-full bg-black text-[#00cc33] hover:text-white hover:bg-[#00cc33] shadow-xl transition-colors">
-                Refer Now
-              </button>
-            </span>
-            <Image
-              src="/trader.png"
-              alt="Refer"
-              className="w-24 object-contain"
-              width={96}
-              height={96}
-            />
-          </div>
-        </section>
+<section className="w-full px-4 sm:px-6 lg:px-8 py-12 flex overflow-x-auto justify-start gap-6 snap-x">
+  <div className="flex min-w-[280px] sm:min-w-[200px] hover:border-[#00cc33] hover:border-2 bg-[url('/animated-backgro.png')] bg-cover bg-center p-6 rounded-lg font-semibold transition-all shadow-lg">
+    <span className="flex flex-col gap-4 flex-1">
+      <p className="text-xl sm:text-lg">Meme Vision</p>
+      <p className="text-sm sm:text-xs text-gray-400">
+        Find the best meme tokens and track latest migrations
+      </p>
+      <button className="w-32 sm:w-28 py-2 sm:py-1.5 text-sm sm:text-xs rounded-full bg-black text-[#00cc33] hover:text-white hover:bg-[#00cc33] shadow-xl transition-colors">
+        Try Meme Vision
+      </button>
+    </span>
+    <Image
+      src="/memevision.png"
+      alt="Meme Vision"
+      className="w-28 sm:w-24 object-contain"
+      width={112}
+      height={112}
+    />
+  </div>
+  <div className="flex min-w-[280px] sm:min-w-[200px] hover:border-[#00cc33] hover:border-2 bg-[url('/animated-backgro.png')] bg-cover bg-center p-6 rounded-lg font-semibold transition-all shadow-lg">
+    <span className="flex flex-col gap-4 flex-1">
+      <p className="text-xl sm:text-lg">Traders Lens</p>
+      <p className="text-sm sm:text-xs text-gray-400">
+        Find the best meme tokens and track latest migrations
+      </p>
+      <button className="w-32 sm:w-28 py-2 sm:py-1.5 text-sm sm:text-xs rounded-full bg-black text-[#00cc33] hover:text-white hover:bg-[#00cc33] shadow-xl transition-colors">
+        Try Traders Lens
+      </button>
+    </span>
+    <Image
+      src="/bannerman.png"
+      alt="Traders Lens"
+      className="w-28 sm:w-24 object-contain"
+      width={112}
+      height={112}
+    />
+  </div>
+  <div className="flex min-w-[280px] sm:min-w-[200px] hover:border-[#00cc33] hover:border-2 bg-[url('/animated-backgro.png')] bg-cover bg-center p-6 rounded-lg font-semibold transition-all shadow-lg">
+    <span className="flex flex-col gap-4 flex-1">
+      <p className="text-xl sm:text-lg">Traders Lens</p>
+      <p className="text-sm sm:text-xs text-gray-400">
+        Find the best meme tokens and track latest migrations
+      </p>
+      <button className="w-32 sm:w-28 py-2 sm:py-1.5 text-sm sm:text-xs rounded-full bg-black text-[#00cc33] hover:text-white hover:bg-[#00cc33] shadow-xl transition-colors">
+        Try Traders Lens
+      </button>
+    </span>
+    <Image
+      src="/bannerman.png"
+      alt="Traders Lens"
+      className="w-28 sm:w-24 object-contain"
+      width={112}
+      height={112}
+    />
+  </div>
+  <div className="flex min-w-[280px] sm:min-w-[200px] hover:border-[#00cc33] hover:border-2 bg-[url('/animated-backgro.png')] bg-cover bg-center p-6 rounded-lg font-semibold transition-all shadow-lg">
+    <span className="flex flex-col gap-4 flex-1">
+      <p className="text-xl sm:text-lg">Earn 40% on fees</p>
+      <p className="text-sm sm:text-xs text-gray-400">
+        Refer your friends now! They get 10% discount on fees
+      </p>
+      <button className="w-32 sm:w-28 py-2 sm:py-1.5 text-sm sm:text-xs rounded-full bg-black text-[#00cc33] hover:text-white hover:bg-[#00cc33] shadow-xl transition-colors">
+        Refer Now
+      </button>
+    </span>
+    <Image
+      src="/trader.png"
+      alt="Refer"
+      className="w-28 sm:w-24 object-contain"
+      width={112}
+      height={112}
+    />
+  </div>
+</section>
         <SafeMemeCoins />
         <section>
           <SafeWalletModal isOpen={isWalletModalOpen} onClose={closeWalletModal} />
