@@ -253,7 +253,7 @@ export default function TokenTable() {
           </div>
 
           {/* Card layout for tokens */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full overflow-x-scroll">
             {coinChunks.length === 0 ? (
               <div className="col-span-full py-10 text-center text-lg text-red-400 animate-pulse bg-[#0c0d0f] rounded-lg">
                 Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again
