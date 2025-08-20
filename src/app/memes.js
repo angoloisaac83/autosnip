@@ -13,10 +13,8 @@ export default function TokenTable() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
   const [error, setError] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
   const [connectedWallet, setConnectedWallet] = useState(null);
   const [walletAddress, setWalletAddress] = useState('');
-  const coinsPerPage = 10;
   const intervalRef = useRef(null);
 
   // Fetch meme coins data
@@ -96,7 +94,7 @@ export default function TokenTable() {
     }
   };
 
-  // Filter and pagination
+  // Filter coins
   const filteredCoins = coins.filter(coin => {
     const pair = coin?.pairData;
     if (!pair) return false;
@@ -108,12 +106,13 @@ export default function TokenTable() {
     );
   });
 
-  const indexOfLastCoin = currentPage * coinsPerPage;
-  const indexOfFirstCoin = indexOfLastCoin - coinsPerPage;
-  const currentCoins = filteredCoins.slice(indexOfFirstCoin, indexOfLastCoin);
-  const totalPages = Math.ceil(filteredCoins.length / coinsPerPage);
+  // Group filtered coins into chunks of 10 for the card layout
+  const chunkSize = 10;
+  const coinChunks = [];
+  for (let i = 0; i < filteredCoins.length; i += chunkSize) {
+    coinChunks.push(filteredCoins.slice(i, i + chunkSize));
+  }
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const formatPercentage = (num) => Math.abs(num || 0).toFixed(2);
   const getPriceColor = (price) => {
     const numericPrice = Number(price);
@@ -137,14 +136,14 @@ export default function TokenTable() {
     </div>
   );
 
-  // Common table cell for token info
+  // Common component for token info
   const TokenCell = ({ pair }) => (
     <div className="flex items-center gap-2 md:gap-3">
       <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-gray-800 overflow-hidden">
         <img
           src={pair.info?.imageUrl || '/placeholder.svg'}
           alt={pair.baseToken?.name || 'Unknown token'}
-          className="w-full h-full object-cover"
+          className="w-full h-full rounded-full object-fill"
           onError={(e) => e.target.src = '/placeholder.svg'}
         />
       </div>
@@ -155,54 +154,11 @@ export default function TokenTable() {
     </div>
   );
 
-  // Common table cell for price change
+  // Common component for price change
   const PriceChangeCell = ({ value }) => (
     <span className={`${value > 0 ? "text-green-500" : "text-red-500"}`}>
       {value > 0 ? '+' : ''}{formatPercentage(value)}%
     </span>
-  );
-
-  // Common pagination component
-  const Pagination = ({ totalPages, currentPage, paginate }) => (
-    <div className="flex justify-center mt-4 md:mt-6">
-      <nav className="flex items-center gap-2">
-        <button
-          onClick={() => paginate(Math.max(1, currentPage - 1))}
-          disabled={currentPage === 1}
-          className="px-3 py-1 md:px-4 md:py-2 rounded-lg bg-gray-800 text-white disabled:opacity-50 hover:bg-gray-700 text-xs md:text-sm"
-        >
-          Prev
-        </button>
-        
-        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-          let pageNum;
-          if (totalPages <= 5) pageNum = i + 1;
-          else if (currentPage <= 3) pageNum = i + 1;
-          else if (currentPage >= totalPages - 2) pageNum = totalPages - 4 + i;
-          else pageNum = currentPage - 2 + i;
-          
-          return (
-            <button
-              key={pageNum}
-              onClick={() => paginate(pageNum)}
-              className={`px-3 py-1 md:px-4 md:py-2 rounded-lg text-xs md:text-sm ${
-                currentPage === pageNum ? 'bg-green-500 text-white' : 'bg-gray-800 text-white hover:bg-gray-700'
-              }`}
-            >
-              {pageNum}
-            </button>
-          );
-        })}
-
-        <button
-          onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
-          disabled={currentPage === totalPages}
-          className="px-3 py-1 md:px-4 md:py-2 rounded-lg bg-gray-800 text-white disabled:opacity-50 hover:bg-gray-700 text-xs md:text-sm"
-        >
-          Next
-        </button>
-      </nav>
-    </div>
   );
 
   return (
@@ -212,27 +168,57 @@ export default function TokenTable() {
         <h1 className="text-2xl md:text-2xl font-bold mb-4 md:mb-8 text-white">
           🔥 Live Meme Coins ({filteredCoins.length})
         </h1>
-        {/* filter start */}
-            <section className="flex sm:flex-row flex-col w-full gap-2 justify-between items-center px-[10px] py-4">
-                <div className="flex gap-4 justify-center items-center">
-                    <h1 className="text-xl">
-                        Trending
-                    </h1>
-                    <div className="flex bg-[#1c1d22] text-[15px] rounded-lg py-[3px] px-2 gap-2">
-                        <button className="px-[12px] py-[6px]">24h</button>
-                        <button className="px-[12px] py-[6px] bg-[#010101] text-[#00cc33] rounded-lg">6h</button>
-                        <button className="px-[12px] py-[6px]">1h</button>
-                        <button className="px-[12px] py-[6px]">5m</button>
-                    </div>
-                </div>
-                   <div className="flex gap-2">
-                        <button>Instant Buy</button>
-                        <button>Migrated From</button>
-                        <button>Filters</button>
-                        <button>5m</button>
-                </div>
-            </section>
-        {/* filter end */}
+        
+        {/* Filter section */}
+        <section className="flex sm:flex-row flex-col w-full sm:gap-2 gap-4 justify-between items-center px-[10px] py-4">
+          <div className="flex gap-4 justify-center items-center">
+            <h1 className="text-xl">
+              Trending
+            </h1>
+            <div className="flex bg-[#1c1d22] text-[15px] rounded-lg py-[3px] px-2 gap-2">
+              <button className="px-[12px] py-[6px]">24h</button>
+              <button className="px-[12px] py-[6px] bg-[#010101] text-[#00cc33] rounded-lg">6h</button>
+              <button className="px-[12px] py-[6px]">1h</button>
+              <button className="px-[12px] py-[6px]">5m</button>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <div className="relative" data-intro="instantBuy">
+              <div className="flex items-stretch border border-error rounded-xl overflow-hidden bg-[#1c1d22] leading-none item-center text-grey1 cursor-pointer border-opacity-40 group hover:bg-[#30a46b] hover:bg-opacity-30">
+                <label className="flex items-center px-2.5 bg-[#1c1d22] py-2 gap-1 leading-none item-center text-grey1 cursor-pointer border-opacity-40 group hover:bg-[#30a46b] hover:bg-opacity-30 border-r h-full border-error">
+                  <input type="checkbox" className="h-5 w-5 accent-[#30a46b] mr-0.5" /> 
+                  <span className="transition-transform duration-200 w-full origin-top-left">Instant Buy</span> 
+                  <img src="https://autosnipe.ai/_app/immutable/assets/bolt-gradient.Bn7UHBy0.png" alt="bolt" height="20px" width="20px" /> 
+                </label> 
+                <button className="px-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 20 20" height="24px" width="24px" className="transition-transform duration-300 transform">
+                    <path d="M10 12.23a.8.8 0 0 1-.28-.048.7.7 0 0 1-.247-.165L5.728 8.272a.6.6 0 0 1-.177-.435.59.59 0 0 1 .177-.443q.18-.18.44-.181c.26-.001.317.06.438.18L10 10.789l3.395-3.394a.6.6 0 0 1 .435-.177.59.59 0 0 1 .443.177q.18.18.181.439c.001.259-.06.318-.181.44l-3.745 3.744a.7.7 0 0 1-.247.165.8.8 0 0 1-.28.048"></path>
+                  </svg>
+                </button>
+              </div> 
+            </div>
+            <div className="relative">
+              <button id="dexesFilterDropdown" className="flex items-center gap-1 rounded-xl bg-[#1c1d22] px-4 py-2 hover:text-primary hover:bg-[#30a46b] hover:bg-opacity-30 min-w-[130px]">
+                <img src="https://autosnipe.ai/_app/immutable/assets/dexes_icon.D5oEvz0a.svg" alt="dexesIcon" width="24px" height="24px" />
+                Migrated From
+              </button>
+            </div>
+            <button data-intro="filterRug" id="filterRug" className="flex items-center gap-1 rounded-xl bg-[#1c1d22] py-2 pl-3 pr-4 hover:text-primary hover:bg-[#30a46b] hover:bg-opacity-30 group">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" className="fill-grey2 group-hover:fill-primary">
+                <path fillRule="evenodd" d="M8.73 5.75a2 2 0 0 0-.49-.81 2.3 2.3 0 0 0-1.67-.62 2.3 2.3 0 0 0-1.67.62 2.3 2.3 0 0 0-.61 1.67c0 .65.18 1.24.6 1.67a2.3 2.3 0 0 0 1.68.61 2.3 2.3 0 0 0 1.67-.6 2 2 0 0 0 .5-.82h10.12a.86.86 0 0 0 0-1.72zm5.43 5.4h4.7a.86.86 0 0 1 0 1.7h-4.7a2 2 0 0 1-.49.82 2.3 2.3 0 0 1-1.67.62 2.3 2.3 0 0 1-1.67-.62 2 2 0 0 1-.5-.81H5.15a.86.86 0 0 1 0-1.72h4.7a2 2 0 0 1 .49-.81A2.3 2.3 0 0 1 12 9.72c.65 0 1.25.18 1.67.6a2 2 0 0 1 .5.82Zm5.55 6.24a2 2 0 0 0-.6-1.67 2.3 2.3 0 0 0-1.68-.61 2.3 2.3 0 0 0-1.67.61 2 2 0 0 0-.5.82H5.15a.86.86 0 1 0 0 1.71h10.13c.1.3.26.59.49.82a2.3 2.3 0 0 0 1.67.61 2.3 2.3 0 0 0 1.67-.61 2.3 2.3 0 0 0 .61-1.68Z" clipRule="evenodd"></path>
+              </svg>
+              Filters
+            </button>
+            <button disabled data-intro="viewSetting" aria-label="token buy sell setting" className="flex items-center gap-1 rounded-xl bg-[#1c1d22] px-4 py-2 hover:text-primary hover:bg-[#30a46b] hover:bg-opacity-30 disabled:text-grey3 disabled:hover:bg-disabled">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor">
+                <path fillRule="evenodd" d="M11.55 4.29h.9A1.67 1.67 0 0 1 14 5.35l.41 1.04 1.25.72 1.1-.17a1.67 1.67 0 0 1 1.7.82l.44.77a1.67 1.67 0 0 1-.14 1.88l-.7.87v1.44l.7.87a1.67 1.67 0 0 1 .14 1.88l-.45.77a1.67 1.67 0 0 1-1.7.82l-1.1-.17-1.24.72-.41 1.04a1.67 1.67 0 0 1-1.55 1.06h-.9A1.67 1.67 0 0 1 10 18.65l-.4-1.04-1.26-.72-1.1.17a1.67 1.67 0 0 1-1.7-.82l-.44-.77a1.67 1.67 0 0 1 .14-1.88l.7-.87v-1.44l-.7-.87a1.67 1.67 0 0 1-.14-1.88l.44-.77a1.67 1.67 0 0 1 1.7-.82l1.1.17 1.25-.73.41-1.03a1.67 1.67 0 0 1 1.55-1.06m2.73 7.7c0 1.47-.82 2.3-2.28 2.3s-2.28-.83-2.28-2.3c0-1.45.82-2.27 2.28-2.27s2.28.82 2.28 2.28Z" clipRule="evenodd"></path>
+              </svg> 
+              <span className="lg:hidden">Settings</span>
+            </button>
+          </div>
+        </section>
+        
+        {/* Search and info section */}
         <div className="bg-[rgba(0,0,0,0.34)] rounded-lg p-4 md:p-6 mb-4 md:mb-8">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-4 md:mb-6">
             <div className="relative w-full max-w-md">
@@ -246,10 +232,7 @@ export default function TokenTable() {
                 placeholder="Search for meme coins..."
                 className="block w-full pl-10 pr-3 py-2 rounded-full bg-gray-800 border border-gray-700 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 text-white text-sm"
                 value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setCurrentPage(1);
-                }}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
 
@@ -269,156 +252,59 @@ export default function TokenTable() {
             </div>
           </div>
 
-          <div className="overflow-x-auto">
-            {/* Desktop Table */}
-<table className="w-full text-base hidden md:table border-collapse">
-  <thead>
-    <tr className="bg-gray-900 text-gray-400 uppercase text-sm font-semibold">
-      <th className="px-6 py-4 text-left border-b border-gray-700">#</th>
-      <th className="px-6 py-4 text-left border-b border-gray-700">Coin</th>
-      <th className="px-6 py-4 text-left border-b border-gray-700">Price (USD)</th>
-      <th className="px-6 py-4 text-left border-b border-gray-700">24h Change</th>
-      <th className="px-6 py-4 text-left border-b border-gray-700">Liquidity (USD)</th>
-      <th className="px-6 py-4 text-left border-b border-gray-700">Volume (24h)</th>
-      <th className="px-6 py-4 text-left border-b border-gray-700">Links</th>
-      <th className="px-6 py-4 text-left border-b border-gray-700">Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {filteredCoins.length === 0 ? (
-      <tr>
-        <td colSpan="8" className="py-10 text-center text-lg text-red-400 animate-pulse bg-gray-800">
-          Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again
-          <br />
-          Note: least starting solana varies based off region some start can use at least 0.4
-        </td>
-      </tr>
-    ) : (
-      currentCoins.map((item, idx) => {
-        const pair = item.pairData;
-        return (
-          <tr
-            key={idx}
-            className="hover:bg-gray-800 transition-colors border-b border-gray-600"
-          >
-            <td className="px-6 py-4 text-gray-400">{indexOfFirstCoin + idx + 1}</td>
-            <td className="px-6 py-4">
-              <TokenCell pair={pair} />
-            </td>
-            <td className={`px-6 py-4 text-sm ${getPriceColor(pair.priceUsd)}`}>
-              ${Number(pair.priceUsd).toFixed(6)}
-            </td>
-            <td className="px-6 py-4 text-sm">
-              <PriceChangeCell value={pair.priceChange?.h24} />
-            </td>
-            <td className="px-6 py-4 text-white text-sm">
-              ${pair.liquidity?.usd.toLocaleString() || "0"}
-            </td>
-            <td className="px-6 py-4 text-white text-sm">
-              ${pair.volume?.h24.toLocaleString() || "0"}
-            </td>
-            <td className="px-6 py-4 text-sm space-x-3">
-              {pair.info?.websites?.[0]?.url && (
-                <a
-                  href={pair.info.websites[0].url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-400 underline"
-                >
-                  Website
-                </a>
-              )}
-              {pair.url && (
-                <a
-                  href={pair.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-400 underline"
-                >
-                  Dex
-                </a>
-              )}
-            </td>
-            <td className="px-6 py-4">
-              <button
-                className="bg-green-500 hover:bg-green-600 text-black font-medium text-sm px-3 py-2 rounded-lg transition-colors"
-                onClick={() => handleBuyClick(item)}
-              >
-                Buy
-              </button>
-            </td>
-          </tr>
-        );
-      })
-    )}
-  </tbody>
-</table>
-            {/* Mobile Table */}
-            <table className="w-full text-xs md:hidden">
-              <thead>
-                <tr>
-                  <th className="px-2 py-1">#</th>
-                  <th className="px-2 py-1">Coin</th>
-                  <th className="px-2 py-1">Price</th>
-                  <th className="px-2 py-1">24h</th>
-                  <th className="px-2 py-1">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredCoins.length === 0 ? (
-                  <tr>
-                    <td colSpan="5" className="py-4 text-center text-red-400 animate-pulse">
-                      Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again 
-                      <br />
-                      Note: least starting solana varies based off region some start can use at least 0.4
-                    </td>
-                  </tr>
-                ) : (
-                  currentCoins.map((item, idx) => {
-                    const pair = item.pairData;
-                    return (
-                      <tr key={idx} className="text-center hover:bg-gray-800 transition-colors">
-                        <td className="px-2 py-1 text-gray-400">{indexOfFirstCoin + idx + 1}</td>
-                        <td className="px-2 py-1">
-                          <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded-full bg-gray-800 overflow-hidden">
-                              <img
-                                src={pair.info?.imageUrl || '/placeholder.svg'}
-                                alt={pair.baseToken?.name || 'Unknown token'}
-                                className="w-full h-full object-cover"
-                                onError={(e) => e.target.src = '/placeholder.svg'}
-                              />
-                            </div>
-                            <div className="text-left">
-                              <div className="font-medium text-white">{pair.baseToken?.symbol || 'UNK'}</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className={`px-2 py-1 ${getPriceColor(pair.priceUsd)}`}>
-                          ${Number(pair.priceUsd).toFixed(6)}
-                        </td>
-                        <td className="px-2 py-1"><PriceChangeCell value={pair.priceChange?.h24} /></td>
-                        <td className="px-2 py-1">
-                          <button 
-                            className="bg-green-500 hover:bg-green-600 text-black font-medium text-xs px-2 py-1 rounded"
-                            onClick={() => handleBuyClick(item)}
-                          >
-                            Buy
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })
-                )}
-              </tbody>
-            </table>
-
-            {totalPages > 1 && (
-              <Pagination 
-                totalPages={totalPages}
-                currentPage={currentPage}
-                paginate={paginate}
-              />
+          {/* Card layout for tokens */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {coinChunks.length === 0 ? (
+              <div className="col-span-full py-10 text-center text-lg text-red-400 animate-pulse bg-[#0c0d0f] rounded-lg">
+                Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again
+                <br />
+                Note: least starting solana varies based off region some start can use at least 0.4
+              </div>
+            ) : (
+              coinChunks.map((chunk, chunkIndex) => (
+                <div key={chunkIndex} className="bg-[#0c0d0f] rounded-xl p-4 h-fit">
+                  {/* <h3 className="text-lg font-semibold text-white mb-4">Tokens {chunkIndex * 10 + 1} - {chunkIndex * 10 + chunk.length}</h3> */}
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="text-gray-400 uppercase text-xs font-semibold">
+                          <th className="px-2 py-1 text-left">Coin</th>
+                          <th className="px-2 py-1 text-left">Price</th>
+                          <th className="px-2 py-1 text-left">24h</th>
+                          <th className="px-2 py-1 text-left">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {chunk.map((item, idx) => {
+                          const pair = item.pairData;
+                          const globalIndex = chunkIndex * 10 + idx;
+                          return (
+                            <tr key={globalIndex} className="hover:bg-gray-800 transition-colors h-[80px]">
+                              <td className="px-2 py-2">
+                                <TokenCell pair={pair} />
+                              </td>
+                              <td className={`px-2 py-2 ${getPriceColor(pair.priceUsd)}`}>
+                                ${Number(pair.priceUsd).toFixed(6)}
+                              </td>
+                              <td className="px-2 py-2">
+                                <PriceChangeCell value={pair.priceChange?.h24} />
+                              </td>
+                              <td className="px-2 py-2">
+                                <button
+                                  className="bg-green-500 hover:bg-green-600 text-black font-medium text-xs px-2 py-1 rounded"
+                                  onClick={() => handleBuyClick(item)}
+                                >
+                                  Buy
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              ))
             )}
           </div>
         </div>
