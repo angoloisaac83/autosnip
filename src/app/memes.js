@@ -170,7 +170,7 @@ export default function TokenTable() {
         </h1>
         
         {/* Filter section */}
-        <section className="flex sm:flex-row flex-col w-full sm:gap-2 gap-4 justify-between items-center px-[10px] py-4">
+        <section className="flex sm:flex-row flex-col w-full sm:gap-2 gap-6 justify-between items-center px-[10px] py-4">
           <div className="flex gap-4 justify-center items-center">
             <h1 className="text-xl">
               Trending
@@ -182,7 +182,7 @@ export default function TokenTable() {
               <button className="px-[12px] py-[6px]">5m</button>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 text-[10px] sm:text-[20px] sm:w-[fit] w-[300px] overflow-x-scroll">
             <div className="relative" data-intro="instantBuy">
               <div className="flex items-stretch border border-error rounded-xl overflow-hidden bg-[#1c1d22] leading-none item-center text-grey1 cursor-pointer border-opacity-40 group hover:bg-[#30a46b] hover:bg-opacity-30">
                 <label className="flex items-center px-2.5 bg-[#1c1d22] py-2 gap-1 leading-none item-center text-grey1 cursor-pointer border-opacity-40 group hover:bg-[#30a46b] hover:bg-opacity-30 border-r h-full border-error">
@@ -219,7 +219,7 @@ export default function TokenTable() {
         </section>
         
         {/* Search and info section */}
-        <div className="bg-[rgba(0,0,0,0.34)] rounded-lg p-4 md:p-6 mb-4 md:mb-8">
+        <div className="bg-[rgba(0,0,0,0.34)] rounded-lg p-2 md:p-6 mb-4 md:mb-8">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-4 md:mb-6">
             <div className="relative w-full max-w-md">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -253,7 +253,7 @@ export default function TokenTable() {
           </div>
 
           {/* Card layout for tokens */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full overflow-x-scroll">
+          <div className="flex gap-4 w-full overflow-x-scroll">
             {coinChunks.length === 0 ? (
               <div className="col-span-full py-10 text-center text-lg text-red-400 animate-pulse bg-[#0c0d0f] rounded-lg">
                 Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again
