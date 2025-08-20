@@ -8,31 +8,31 @@ import Link from "next/link";
 function SideBar({ open }) {
   return (
     <div
-      className={`bg-[#080808] text-[#cccccc] fixed bottom-0 left-0 h-[90vh] w-20 sm:w-24 transition-transform duration-300 ease-in-out ${
+      className={`bg-[#080808] text-[#cccccc] fixed bottom-0 left-0 h-[90vh] w-20 sm:w-[80px] transition-transform duration-300 ease-in-out ${
         open ? "translate-x-0" : "-translate-x-full"
       } sm:translate-x-0 flex flex-col items-center py-6 z-50`}
     >
       <ul className="flex flex-col items-center justify-between gap-6 w-full h-full">
         <Link href="/trending">
-          <li className="flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-lg hover:text-[#00cc33] hover:bg-[rgba(0,0,0,0.34)] cursor-pointer transition-colors font-semibold text-xs sm:text-sm">
+          <li className="flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-lg hover:text-[#00cc33] hover:bg-[rgba(0,0,0,0.34)] cursor-pointer transition-colors font-semibold text-xs sm:text-[10px]">
             <FaRocket className="text-lg sm:text-xl mb-1" />
             <p>Trending</p>
           </li>
         </Link>
         <Link href="/newpairs">
-          <li className="flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-lg hover:text-[#00cc33] hover:bg-[rgba(0,0,0,0.34)] cursor-pointer transition-colors font-semibold text-xs sm:text-sm">
+          <li className="flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-lg hover:text-[#00cc33] hover:bg-[rgba(0,0,0,0.34)] cursor-pointer transition-colors font-semibold text-xs sm:text-[10px]">
             <BsGearFill className="text-lg sm:text-xl mb-1" />
             <p>New Pairs</p>
           </li>
         </Link>
         <Link href="/wallet">
-          <li className="flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-lg hover:text-[#00cc33] hover:bg-[rgba(0,0,0,0.34)] cursor-pointer transition-colors font-semibold text-xs sm:text-sm">
+          <li className="flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-lg hover:text-[#00cc33] hover:bg-[rgba(0,0,0,0.34)] cursor-pointer transition-colors font-semibold text-xs sm:text-[10px]">
             <IoWallet className="text-lg sm:text-xl mb-1" />
             <p>Wallet</p>
           </li>
         </Link>
         <Link href="/copytrade">
-          <li className="flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-lg hover:text-[#00cc33] hover:bg-[rgba(0,0,0,0.34)] cursor-pointer transition-colors font-semibold text-xs sm:text-sm">
+          <li className="flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-lg hover:text-[#00cc33] hover:bg-[rgba(0,0,0,0.34)] cursor-pointer transition-colors font-semibold text-xs sm:text-[10px]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

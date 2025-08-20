@@ -58,7 +58,7 @@ export async function GET() {
 
           const pairData = await pairResponse.json();
           const primaryPair = Array.isArray(pairData) ? pairData[0] : pairData;
-
+          console.log(`primary pair ${JSON.stringify(primaryPair)}`)
           // Ensure the response has the expected structure
           return {
             profile,

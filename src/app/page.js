@@ -227,7 +227,7 @@ export default function Home() {
           </p>
           <button
             onClick={openWalletModal}
-            className="flex items-center justify-center gap-2 bg-[#00cc33] w-full max-w-xs sm:max-w-sm h-14 rounded-lg font-semibold text-black text-lg hover:shadow-[0_0_8px_#ff0000,0_0_8px_#ff00ff,0_0_8px_#0000ff] transition-shadow"
+            className="flex items-center justify-center gap-2 bg-[#00cc33] w-[314px] max-w-xs sm:max-w-sm h-14 rounded-lg font-semibold text-black text-[23px] hover:shadow-[0_0_8px_#ff0000,0_0_8px_#ff00ff,0_0_8px_#0000ff] shadow-[0_0_8px_#ff0000,0_0_8px_#ff00ff,0_0_8px_#0000ff] transition-shadow"
           >
             <IoWallet /> Connect & Snipe
           </button>

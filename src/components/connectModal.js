@@ -164,8 +164,8 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
-      <div className="bg-gray-900 w-80 rounded-lg shadow-lg p-6 max-w-md relative">
+    <div className="fixed inset-0 bg-[rgba(0,0,0,0.53)] flex justify-center items-start pt-[50px] z-50">
+      <div className="bg-[#121313] w-80 rounded-[44px] shadow-lg p-6 max-w-md relative">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-300 focus:outline-none"
@@ -182,20 +182,20 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
               {walletOptions.map(({ name, image }) => (
                 <li
                   key={name}
-                  className="bg-gray-800 hover:bg-gray-700 rounded-md py-3 px-2 w-full cursor-pointer transition duration-200 flex items-center"
+                  className="bg-[rgba(0,0,0,0.04)] hover:bg-[rgba(0,0,0,0.84)] rounded-md py-3 px-2 w-full cursor-pointer transition duration-200 flex items-center"
                   onClick={() => handleWalletSelect(name)}
                 >
-                  <img src={image} alt={name} className="h-6 w-6 mr-2" />
-                  <span className="block text-sm text-gray-300 font-medium">{name}</span>
-                  <span className="text-xs bg-[#1F3A28] p-1 font-bold rounded text-green-500 ml-auto">INSTALLED</span>
+                  <img src={image} alt={name} className="h-10 w-10 mr-2 rounded-full" />
+                  <span className="block text-md text-gray-300 font-medium">{name}</span>
+                  <span className="text-[10px] bg-[#1F3A28] p-1 font-bold rounded text-green-500 ml-auto">INSTALLED</span>
                 </li>
               ))}
             </ul>
             <button
-              className="w-full flex items-center gap-4 pl-2 mt-4 bg-gray-800 text-sm text-white font-semibold py-2 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
+              className="w-full flex items-center gap-2 pl-2 mt-4 bg-gray-800 text-[15px] text-white font-semibold py-2 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
               onClick={handleOtherOptionsClick}
             >
-              <HiViewGrid />
+              <HiViewGrid className='text-[23px]' />
               All Wallets
             </button>
             <p className="mt-4 text-center text-xs text-gray-400">Haven't got a wallet? <span className="text-indigo-500 text-sm cursor-pointer">Get started</span></p>
