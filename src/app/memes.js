@@ -148,8 +148,8 @@ export default function TokenTable() {
         />
       </div>
       <div>
-        <div className="font-medium text-white">{pair.baseToken?.name || 'Unknown'}</div>
-        <div className="text-gray-400 text-xs">{pair.baseToken?.symbol || 'UNK'}</div>
+        <div className="text-white text-[13px]">{pair.baseToken?.name || 'Unknown'}</div>
+        <div className="text-gray-400 text-[10px]">{pair.baseToken?.symbol || 'UNK'}</div>
       </div>
     </div>
   );
@@ -182,7 +182,7 @@ export default function TokenTable() {
               <button className="px-[12px] py-[6px]">5m</button>
             </div>
           </div>
-          <div className="flex gap-2 text-[10px] sm:text-[20px] sm:w-[fit] w-[300px] overflow-x-scroll">
+          <div className="flex gap-2 text-[10px] sm:text-[10px] sm:w-[420px] w-[300px] overflow-x-scroll">
             <div className="relative" data-intro="instantBuy">
               <div className="flex items-stretch border border-error rounded-xl overflow-hidden bg-[#1c1d22] leading-none item-center text-grey1 cursor-pointer border-opacity-40 group hover:bg-[#30a46b] hover:bg-opacity-30">
                 <label className="flex items-center px-2.5 bg-[#1c1d22] py-2 gap-1 leading-none item-center text-grey1 cursor-pointer border-opacity-40 group hover:bg-[#30a46b] hover:bg-opacity-30 border-r h-full border-error">
@@ -220,37 +220,37 @@ export default function TokenTable() {
         
         {/* Search and info section */}
         <div className="bg-[rgba(0,0,0,0.34)] rounded-lg p-2 md:p-6 mb-4 md:mb-8">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-4 md:mb-6">
-            <div className="relative w-full max-w-md">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
+            {/* <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-4 md:mb-6">
+              <div className="relative w-full max-w-md">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <input
+                  type="search"
+                  placeholder="Search for meme coins..."
+                  className="block w-full pl-10 pr-3 py-2 rounded-full bg-gray-800 border border-gray-700 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 text-white text-sm"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
               </div>
-              <input
-                type="search"
-                placeholder="Search for meme coins..."
-                className="block w-full pl-10 pr-3 py-2 rounded-full bg-gray-800 border border-gray-700 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 text-white text-sm"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
 
-            <div className="flex items-center gap-4 text-sm">
-              <div className="flex items-center gap-1 text-yellow-500">
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                <span>High Risk</span>
+              <div className="flex items-center gap-4 text-sm">
+                <div className="flex items-center gap-1 text-yellow-500">
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  <span>High Risk</span>
+                </div>
+                <div className="flex items-center gap-1 text-green-500">
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                  <span>Rug Protection</span>
+                </div>
               </div>
-              <div className="flex items-center gap-1 text-green-500">
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-                <span>Rug Protection</span>
-              </div>
-            </div>
-          </div>
+            </div> */}
 
           {/* Card layout for tokens */}
           <div className="flex gap-4 w-full overflow-x-scroll">
@@ -262,7 +262,7 @@ export default function TokenTable() {
               </div>
             ) : (
               coinChunks.map((chunk, chunkIndex) => (
-                <div key={chunkIndex} className="bg-[#0c0d0f] rounded-xl p-4 h-fit">
+                <div key={chunkIndex} className="bg-[#0c0d0f] rounded-[44px] p-4 h-fit">
                   {/* <h3 className="text-lg font-semibold text-white mb-4">Tokens {chunkIndex * 10 + 1} - {chunkIndex * 10 + chunk.length}</h3> */}
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
@@ -279,7 +279,7 @@ export default function TokenTable() {
                           const pair = item.pairData;
                           const globalIndex = chunkIndex * 10 + idx;
                           return (
-                            <tr key={globalIndex} className="hover:bg-gray-800 transition-colors h-[80px]">
+                            <tr key={globalIndex} className="hover:bg-[rgba(0,0,0,0.95)] cursor-pointer transition-colors h-[80px]">
                               <td className="px-2 py-2">
                                 <TokenCell pair={pair} />
                               </td>

@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import SideBar from "@/components/sidebar";
 import Footer from "@/components/footer";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,24 @@ export default function RootLayout({ children }) {
           </div>
         </main>
         <Footer />
+         {/* Tawk.to Script */}
+      <Script
+        id="tawk-to"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+            (function(){
+              var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+              s1.async=true;
+              s1.src='https://embed.tawk.to/68a6c1a425183f1924968a58/1j35m8s1k';
+              s1.charset='UTF-8';
+              s1.setAttribute('crossorigin','*');
+              s0.parentNode.insertBefore(s1,s0);
+            })();
+          `,
+        }}
+      />
       </body>
     </html>
   );
