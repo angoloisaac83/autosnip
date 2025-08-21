@@ -262,7 +262,7 @@ export default function TokenTable() {
               </div>
             ) : (
               coinChunks.map((chunk, chunkIndex) => (
-                <div key={chunkIndex} className="sm:w-fit w-[270px] bg-[#0c0d0f] rounded-[44px] p-4 h-fit">
+                <div key={chunkIndex} className="sm:w-fit w-[290px] bg-[#0c0d0f] rounded-[44px] p-4 h-fit">
                   {/* <h3 className="text-lg font-semibold text-white mb-4">Tokens {chunkIndex * 10 + 1} - {chunkIndex * 10 + chunk.length}</h3> */}
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
