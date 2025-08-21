@@ -29,3 +29,6 @@
 ::-webkit-scrollbar{
   display: none;
 }
+.bgi{
+  background: url("https://autosnipe.ai/_app/immutable/assets/gridBgWallet.Cpmn7lWM.svg"), #0c0d0f;
+}

@@ -69,11 +69,25 @@ const Trending = () => {
 
     return (
         <>
-            <section className="text-white max-[500px]:w-full w-[115%] max-[500px]:px-[10px]">
+            <section className="text-white max-[500px]:w-full w-[115%] max-[500px]:px-[0px]">
                 {!isConnected ? (
                     <GetStarted />
                 ) : (
-                    <div className="min-h-screen bg-transparent text-white p-6">
+                    <div className="min-h-screen bg-transparent text-white py-6">
+                        <div className="flex flex-col p-4 font-[500] rounded-[10px] w-full gap-[6px] bgi">
+                            <p className="text-[14px]">Your Trading Balance</p>
+                            <span className="flex justify-center items-center w-fit gap-[4px]">
+                                <img className="w-[32px] h-[32px] object-fit" src="https://autosnipe.ai/_app/immutable/assets/sol_icon.De0ynmvl.png" alt="" />
+                                <h1 className="text-[24px]">0.00</h1>
+                                <p>/$171.917</p>
+                            </span>
+                            <span className="flex bg-[#1c1d22] justify-between p-[4px] rounded-[6px] items-center">
+                                <img className="w-[32px] h-[32px]" src="https://autosnipe.ai/_app/immutable/assets/wallet.BgE1Fw1Q.svg" alt="" />
+                                <p className="text-[14px]">{wallet?.walletAddress || 'N/A'}</p>
+                                <img className="w-[32px] h-[32px]" src="https://autosnipe.ai/_app/immutable/assets/copy_color.DsKh1txP.svg" alt="" />
+                            </span>
+                        </div>
+                        <div class="grid grid-flow-col gap-1 sm:gap-4 overflow-auto py-6 font-medium"><button class="sm:px-4 text-sm md:text-base whitespace-nowrap rounded-xl p-2 sm:py-3 border border-transparent hover:bg-highlighterBg hover:border-white hover:border-opacity-10 active:bg-black">Deposit </button><button class="sm:px-4 text-sm md:text-base whitespace-nowrap rounded-xl p-2 sm:py-3 border border-transparent hover:bg-highlighterBg hover:border-white hover:border-opacity-10 active:bg-black">Withdraw </button><button class="sm:px-4 text-sm md:text-base whitespace-nowrap rounded-xl p-2 sm:py-3 border border-white border-opacity-10 bg-secondaryDark"><span class="gradient-text">History</span> </button></div>
                         <div className="max-w-md mx-auto bg-[#161616] rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-10">
                             <div className="p-8">
                                 <div className="flex justify-between items-center mb-6">
