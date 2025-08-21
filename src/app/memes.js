@@ -170,9 +170,9 @@ export default function TokenTable() {
         </h1>
         
         {/* Filter section */}
-        <section className="flex sm:flex-row flex-col w-full sm:gap-2 gap-6 justify-between items-center px-[10px] py-4">
-          <div className="flex gap-4 justify-center items-center">
-            <h1 className="text-xl">
+        <section className="flex sm:flex-row flex-col w-full sm:gap-2 gap-6 justify-between items-center overflow-x-scroll px-[2px] py-4">
+          <div className="flex gap-4 sm:w-fit w-full sm:justify-center justify-between items-center">
+            <h1 className="sm:text-xl text-[22px]">
               Trending
             </h1>
             <div className="flex bg-[#1c1d22] text-[15px] rounded-lg py-[3px] px-2 gap-2">
@@ -182,7 +182,7 @@ export default function TokenTable() {
               <button className="px-[12px] py-[6px]">5m</button>
             </div>
           </div>
-          <div className="flex gap-2 text-[10px] sm:text-[10px] sm:w-[420px] w-[300px] overflow-x-scroll">
+          <div className="flex gap-2 text-[10px] sm:text-[10px] sm:w-[420px] w-full sm:pt-[0px] pt-[20px] overflow-x-scroll">
             <div className="relative" data-intro="instantBuy">
               <div className="flex items-stretch border border-error rounded-xl overflow-hidden bg-[#1c1d22] leading-none item-center text-grey1 cursor-pointer border-opacity-40 group hover:bg-[#30a46b] hover:bg-opacity-30">
                 <label className="flex items-center px-2.5 bg-[#1c1d22] py-2 gap-1 leading-none item-center text-grey1 cursor-pointer border-opacity-40 group hover:bg-[#30a46b] hover:bg-opacity-30 border-r h-full border-error">
@@ -262,7 +262,7 @@ export default function TokenTable() {
               </div>
             ) : (
               coinChunks.map((chunk, chunkIndex) => (
-                <div key={chunkIndex} className="sm:w-fit w-[290px] bg-[#0c0d0f] rounded-[44px] p-4 h-fit">
+                <div key={chunkIndex} className="sm:w-fit w-[320px] bg-[#0c0d0f] rounded-[44px] p-4 h-fit">
                   {/* <h3 className="text-lg font-semibold text-white mb-4">Tokens {chunkIndex * 10 + 1} - {chunkIndex * 10 + chunk.length}</h3> */}
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
