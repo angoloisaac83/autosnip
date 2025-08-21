@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
       >
         <Navbar />
         <main className="flex-1 flex flex-col items-center justify-center w-[100%] px-4 sm:px-6 lg:px-8 pt-16 lg:pt-24">
-          <div className="w-full px-[50px]">
+          <div className="w-full sm:px-[50px] px-[0px]">
             {children}
           </div>
         </main>

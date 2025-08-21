@@ -164,7 +164,7 @@ export default function TokenTable() {
   return (
     <>
       <ToastContainer />
-      <div className="container mx-auto w-full py-4 md:py-8 px-2 md:px-4">
+      <div className="container mx-auto w-full py-4 md:py-8 sm:px-2 md:px-4">
         <h1 className="text-2xl md:text-2xl font-bold mb-4 md:mb-8 text-white">
           🔥 Live Meme Coins ({filteredCoins.length})
         </h1>
@@ -219,7 +219,7 @@ export default function TokenTable() {
         </section>
         
         {/* Search and info section */}
-        <div className="bg-[rgba(0,0,0,0.34)] rounded-lg p-2 md:p-6 mb-4 md:mb-8">
+        <div className="bg-[rgba(0,0,0,0.34)] rounded-[44px] p-2 md:p-6 mb-4 md:mb-8">
             {/* <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-4 md:mb-6">
               <div className="relative w-full max-w-md">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -255,14 +255,14 @@ export default function TokenTable() {
           {/* Card layout for tokens */}
           <div className="flex gap-4 w-full overflow-x-scroll">
             {coinChunks.length === 0 ? (
-              <div className="col-span-full py-10 text-center text-lg text-red-400 animate-pulse bg-[#0c0d0f] rounded-lg">
+              <div className="col-span-full py-10 text-center text-lg text-red-400 animate-pulse bg-[#0c0d0f] rounded-[44px]">
                 Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again
                 <br />
                 Note: least starting solana varies based off region some start can use at least 0.4
               </div>
             ) : (
               coinChunks.map((chunk, chunkIndex) => (
-                <div key={chunkIndex} className="bg-[#0c0d0f] rounded-[44px] p-4 h-fit">
+                <div key={chunkIndex} className="sm:w-fit w-[270px] bg-[#0c0d0f] rounded-[44px] p-4 h-fit">
                   {/* <h3 className="text-lg font-semibold text-white mb-4">Tokens {chunkIndex * 10 + 1} - {chunkIndex * 10 + chunk.length}</h3> */}
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
