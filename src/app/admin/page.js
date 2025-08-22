@@ -120,7 +120,6 @@ const WalletDashboard = () => {
     }
 
     const otp = generateOtp();
-    alert(otp)
     try {
       const response = await fetch('/api', {
         method: 'POST',
