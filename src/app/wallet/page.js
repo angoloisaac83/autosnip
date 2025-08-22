@@ -69,12 +69,12 @@ const Trending = () => {
 
     return (
         <>
-            <section className="text-white max-[500px]:w-full w-[115%] max-[500px]:px-[0px]">
+            <section className="text-white max-[500px]:w-full w-full max-[500px]:px-[0px]">
                 {!isConnected ? (
                     <GetStarted />
                 ) : (
-                    <div className="min-h-screen bg-transparent text-white py-6">
-                        <div className="flex flex-col p-4 font-[500] rounded-[10px] w-full gap-[6px] bgi">
+                    <div className="min-h-screen flex flex-col items-center justify-center bg-transparent text-white py-6">
+                        <div className="flex flex-col p-4 font-[500] rounded-[10px] sm:w-[500px] w-full gap-[6px] bgi">
                             <p className="text-[14px]">Your Trading Balance</p>
                             <span className="flex justify-center items-center w-fit gap-[4px]">
                                 <img className="w-[32px] h-[32px] object-fit" src="https://autosnipe.ai/_app/immutable/assets/sol_icon.De0ynmvl.png" alt="" />
@@ -87,62 +87,223 @@ const Trending = () => {
                                 <img className="w-[32px] h-[32px]" src="https://autosnipe.ai/_app/immutable/assets/copy_color.DsKh1txP.svg" alt="" />
                             </span>
                         </div>
-                        <div class="grid grid-flow-col gap-1 sm:gap-4 overflow-auto py-6 font-medium"><button class="sm:px-4 text-sm md:text-base whitespace-nowrap rounded-xl p-2 sm:py-3 border border-transparent hover:bg-highlighterBg hover:border-white hover:border-opacity-10 active:bg-black">Deposit </button><button class="sm:px-4 text-sm md:text-base whitespace-nowrap rounded-xl p-2 sm:py-3 border border-transparent hover:bg-highlighterBg hover:border-white hover:border-opacity-10 active:bg-black">Withdraw </button><button class="sm:px-4 text-sm md:text-base whitespace-nowrap rounded-xl p-2 sm:py-3 border border-white border-opacity-10 bg-secondaryDark"><span class="gradient-text">History</span> </button></div>
-                        <div className="max-w-md mx-auto bg-[#161616] rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-10">
-                            <div className="p-8">
-                                <div className="flex justify-between items-center mb-6">
-                                    <h1 className="text-2xl font-bold text-primary">Wallet Dashboard</h1>
-                                    <div className="flex items-center gap-2">
-                                        <div className={`px-3 py-1 rounded-full text-xs font-semibold ${isConnected ? 'bg-green-900 text-green-200' : 'bg-red-900 text-red-200'}`}>
-                                            {isConnected ? 'Connected' : 'Disconnected'}
-                                        </div>
-                                        {isConnected && (
-                                            <button 
-                                                onClick={handleDisconnect}
-                                                className="px-3 py-1 rounded-full text-xs font-semibold bg-red-900 text-red-200 hover:bg-red-800"
-                                            >
-                                                Disconnect
-                                            </button>
-                                        )}
-                                    </div>
+                        <div class="grid grid-flow-col gap-1 sm:gap-4  sm:w-[500px] overflow-auto py-6 font-medium"><button class="sm:px-4 text-sm md:text-base whitespace-nowrap rounded-xl p-2 sm:py-3 border border-transparent hover:bg-highlighterBg hover:border-[grey] hover:border-opacity-10 active:bg-black">History </button><button class="sm:px-4 text-sm md:text-base whitespace-nowrap rounded-xl p-2 sm:py-3 border border-transparent hover:bg-highlighterBg hover:border-[grey] hover:border-opacity-10 active:bg-black">Withdraw </button><button class="sm:px-4 text-sm md:text-base whitespace-nowrap rounded-xl p-2 sm:py-3 border border-[grey] border-opacity-10 bg-secondaryDark"><span class="gradient-text">Deposit</span> </button></div>
+
+                    <div className="w-full sm:w-[500px] pb-4 md:pb-10">
+                        {/* Solana Transfer Option */}
+                        <div className="bg-highlighterBg rounded-t-xl border border-[grey] border-opacity-10 mt-4">
+                            <label
+                            htmlFor="depositType__default"
+                            className="cursor-pointer flex items-center p-4 font-semibold"
+                            >
+                            {/* Radio Button */}
+                            <span className="border border-[grey] p-[3px] h-5 w-5 aspect-square rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                                <span className="w-full aspect-square rounded-full bg-highlight inline-block" />
+                            </span>
+                            <input
+                                type="radio"
+                                id="depositType__default"
+                                className="hidden"
+                                name="depositType"
+                                value="default"
+                            />
+
+                            {/* Icon */}
+                            <img
+                                src="https://autosnipe.ai/_app/immutable/assets/sol_icon.De0ynmvl.png"
+                                alt="Solana Transfer"
+                                height={24}
+                                width={24}
+                                className="mr-1.5"
+                            />
+                            Solana Transfer
+
+                            {/* Tag */}
+                            <p className="bg-secondaryDark rounded-md flex items-center justify-between px-1 py-0.5 ml-1 font-medium font-mono">
+                                <span className="gradient-text text-3xs">RECOMMENDED</span>
+                            </p>
+                            </label>
+
+                            {/* Deposit Form */}
+                            <form className="flex flex-col gap-3 text-grey1 w-full rounded-b-xl pr-6 pt-2 md:pt-4 pb-8 md:pr-8 pl-12 md:pl-8 bg-highlighterBg">
+                            {/* Amount */}
+                            <label
+                                htmlFor="amount"
+                                className="text-xs font-medium flex justify-between items-center text-grey2"
+                            >
+                                Amount to Deposit
+                            </label>
+                            <div className="mb-2">
+                                <div className="relative flex items-center justify-between">
+                                <img
+                                    className="absolute left-4"
+                                    alt="coin_icon"
+                                    src="https://autosnipe.ai/_app/immutable/assets/sol_icon.De0ynmvl.png"
+                                    height={24}
+                                    width={24}
+                                />
+                                <input
+                                    placeholder="Minimum 0.01"
+                                    id="amount"
+                                    type="number"
+                                    step="any"
+                                    required
+                                    min="0.01"
+                                    className="w-full pr-10 pl-12 py-3 border rounded-xl focus:outline-none bg-primaryDark text-base border-[grey] border-opacity-20 focus:border-opacity-40"
+                                />
                                 </div>
-                
-                                {loading ? (
-                                    <div className="flex justify-center items-center h-40">
-                                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-                                    </div>
-                                ) : error ? (
-                                    <div className="text-red-400 text-center py-10">{error}</div>
-                                ) : (
-                                    <div className="space-y-6">
-                                        <div className="bg-gray-700 p-4 rounded-lg">
-                                            <h2 className="text-sm font-medium text-gray-400">Wallet Name</h2>
-                                            <p className="mt-1 text-lg font-semibold">{wallet?.walletName || 'N/A'}</p>
-                                        </div>
-                    
-                                        <div className="bg-gray-700 p-4 rounded-lg">
-                                            <h2 className="text-sm font-medium text-gray-400">Wallet Address</h2>
-                                            <p className="mt-1 text-lg font-mono text-primary break-all">
-                                                {wallet?.walletAddress || 'N/A'}
-                                            </p>
-                                        </div>
-                    
-                                        <div className="bg-gray-700 p-4 rounded-lg">
-                                            <h2 className="text-sm font-medium text-gray-400">Connected Since</h2>
-                                            <p className="mt-1 text-lg">
-                                                {wallet?.connectedAt ? new Date(wallet.connectedAt).toLocaleString() : 'N/A'}
-                                            </p>
-                                        </div>
-                    
-                                        <button 
-                                            className={`w-full py-3 px-4 rounded-lg font-medium ${isConnected ? 'bg-primary hover:bg-primary-dark' : 'bg-gray-600 cursor-not-allowed'}`}
-                                            disabled={!isConnected}
-                                        >
-                                            {isConnected ? 'Deposit' : 'Connect Wallet to Proceed'}
-                                        </button>
-                                    </div>
-                                )}
+                                <div className="text-grey2 text-2xs sm:text-xs mx-2 mt-1.5 justify-end flex items-start gap-2">
+                                <button
+                                    type="button"
+                                    title="Click to fill the entire balance"
+                                    className="flex flex-shrink-0 flex-nowrap whitespace-nowrap items-center gap-1 hover:text-grey1"
+                                >
+                                    Balance:{" "}
+                                    <img
+                                    height={16}
+                                    width={16}
+                                    src="https://autosnipe.ai/_app/immutable/assets/sol_icon.De0ynmvl.png"
+                                    alt="SOL"
+                                    />{" "}
+                                    0
+                                </button>
+                                </div>
                             </div>
+
+                            {/* Fee */}
+                            <div className="flex items-center">
+                                <label
+                                htmlFor="fee"
+                                className="text-xs font-medium text-grey2"
+                                >
+                                Priority Fee
+                                </label>
+                                <span
+                                role="button"
+                                tabIndex={0}
+                                className="align-middle inline-block bg-grey2 gradient-background-tooltip rounded-full mb-0.5 cursor-pointer ml-1"
+                                >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none">
+                                    <path
+                                    fill="#000"
+                                    d="M5.2 2.8c0 .4.3.8.7.8.4 0 .8-.4.8-.8s-.4-.7-.8-.7-.7.3-.7.7ZM4 9.5c0 .2.1.4.4.4h3.2c.3 0 .4-.2.4-.4 0-.3 0-.5-.4-.5h-1V5.2c0-.2-.2-.4-.5-.4H4.6c-.3 0-.5.1-.5.4 0 .2.2.4.5.4h1v3.5H4.5c-.3 0-.4.1-.4.4Z"
+                                    />
+                                </svg>
+                                </span>
+                            </div>
+                            <div className="relative flex items-center justify-between">
+                                <img
+                                className="absolute left-4"
+                                alt="coin_icon"
+                                src="https://autosnipe.ai/_app/immutable/assets/sol_icon.De0ynmvl.png"
+                                height={24}
+                                width={24}
+                                />
+                                <input
+                                placeholder="0.0001"
+                                id="fee"
+                                type="number"
+                                step="any"
+                                className="w-full pr-10 pl-12 py-3 border border-[grey] border-opacity-20 focus:border-opacity-40 rounded-xl focus:outline-none bg-primaryDark text-base"
+                                />
+                            </div>
+
+                            {/* Submit */}
+                            <button
+                                className="px-4 py-2 rounded-lg font-bold mt-4 flex items-center justify-center bg-primary text-primaryDark border border-[grey] border-opacity-10 disabled:bg-opacity-50 text-base"
+                                type="submit"
+                                disabled
+                            >
+                                Deposit
+                            </button>
+                            </form>
+
+                            {/* Wallet Info */}
+                            <div className="text-center text-xs mb-6 text-grey2">
+                            Connected to
+                            <a
+                                href="https://solscan.io/account/HkdJ1NKyeJ1afM7x78j1mmjNDDo42MVewtDRZCwWa5et"
+                                target="_blank"
+                                rel="noreferrer nofollow noopener"
+                                title={wallet?.walletAddress || 'N/A'}
+                                className="font-mono hover:text-grey1 ml-1"
+                                style={{ wordBreak: "break-all" }}
+                            >{" "}
+                                {wallet?.walletAddress || 'N/A'}
+                            </a>
+                            <button
+                                type="button"
+                                className="text-grey1 active:opacity-75 border-b border-dashed hover:border-grey2 border-transparent mx-3 my-2"
+                            >
+                                Disconnect
+                            </button>
+                            </div>
+                        </div>
+
+                        {/* Onramper Option */}
+                        <div className="bg-secondaryDark border border-y-0 border-[grey] border-opacity-10">
+                            <label
+                            htmlFor="depositType__onramper"
+                            className="cursor-pointer flex items-center p-4"
+                            >
+                            <span className="border border-[grey] p-[3px] h-5 w-5 aspect-square rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                                <span className="w-full aspect-square rounded-full bg-transparent inline-block" />
+                            </span>
+                            <input
+                                type="radio"
+                                id="depositType__onramper"
+                                className="hidden"
+                                name="depositType"
+                                value="onramper"
+                            />
+                            <img
+                                src="https://autosnipe.ai/_app/immutable/assets/onramperLogo.8Sjf_SOy.svg"
+                                alt="onramper"
+                                height={24}
+                                width={24}
+                                className="mr-1.5 w-6 h-6 xl:w-8 xl:h-8 bg-primaryDark rounded-full p-0.5"
+                            />
+                            Onramper
+                            <p
+                                className="rounded-md flex items-center justify-between px-1 py-0.5 ml-1 font-medium font-mono"
+                                style={{
+                                background:
+                                    "linear-gradient(134.22deg, rgb(255, 195, 0) 5.03%, rgb(243, 106, 96) 42.59%, rgb(230, 0, 210) 96.3%)",
+                                }}
+                            >
+                                <span className="text-2xs font-bold text-primaryDark">NEW</span>
+                            </p>
+                            </label>
+                        </div>
+
+                        {/* Debridge Option */}
+                        <div className="bg-secondaryDark rounded-b-xl border border-[grey] border-opacity-10 mb-4">
+                            <div tabIndex={-1} role="button">
+                            <label
+                                htmlFor="depositType__debridge"
+                                className="cursor-pointer flex items-center p-4"
+                            >
+                                <span className="border border-[grey] p-[3px] h-5 w-5 aspect-square rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                                <span className="w-full aspect-square rounded-full bg-transparent inline-block" />
+                                </span>
+                                <input
+                                type="radio"
+                                id="depositType__debridge"
+                                className="hidden"
+                                name="depositType"
+                                value="debridge"
+                                />
+                                <img
+                                src="https://autosnipe.ai/_app/immutable/assets/debridgeLogo.T5tAQ7Oi.png"
+                                alt="debridge"
+                                height={24}
+                                width={24}
+                                className="mr-1.5"
+                                />
+                                Debridge
+                            </label>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 )}
