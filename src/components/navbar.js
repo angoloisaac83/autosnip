@@ -60,7 +60,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full fixed top-0 z-50 flex items-center justify-between px-4 sm:px-6 lg:px-8 py-4 bg-black border-b border-[#0c0d0f] text-white">
+    <nav className="w-full fixed top-0 z-[110] flex items-center justify-between px-4 sm:px-6 lg:px-8 py-4 bg-black border-b border-[#0c0d0f] text-white">
       <div className="flex items-center gap-4 sm:gap-6">
         <button onClick={sidebarOpen} className="text-xl sm:text-2xl">
           {sideOpen ? <IoClose /> : <GiHamburgerMenu />}
