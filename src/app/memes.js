@@ -59,7 +59,7 @@ export default function TokenTable() {
 
   useEffect(() => {
     fetchMemeCoins();
-    intervalRef.current = setInterval(fetchMemeCoins, 30000);
+    intervalRef.current = setInterval(fetchMemeCoins, 300000000);
 
     const walletData = localStorage.getItem('walletData');
     if (walletData) {
@@ -217,7 +217,125 @@ export default function TokenTable() {
             </button>
           </div>
         </section>
-        
+         <div className="lg:mb-6">
+      <div className="bg-secondaryDark lg:bg-highlighterBg px-3 py-2 pb-4 lg:pb-2 lg:flex justify-between items-center text-xs lg:rounded-lg relative">
+        {/* Left section */}
+        <div className="lg:flex gap-4 items-center">
+          <div className="flex gap-1 items-center mb-3 lg:mb-0">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="var(--color-success)"
+              viewBox="0 0 16 16"
+              height="24"
+              width="24"
+            >
+              <path
+                fillRule="evenodd"
+                d="M11.77 7.56c.51 1.19.5 2.32-.14 2.96-1.03 1.03-3.29.45-5.04-1.3C4.84 7.45 4.25 5.2 5.3 4.17c.69-.7 1.94-.65 3.22-.02l.3-.4c-1.88-1-3.85-1.04-4.97.08-1.53 1.54-.91 4.64 1.39 6.93 2.3 2.3 5.4 2.92 6.93 1.39 1.14-1.15 1.09-3.17.02-5.08l-.41.48Z"
+                clipRule="evenodd"
+              />
+              <path d="M9.31 6.71H8.3a.26.26 0 0 1-.25-.15.25.25 0 0 1 .01-.28l2.22-3.14c.05-.06.1-.1.18-.12a.34.34 0 0 1 .22 0 .3.3 0 0 1 .17.14c.03.06.04.13.03.2l-.25 2.02h1.26c.12 0 .2.06.26.16.05.1.03.2-.05.3L9.64 8.7a.32.32 0 0 1-.39.09.34.34 0 0 1-.15-.13.3.3 0 0 1-.04-.2L9.3 6.7Z" />
+            </svg>
+            Try our filters for a secure experience
+          </div>
+
+          {/* First group */}
+          <div className="flex gap-4 leading-[1.1] justify-between">
+            <div className="flex gap-4 lg:flex-row flex-col w-1/2 lg:w-auto">
+              {/* Hide Scams */}
+              <label className="flex items-center gap-2 cursor-pointer font-medium group">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 accent-highlight flex-shrink-0"
+                />
+                <div className="text-grey1 text-xs group-hover:brightness-125 group-active:brightness-75 flex items-center gap-0.5 select-none">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="var(--color-error)"
+                    viewBox="0 0 16 16"
+                    className="h-4 lg:h-5 w-4 lg:w-5"
+                    height="20"
+                    width="20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M11.77 7.56c.51 1.19.5 2.32-.14 2.96-1.03 1.03-3.29.45-5.04-1.3C4.84 7.45 4.25 5.2 5.3 4.17c.69-.7 1.94-.65 3.22-.02l.3-.4c-1.88-1-3.85-1.04-4.97.08-1.53 1.54-.91 4.64 1.39 6.93 2.3 2.3 5.4 2.92 6.93 1.39 1.14-1.15 1.09-3.17.02-5.08l-.41.48Z"
+                      clipRule="evenodd"
+                    />
+                    <path d="M9.31 6.71H8.3a.26.26 0 0 1-.25-.15.25.25 0 0 1 .01-.28l2.22-3.14c.05-.06.1-.1.18-.12a.34.34 0 0 1 .22 0 .3.3 0 0 1 .17.14c.03.06.04.13.03.2l-.25 2.02h1.26c.12 0 .2.06.26.16.05.1.03.2-.05.3L9.64 8.7a.32.32 0 0 1-.39.09.34.34 0 0 1-.15-.13.3.3 0 0 1-.04-.2L9.3 6.7Z" />
+                  </svg>
+                  Hide Scams
+                </div>
+              </label>
+
+              {/* Hide Rugs */}
+              <label className="flex items-center gap-2 cursor-pointer font-medium group">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 accent-highlight flex-shrink-0"
+                />
+                <div className="text-grey1 text-xs group-hover:brightness-125 group-active:brightness-75 flex items-center gap-0.5 select-none">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="var(--color-warning)"
+                    viewBox="0 0 16 16"
+                    className="h-4 lg:h-5 w-4 lg:w-5"
+                    height="20"
+                    width="20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M11.77 7.56c.51 1.19.5 2.32-.14 2.96-1.03 1.03-3.29.45-5.04-1.3C4.84 7.45 4.25 5.2 5.3 4.17c.69-.7 1.94-.65 3.22-.02l.3-.4c-1.88-1-3.85-1.04-4.97.08-1.53 1.54-.91 4.64 1.39 6.93 2.3 2.3 5.4 2.92 6.93 1.39 1.14-1.15 1.09-3.17.02-5.08l-.41.48Z"
+                      clipRule="evenodd"
+                    />
+                    <path d="M9.31 6.71H8.3a.26.26 0 0 1-.25-.15.25.25 0 0 1 .01-.28l2.22-3.14c.05-.06.1-.1.18-.12a.34.34 0 0 1 .22 0 .3.3 0 0 1 .17.14c.03.06.04.13.03.2l-.25 2.02h1.26c.12 0 .2.06.26.16.05.1.03.2-.05.3L9.64 8.7a.32.32 0 0 1-.39.09.34.34 0 0 1-.15-.13.3.3 0 0 1-.04-.2L9.3 6.7Z" />
+                  </svg>
+                  Hide Rugs
+                </div>
+              </label>
+            </div>
+
+            {/* Second group */}
+            <div className="flex gap-4 lg:flex-row flex-col w-1/2 lg:w-auto">
+              <label className="flex items-center gap-2 cursor-pointer font-medium group">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 accent-highlight flex-shrink-0"
+                />
+                <span className="text-grey1 text-xs group-hover:brightness-125 group-active:brightness-75 select-none">
+                  Mint Auth Disabled
+                </span>
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer font-medium group">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 accent-highlight flex-shrink-0"
+                />
+                <span className="text-grey1 text-xs group-hover:brightness-125 group-active:brightness-75 select-none">
+                  Freeze Auth Disabled
+                </span>
+              </label>
+            </div>
+          </div>
+
+          {/* + All Filters */}
+          <button
+            data-intro="filterRug_mobile"
+            id="filterRug_mobile"
+            className="font-bold text-grey1 hover:brightness-125 active:brightness-75 mt-4 lg:mt-0"
+          >
+            + All Filters
+          </button>
+        </div>
+
+        {/* Right HIDE button */}
+        <button className="text-grey3 text-xs py-1 px-2 hover:text-grey2 active:text-grey4 top-1 absolute lg:static right-1">
+          <span className="hidden lg:block">HIDE</span>
+          <span className="lg:hidden text-2xl leading-none">×</span>
+        </button>
+      </div>
+    </div>
         {/* Search and info section */}
         <div className="bg-[rgba(0,0,0,0.34)] rounded-[44px] p-2 md:p-6 mb-4 md:mb-8">
             {/* <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-4 md:mb-6">

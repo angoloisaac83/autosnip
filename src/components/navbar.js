@@ -9,6 +9,7 @@ import { IoClose } from "react-icons/io5";
 import WalletModal from "@/components/connectModal";
 import Link from "next/link";
 import SideBar from "./sidebar";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [sideOpen, setSideOpen] = useState(false);
@@ -16,6 +17,7 @@ const Navbar = () => {
   const [walletAddress, setWalletAddress] = useState("");
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
   const [walletData, setWalletData] = useState(null);
+  const pathname = usePathname();
 
   // Check for existing wallet connection on component mount
   useEffect(() => {
@@ -125,7 +127,7 @@ const Navbar = () => {
           </button>
         )}
       </div>
-      <SideBar open={sideOpen} onClose={closeSidebar} />
+      <SideBar open={sideOpen} onClose={closeSidebar} currentPath={pathname} />
       <WalletModal
         isOpen={isWalletModalOpen}
         onClose={closeWalletModal}
