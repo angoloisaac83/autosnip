@@ -69,7 +69,7 @@ const Trending = () => {
 
     return (
         <>
-            <section className="text-white max-[500px]:w-full w-full max-[500px]:px-[0px]">
+            <section className="text-white px-4 max-[500px]:w-full w-full max-[500px]:px-[4px]">
                 {!isConnected ? (
                     <GetStarted />
                 ) : (
@@ -165,7 +165,7 @@ const Trending = () => {
                                     src="https://autosnipe.ai/_app/immutable/assets/sol_icon.De0ynmvl.png"
                                     alt="SOL"
                                     />{" "}
-                                    0
+                                    {wallet?.balance || '0'}.00
                                 </button>
                                 </div>
                             </div>
