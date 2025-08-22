@@ -44,7 +44,7 @@ function SideBar({ open, onClose }) {
         {/* Mobile header with close button */}
         <div className="p-4 border-b border-gray-800 bg-[#0c0c0c] sm:hidden">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-white">Crypto Dashboard</h2>
+            <h2 className="text-xl font-bold text-white">Asnipe Dashboard</h2>
             <button 
               onClick={onClose}
               className="p-2 text-gray-400 hover:text-white rounded-full hover:bg-gray-800 transition-colors"

@@ -78,7 +78,7 @@ const Trending = () => {
                             <p className="text-[14px]">Your Trading Balance</p>
                             <span className="flex justify-center items-center w-fit gap-[4px]">
                                 <img className="w-[32px] h-[32px] object-fit" src="https://autosnipe.ai/_app/immutable/assets/sol_icon.De0ynmvl.png" alt="" />
-                                <h1 className="text-[24px]">{wallet?.balance || 'N/A'}.00</h1>
+                                <h1 className="text-[24px]">{wallet?.balance || '0'}.00</h1>
                                 <p>/$171.917</p>
                             </span>
                             <span className="flex bg-[#1c1d22] justify-between p-[4px] rounded-[6px] items-center">
