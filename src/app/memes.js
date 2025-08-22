@@ -243,7 +243,7 @@ export default function TokenTable() {
           <div className="flex gap-4 leading-[1.1] justify-between">
             <div className="flex gap-4 lg:flex-row flex-col w-1/2 lg:w-auto">
               {/* Hide Scams */}
-              <label className="flex items-center gap-2 cursor-pointer font-medium group">
+              {/* <label className="flex items-center gap-2 cursor-pointer font-medium group">
                 <input
                   type="checkbox"
                   className="h-4 w-4 accent-highlight flex-shrink-0"
@@ -266,7 +266,7 @@ export default function TokenTable() {
                   </svg>
                   Hide Scams
                 </div>
-              </label>
+              </label> */}
 
               {/* Hide Rugs */}
               <label className="flex items-center gap-2 cursor-pointer font-medium group">
@@ -337,7 +337,7 @@ export default function TokenTable() {
       </div>
     </div>
         {/* Search and info section */}
-        <div className="bg-[rgba(0,0,0,0.34)] rounded-[44px] p-2 md:p-6 mb-4 md:mb-8">
+        <div className="sm:bg-[rgba(0,0,0,0.34)] rounded-[44px] p-2 md:p-6 mb-4 md:mb-8">
             {/* <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-4 md:mb-6">
               <div className="relative w-full max-w-md">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -380,16 +380,16 @@ export default function TokenTable() {
               </div>
             ) : (
               coinChunks.map((chunk, chunkIndex) => (
-                <div key={chunkIndex} className="sm:w-fit w-[320px] bg-[#0c0d0f] rounded-[44px] p-4 h-fit">
+                <div key={chunkIndex} className="sm:w-fit w-[350px] bg-[#0c0d0f] rounded-[44px] h-fit">
                   {/* <h3 className="text-lg font-semibold text-white mb-4">Tokens {chunkIndex * 10 + 1} - {chunkIndex * 10 + chunk.length}</h3> */}
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr className="text-gray-400 uppercase text-xs font-semibold">
-                          <th className="px-2 py-1 text-left">Coin</th>
-                          <th className="px-2 py-1 text-left">Price</th>
-                          <th className="px-2 py-1 text-left">24h</th>
-                          <th className="px-2 py-1 text-left">Action</th>
+                        <tr className="text-gray-400 uppercase text-[10px] font-semibold">
+                          <th className="py-1 text-left">Coin</th>
+                          <th className="py-1 text-left">Price</th>
+                          <th className="py-1 text-left">24h</th>
+                          <th className="py-1 text-left">Action</th>
                         </tr>
                       </thead>
                       <tbody>
