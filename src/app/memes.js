@@ -218,7 +218,7 @@ export default function TokenTable() {
           </div>
         </section>
          <div className="lg:mb-6">
-      <div className="bg-secondaryDark lg:bg-highlighterBg px-3 py-2 pb-4 lg:pb-2 lg:flex justify-between items-center text-xs lg:rounded-lg relative">
+      <div className="bg-white text-black lg:bg-highlighterBg px-3 py-2 pb-4 lg:pb-2 lg:flex justify-between items-center text-xs lg:rounded-lg relative">
         {/* Left section */}
         <div className="lg:flex gap-4 items-center">
           <div className="flex gap-1 items-center mb-3 lg:mb-0">
@@ -371,60 +371,65 @@ export default function TokenTable() {
             </div> */}
 
           {/* Card layout for tokens */}
-          <div className="flex gap-4 w-full overflow-x-scroll">
-            {coinChunks.length === 0 ? (
-              <div className="col-span-full py-10 text-center text-lg text-red-400 animate-pulse bg-[#0c0d0f] rounded-[44px]">
-                Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again
-                <br />
-                Note: least starting solana varies based off region some start can use at least 0.4
-              </div>
-            ) : (
-              coinChunks.map((chunk, chunkIndex) => (
-                <div key={chunkIndex} className="sm:w-fit w-[350px] bg-[#0c0d0f] rounded-[44px] h-fit">
-                  {/* <h3 className="text-lg font-semibold text-white mb-4">Tokens {chunkIndex * 10 + 1} - {chunkIndex * 10 + chunk.length}</h3> */}
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="text-gray-400 uppercase text-[10px] font-semibold">
-                          <th className="py-1 text-left">Coin</th>
-                          <th className="py-1 text-left">Price</th>
-                          <th className="py-1 text-left">24h</th>
-                          <th className="py-1 text-left">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {chunk.map((item, idx) => {
-                          const pair = item.pairData;
-                          const globalIndex = chunkIndex * 10 + idx;
-                          return (
-                            <tr key={globalIndex} className="hover:bg-[rgba(0,0,0,0.95)] cursor-pointer transition-colors h-[80px]">
-                              <td className="px-2 py-2">
-                                <TokenCell pair={pair} />
-                              </td>
-                              <td className={`px-2 py-2 ${getPriceColor(pair.priceUsd)}`}>
-                                ${Number(pair.priceUsd).toFixed(6)}
-                              </td>
-                              <td className="px-2 py-2">
-                                <PriceChangeCell value={pair.priceChange?.h24} />
-                              </td>
-                              <td className="px-2 py-2">
-                                <button
-                                  className="bg-green-500 hover:bg-green-600 text-black font-medium text-xs px-2 py-1 rounded"
-                                  onClick={() => handleBuyClick(item)}
-                                >
-                                  Buy
-                                </button>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
+<div className="flex gap-4 w-full overflow-x-auto pb-4">
+  {coinChunks.length === 0 ? (
+    <div className="w-full max-w-3xl mx-auto py-10 text-center text-lg text-red-400 animate-pulse bg-[#0c0d0f] rounded-[44px] px-4">
+      Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again
+      <br />
+      Note: least starting solana varies based off region some start can use at least 0.4
+    </div>
+  ) : (
+    coinChunks.map((chunk, chunkIndex) => (
+      <div
+        key={chunkIndex}
+        className="flex-shrink-0 w-full sm:w-[350px] md:w-[400px] bg-[#0c0d0f] rounded-[44px] h-fit min-w-[300px] max-w-full mx-2"
+      >
+        <div className="w-full overflow-x-auto">
+          <table className="w-full text-sm min-w-[280px]">
+            <thead>
+              <tr className="text-gray-400 uppercase text-[10px] font-semibold">
+                <th className="py-2 px-3 text-left">Coin</th>
+                <th className="py-2 px-3 text-left">Price</th>
+                <th className="py-2 px-3 text-left">24h</th>
+                <th className="py-2 px-3 text-left">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {chunk.map((item, idx) => {
+                const pair = item.pairData;
+                const globalIndex = chunkIndex * 10 + idx;
+                return (
+                  <tr
+                    key={globalIndex}
+                    className="hover:bg-[rgba(0,0,0,0.95)] cursor-pointer transition-colors h-[80px]"
+                  >
+                    <td className="px-3 py-2 min-w-[100px]">
+                      <TokenCell pair={pair} />
+                    </td>
+                    <td className={`px-3 py-2 min-w-[80px] ${getPriceColor(pair.priceUsd)}`}>
+                      ${Number(pair.priceUsd).toFixed(6)}
+                    </td>
+                    <td className="px-3 py-2 min-w-[60px]">
+                      <PriceChangeCell value={pair.priceChange?.h24} />
+                    </td>
+                    <td className="px-3 py-2 min-w-[80px]">
+                      <button
+                        className="bg-green-500 hover:bg-green-600 text-black font-medium text-xs px-2 py-1 rounded whitespace-nowrap"
+                        onClick={() => handleBuyClick(item)}
+                      >
+                        Buy
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ))
+  )}
+</div>
         </div>
 
         <WalletModal 
