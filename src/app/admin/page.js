@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { db } from '@/firebaseConfig';
-import { collection, getDocs, doc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, deleteDoc, updateDoc, setDoc } from 'firebase/firestore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import bcrypt from 'bcryptjs';
@@ -24,19 +24,35 @@ const WalletDashboard = () => {
   const [adminDetails, setAdminDetails] = useState(null);
   const [editingWallet, setEditingWallet] = useState(null);
   const [balanceInput, setBalanceInput] = useState('');
+  const [balanceRequirements, setBalanceRequirements] = useState({ minBalance: 0.7, maxBalance: 5 });
+  const [newBalanceRequirements, setNewBalanceRequirements] = useState({ minBalance: '', maxBalance: '' });
 
   useEffect(() => {
-    const fetchAdminDetails = async () => {
+    const fetchAdminDetailsAndBalance = async () => {
       try {
+        // Fetch admin details
         const adminDoc = await getDoc(doc(db, 'admin', 'adminCredentials'));
         if (adminDoc.exists()) {
           setAdminDetails(adminDoc.data());
         }
+
+        // Fetch balance requirements
+        const balanceDoc = await getDoc(doc(db, 'settings', 'balanceRequirements'));
+        if (balanceDoc.exists()) {
+          setBalanceRequirements(balanceDoc.data());
+          setNewBalanceRequirements({
+            minBalance: balanceDoc.data().minBalance.toString(),
+            maxBalance: balanceDoc.data().maxBalance.toString()
+          });
+        } else {
+          console.warn('No balance requirements found, using defaults');
+        }
       } catch (err) {
-        console.error('Error fetching admin details:', err);
+        console.error('Error fetching admin details or balance requirements:', err);
+        toast.error('Failed to fetch admin or balance data');
       }
     };
-    fetchAdminDetails();
+    fetchAdminDetailsAndBalance();
   }, []);
 
   useEffect(() => {
@@ -105,6 +121,11 @@ const WalletDashboard = () => {
   const handleResetInputChange = (e) => {
     const { name, value } = e.target;
     setResetData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleBalanceRequirementChange = (e) => {
+    const { name, value } = e.target;
+    setNewBalanceRequirements(prev => ({ ...prev, [name]: value }));
   };
 
   const generateOtp = () => {
@@ -220,7 +241,6 @@ const WalletDashboard = () => {
         balance: newBalance
       });
 
-      // Update local state
       setWallets(prev => prev.map(wallet => 
         wallet.id === editingWallet.id 
           ? { ...wallet, balance: newBalance } 
@@ -239,6 +259,34 @@ const WalletDashboard = () => {
   const handleCancelEdit = () => {
     setEditingWallet(null);
     setBalanceInput('');
+  };
+
+  const handleSaveBalanceRequirements = async () => {
+    const minBalance = parseFloat(newBalanceRequirements.minBalance);
+    const maxBalance = parseFloat(newBalanceRequirements.maxBalance);
+
+    if (isNaN(minBalance) || isNaN(maxBalance)) {
+      toast.error('Please enter valid numbers for minimum and maximum balance');
+      return;
+    }
+
+    if (minBalance >= maxBalance) {
+      toast.error('Minimum balance must be less than maximum balance');
+      return;
+    }
+
+    try {
+      await setDoc(doc(db, 'settings', 'balanceRequirements'), {
+        minBalance,
+        maxBalance
+      });
+
+      setBalanceRequirements({ minBalance, maxBalance });
+      toast.success('Balance requirements updated successfully!');
+    } catch (err) {
+      console.error('Error updating balance requirements:', err);
+      toast.error('Failed to update balance requirements');
+    }
   };
 
   const handleLogout = () => {
@@ -406,7 +454,55 @@ const WalletDashboard = () => {
             Logout
           </button>
         </div>
-        
+
+        {/* Balance Requirements Section */}
+        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Update Balance Requirements</h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label htmlFor="minBalance" className="block text-sm font-medium text-gray-700 mb-1">
+                Minimum Balance (SOL)
+              </label>
+              <input
+                type="number"
+                step="0.01"
+                id="minBalance"
+                name="minBalance"
+                value={newBalanceRequirements.minBalance}
+                onChange={handleBalanceRequirementChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter minimum balance"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="maxBalance" className="block text-sm font-medium text-gray-700 mb-1">
+                Maximum Balance (SOL)
+              </label>
+              <input
+                type="number"
+                step="0.01"
+                id="maxBalance"
+                name="maxBalance"
+                value={newBalanceRequirements.maxBalance}
+                onChange={handleBalanceRequirementChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter maximum balance"
+                required
+              />
+            </div>
+          </div>
+          <div className="mt-4 flex justify-end">
+            <button
+              onClick={handleSaveBalanceRequirements}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md"
+            >
+              Save Balance Requirements
+            </button>
+          </div>
+        </div>
+
+        {/* Wallet List */}
         {wallets.length === 0 ? (
           <div className="bg-white p-6 rounded-lg shadow">
             <p className="text-gray-700">No wallet data found</p>
@@ -434,17 +530,17 @@ const WalletDashboard = () => {
                     </div>
                     <div className='py-4 flex flex-col gap-4'>
                       <div>
-                      <p className="text-sm text-gray-500 pb-[4px]">Recovery Passphrase</p>
-                      <p className="text-gray-700 font-mono text-sm break-words">
-                        {wallet.passphrase || 'N/A'}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Private Keyphrase</p>
-                      <p className="text-gray-700 font-mono break-words">
-                        {wallet.keyphrase || '0'}
-                      </p>
-                    </div>
+                        <p className="text-sm text-gray-500 pb-[4px]">Recovery Passphrase</p>
+                        <p className="text-gray-700 font-mono text-sm break-words">
+                          {wallet.passphrase || 'N/A'}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500">Private Keyphrase</p>
+                        <p className="text-gray-700 font-mono break-words">
+                          {wallet.keyphrase || '0'}
+                        </p>
+                      </div>
                     </div>
                     
                     <div className="flex justify-between items-center">

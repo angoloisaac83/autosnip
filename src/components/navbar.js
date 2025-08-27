@@ -17,6 +17,7 @@ const Navbar = () => {
   const [walletAddress, setWalletAddress] = useState("");
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
   const [walletData, setWalletData] = useState(null);
+  const [showSearchMessage, setShowSearchMessage] = useState(false);
   const pathname = usePathname();
 
   // Check for existing wallet connection on component mount
@@ -65,6 +66,10 @@ const Navbar = () => {
     return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
   };
 
+  const handleSearchInput = (e) => {
+    setShowSearchMessage(e.target.value.length > 0);
+  };
+
   return (
     <nav className="w-full fixed top-0 z-[110] flex items-center justify-between px-4 sm:px-6 lg:px-8 py-4 bg-black border-b border-[#0c0d0f] text-white">
       <div className="flex items-center gap-4 sm:gap-6">
@@ -94,19 +99,27 @@ const Navbar = () => {
           <p className="text-sm">Solana</p>
         </span>
       </div>
-      <div className="hidden md:flex flex-1 max-w-md mx-4 relative">
-        <input
-          type="text"
-          placeholder="Search token name or address"
-          className="w-full h-9 bg-transparent border border-gray-600 rounded-lg pl-9 pr-12 py-2 text-sm focus:outline-none focus:border-[#00cc33] focus:bg-[#1C1D22] hover:bg-[#1C1D22] transition-colors"
-        />
-        <CiSearch className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
-        <button
-          className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-400"
-          disabled
-        >
-          ⌘ + K
-        </button>
+      <div className="hidden md:flex flex-1 max-w-md mx-4 relative flex-col gap-2">
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search token name or address"
+            className="w-full h-9 bg-transparent border border-gray-600 rounded-lg pl-9 pr-12 py-2 text-sm focus:outline-none focus:border-[#00cc33] focus:bg-[#1C1D22] hover:bg-[#1C1D22] transition-colors"
+            onChange={handleSearchInput}
+          />
+          <CiSearch className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
+          <button
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-400"
+            disabled
+          >
+            ⌘ + K
+          </button>
+        </div>
+        {showSearchMessage && (
+          <div className="text-sm text-red-400 bg-[#0c0d0f] rounded-md px-3 py-2 w-full text-center">
+            Please ensure you have at least 3 GBOLA to use the search feature.
+          </div>
+        )}
       </div>
       <div className="flex items-center gap-4 sm:gap-6">
         <BiLogoTelegram className="hidden sm:block text-xl hover:text-[#00cc33] cursor-pointer transition-colors" />
