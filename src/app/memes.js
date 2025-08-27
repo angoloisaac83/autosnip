@@ -373,7 +373,7 @@ export default function TokenTable() {
           {/* Card layout for tokens */}
 <div className="flex gap-4 w-full overflow-x-auto pb-4">
   {coinChunks.length === 0 ? (
-    <div className="w-full max-w-3xl mx-auto py-10 text-center text-lg text-red-400 animate-pulse bg-[#0c0d0f] rounded-[44px] px-4">
+    <div className="w-full max-w-3xl mx-auto py-8 text-center text-base text-red-400 animate-pulse bg-[#0c0d0f] rounded-[44px] px-4">
       Error node lost, make sure your wallet is connected and substantially funded in sol at least 0.8 to 5 solana and try again
       <br />
       Note: least starting solana varies based off region some start can use at least 0.4
@@ -382,16 +382,16 @@ export default function TokenTable() {
     coinChunks.map((chunk, chunkIndex) => (
       <div
         key={chunkIndex}
-        className="flex-shrink-0 w-full sm:w-[350px] md:w-[400px] bg-[#0c0d0f] rounded-[44px] h-fit min-w-[300px] max-w-full mx-2"
+        className="flex-shrink-0 w-full sm:w-[340px] md:w-[380px] bg-[#0c0d0f] rounded-[44px] h-fit min-w-[280px] max-w-full mx-2 p-3"
       >
-        <div className="w-full overflow-x-auto">
-          <table className="w-full text-sm min-w-[280px]">
+        <div className="w-full">
+          <table className="w-full text-xs table-fixed">
             <thead>
-              <tr className="text-gray-400 uppercase text-[10px] font-semibold">
-                <th className="py-2 px-3 text-left">Coin</th>
-                <th className="py-2 px-3 text-left">Price</th>
-                <th className="py-2 px-3 text-left">24h</th>
-                <th className="py-2 px-3 text-left">Action</th>
+              <tr className="text-gray-400 uppercase text-[9px] font-semibold">
+                <th className="py-2 px-2 text-left w-[30%]">Coin</th>
+                <th className="py-2 px-2 text-left w-[25%]">Price</th>
+                <th className="py-2 px-2 text-left w-[20%]">24h</th>
+                <th className="py-2 px-2 text-left w-[25%]">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -401,20 +401,20 @@ export default function TokenTable() {
                 return (
                   <tr
                     key={globalIndex}
-                    className="hover:bg-[rgba(0,0,0,0.95)] cursor-pointer transition-colors h-[80px]"
+                    className="hover:bg-[rgba(0,0,0,0.95)] cursor-pointer transition-colors h-[70px]"
                   >
-                    <td className="px-3 py-2 min-w-[100px]">
+                    <td className="px-2 py-2 truncate">
                       <TokenCell pair={pair} />
                     </td>
-                    <td className={`px-3 py-2 min-w-[80px] ${getPriceColor(pair.priceUsd)}`}>
+                    <td className={`px-2 py-2 truncate ${getPriceColor(pair.priceUsd)}`}>
                       ${Number(pair.priceUsd).toFixed(6)}
                     </td>
-                    <td className="px-3 py-2 min-w-[60px]">
+                    <td className="px-2 py-2 truncate">
                       <PriceChangeCell value={pair.priceChange?.h24} />
                     </td>
-                    <td className="px-3 py-2 min-w-[80px]">
+                    <td className="px-2 py-2">
                       <button
-                        className="bg-green-500 hover:bg-green-600 text-black font-medium text-xs px-2 py-1 rounded whitespace-nowrap"
+                        className="bg-green-500 hover:bg-green-600 text-black font-medium text-xs px-2 py-1 rounded whitespace-nowrap w-full"
                         onClick={() => handleBuyClick(item)}
                       >
                         Buy
