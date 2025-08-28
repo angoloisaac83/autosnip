@@ -174,7 +174,7 @@ const Trending = () => {
                         width={24}
                       />
                       <input
-                        placeholder="Minimum 0.01"
+                        placeholder={`Minimum ${minBal}`}
                         id="amount"
                         type="number"
                         step="any"
