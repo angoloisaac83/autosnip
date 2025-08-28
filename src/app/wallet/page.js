@@ -98,7 +98,7 @@ const Trending = () => {
                   alt=""
                 />
                 <h1 className="text-[24px]">{wallet?.balance || "0"}.00</h1>
-                <p>${((wallet?.balance || 0) * solToUsdRate).toFixed(3)}</p>
+                <p>${solToUsdRate}</p>
               </span>
               <span className="flex bg-[#1c1d22] justify-between p-[4px] rounded-[6px] items-center">
                 <img
