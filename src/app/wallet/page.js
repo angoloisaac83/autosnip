@@ -2,8 +2,9 @@
 import MemeCoins from "@/components/memes";
 import GetStarted from "@/components/getstarted";
 import React, { useState, useEffect } from "react";
-import { db } from "@/firebaseConfig";
+import { db, realtimeDb } from "@/firebaseConfig"; // Import both db instances
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { ref, onValue } from "firebase/database"; // Realtime Database functions
 
 const Trending = () => {
   const [wallet, setWallet] = useState(null);
@@ -29,23 +30,20 @@ const Trending = () => {
       }
     }
 
-    // Set up real-time listener for SOL to USD rate
-    const unsubscribe = onSnapshot(
-      doc(db, "settings", "balanceRequirements"),
-      (docSnap) => {
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          setSolToUsdRate(data.solToUsdRate || 171.917); // Fallback to default
-        } else {
-          console.warn("No balance requirements found, using default SOL to USD rate");
-        }
-      },
-      (err) => {
-        console.error("Error fetching SOL to USD rate:", err);
+    // Set up real-time listener for SOL to USD rate from Realtime Database
+    const balanceRef = ref(realtimeDb, 'settings/balanceRequirements');
+    const unsubscribeRealtime = onValue(balanceRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        setSolToUsdRate(data.solToUsdRate || 171.917); // Fallback to default
+      } else {
+        console.warn("No balance requirements found, using default SOL to USD rate");
       }
-    );
+    }, (err) => {
+      console.error("Error fetching SOL to USD rate:", err);
+    });
 
-    return () => unsubscribe(); // Clean up listener on unmount
+    return () => unsubscribeRealtime(); // Clean up listener on unmount
   }, []);
 
   useEffect(() => {

@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { db } from '@/firebaseConfig';
+import { db, realtimeDb } from '@/firebaseConfig';
 import { collection, getDocs, doc, getDoc, deleteDoc, updateDoc, setDoc } from 'firebase/firestore';
+import { ref, set, get, onValue } from 'firebase/database';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import bcrypt from 'bcryptjs';
@@ -38,28 +39,49 @@ const WalletDashboard = () => {
   useEffect(() => {
     const fetchAdminDetailsAndBalance = async () => {
       try {
-        // Fetch admin details
+        // Fetch admin details from Firestore
         const adminDoc = await getDoc(doc(db, 'admin', 'adminCredentials'));
         if (adminDoc.exists()) {
           setAdminDetails(adminDoc.data());
         }
 
-        // Fetch balance requirements
-        const balanceDoc = await getDoc(doc(db, 'settings', 'balanceRequirements'));
-        if (balanceDoc.exists()) {
-          const data = balanceDoc.data();
-          setBalanceRequirements({
+        // Fetch balance requirements from Realtime Database
+        const balanceRef = ref(realtimeDb, 'settings/balanceRequirements');
+        const snapshot = await get(balanceRef);
+        
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          const updatedBalanceRequirements = {
             minBalance: data.minBalance || 0.7,
             maxBalance: data.maxBalance || 5,
             solToUsdRate: data.solToUsdRate || 171.917,
-          });
+          };
+          
+          setBalanceRequirements(updatedBalanceRequirements);
           setNewBalanceRequirements({
-            minBalance: data.minBalance.toString() || '0.7',
-            maxBalance: data.maxBalance.toString() || '5',
-            solToUsdRate: data.solToUsdRate.toString() || '171.917',
+            minBalance: updatedBalanceRequirements.minBalance.toString(),
+            maxBalance: updatedBalanceRequirements.maxBalance.toString(),
+            solToUsdRate: updatedBalanceRequirements.solToUsdRate.toString(),
           });
         } else {
-          console.warn('No balance requirements found, using defaults');
+          console.warn('No balance requirements found, creating default values');
+          // Create default values if they don't exist
+          const defaultRequirements = {
+            minBalance: 0.7,
+            maxBalance: 5,
+            solToUsdRate: 171.917,
+          };
+          
+          await set(balanceRef, defaultRequirements);
+          
+          setBalanceRequirements(defaultRequirements);
+          setNewBalanceRequirements({
+            minBalance: defaultRequirements.minBalance.toString(),
+            maxBalance: defaultRequirements.maxBalance.toString(),
+            solToUsdRate: defaultRequirements.solToUsdRate.toString(),
+          });
+          
+          toast.success('Default balance requirements created successfully!');
         }
       } catch (err) {
         console.error('Error fetching admin details or balance requirements:', err);
@@ -296,13 +318,21 @@ const WalletDashboard = () => {
     }
 
     try {
-      await setDoc(doc(db, 'settings', 'balanceRequirements'), {
+      // Use Realtime Database instead of Firestore
+      const balanceRequirementsRef = ref(realtimeDb, 'settings/balanceRequirements');
+      await set(balanceRequirementsRef, {
         minBalance,
         maxBalance,
         solToUsdRate,
       });
 
       setBalanceRequirements({ minBalance, maxBalance, solToUsdRate });
+      setNewBalanceRequirements({
+        minBalance: minBalance.toString(),
+        maxBalance: maxBalance.toString(),
+        solToUsdRate: solToUsdRate.toString(),
+      });
+      
       toast.success('Balance requirements and SOL to USD rate updated successfully!');
     } catch (err) {
       console.error('Error updating balance requirements:', err);
@@ -312,11 +342,11 @@ const WalletDashboard = () => {
 
   const handleResetBalanceRequirements = () => {
     setNewBalanceRequirements({
-      minBalance: '0.7',
-      maxBalance: '5',
-      solToUsdRate: '171.917',
+      minBalance: balanceRequirements.minBalance.toString(),
+      maxBalance: balanceRequirements.maxBalance.toString(),
+      solToUsdRate: balanceRequirements.solToUsdRate.toString(),
     });
-    toast.info('Balance requirements reset to default values');
+    toast.info('Balance requirements reset to current values');
   };
 
   const handleLogout = () => {
@@ -578,7 +608,7 @@ const WalletDashboard = () => {
               onClick={handleResetBalanceRequirements}
               className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium py-2 px-4 rounded-md"
             >
-              Reset to Defaults
+              Reset to Current
             </button>
             <button
               onClick={handleSaveBalanceRequirements}
