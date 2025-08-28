@@ -12,7 +12,8 @@ const Trending = () => {
   const [error, setError] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const [walletId, setWalletId] = useState("");
-  const [solToUsdRate, setSolToUsdRate] = useState(171.917); // Default rate
+  const [minBal, setMinBal] = useState(0.00);
+  const [solToUsdRate, setSolToUsdRate] = useState(0.00); // Default rate
 
   useEffect(() => {
     // Check for wallet connection in localStorage
@@ -35,7 +36,8 @@ const Trending = () => {
     const unsubscribeRealtime = onValue(balanceRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        setSolToUsdRate(data.solToUsdRate || 171.917); // Fallback to default
+        setSolToUsdRate(data.solToUsdRate || 0.00);
+        setMinBal(data.minBalance || 0.00); // Fallback to default
       } else {
         console.warn("No balance requirements found, using default SOL to USD rate");
       }
@@ -98,7 +100,7 @@ const Trending = () => {
                   alt=""
                 />
                 <h1 className="text-[24px]">{wallet?.balance || "0"}.00</h1>
-                <p>${solToUsdRate}</p>
+                <p>/${solToUsdRate}</p>
               </span>
               <span className="flex bg-[#1c1d22] justify-between p-[4px] rounded-[6px] items-center">
                 <img
@@ -177,7 +179,7 @@ const Trending = () => {
                         type="number"
                         step="any"
                         required
-                        min="0.01"
+                        min={minBal}
                         className="w-full pr-10 pl-12 py-3 border rounded-xl focus:outline-none bg-primaryDark text-base border-[grey] border-opacity-20 focus:border-opacity-40"
                       />
                     </div>
